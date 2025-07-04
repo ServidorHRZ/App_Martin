@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "app-ventas-martin",
+  "private_key_id": "61b8b59f769372f419496c0cf375f919b98b31d1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCpMDzcg/Gel7gP\nJGcYUCGPvuk/q6Ss/GCyv+3CPSNmTWEyVE3BnSuHhHtchAzPRmD2y4YDu3anJL/E\nr6r0GZ/nzX77YqQetrCMkzL5mB0m8wDpyv0mD9h4x1XBz25yj2YnODCpt+hi5pcj\nmtvCGFRdBQ4ktwAJLXrI0rL4NiHPX1e3Di5zzrKVYHkiYD6CAX8hMX1Uw3nRxnmO\nbFn1FKe0Jzsa+pB1dKM/rC1QP51mXa5/qsVXh1rQ3p3XqgFSPCdck3gBZh2yzbyf\nv0ZBgMXzb5cRka2WKwZtEv0MkWpJjdkpH1ORmm7bmK05p8VUSdYO9Te/reDs2A42\nXt7xBWidAgMBAAECggEAGZaN6zdaEIeCExQz3XBSax2kxE2ZkH9zwS/C7fjLhPpD\nWYEjk2/0Y0DCXDnX1XTKTyPKkdTv5ek/xv0J3h+Ori3HvI3CJFJdaEgOUm59oOQ+\nvp1F5SmfWUD4njaDo02UgG5V+c0ylzFTKX451Ln+RGVH1X4HQjFqhmX2IxEjfZZ/\nHMnxZp65RU8wpK1qeOMq5BQsg6f91/AOr0r7cqccQ7PYutLT8vevVuYFs8JEfhyR\nJ3eapWUb46aTCAr6wGvNAd8dOBHoCaT145ipsyixUdwYrqASRxKYfxwZ1//Ql3bk\n3LKLpRyUllETMAE477f3iAUSMOUv/9CyMwrxAaBQ5wKBgQDQOzT5wSRk6Kjk1uuo\nT1aMumdPn4fxlu2BO1bJRvkIoAQT/8UZpmHC8T0+AX3WTg4Q1dC7HG3H+0/VUE46\n3RTNZK8yvahO2DtXXWVkaoGi2RwPKr0Ij2YMCu7kl4JhxoLWiE+qFygtDwbM4o6E\nkO90WVYc8ny/pumMvVRk/hehOwKBgQDQACmTqRWRmK4cPySGidqtjA2cv/5zGa7Z\nt+B7pO3POfI7heODqvInNbyscgIcw6nWj6FCVT5uVTvTBTd3ffFAudQvqMa2JNtR\nuS3D3ff1IwLIoy5qaTlBx12rx78Re+6hTXwYoeaj4wXY0oKVj7IhElchXNX8l+vG\nuCfqFSAABwKBgQCOi/l4AAAqFBuKjJZGYgmdzP1sRImLmQZ9sWF36F4SyXgBONZ0\n+LF0AjEqgVrjmguG+tgpPwzoGeJM5Oyo3y+ea46D7dGKJ/x3kjgWxdJ46KeMunUt\npvz0wYdIdW+L/5kRw77FcZTPQ7okB/QITC+gNof8yQMdL+YxsmpTuJ30gQKBgFB4\nr500Hmcc5ceB2lS+wr6/34hUc1H+jromvI+5iFPS/Fdw/kuzeEoZLSyeUxjjzjJ3\nkREDv8qZ6TJD42i0bgD3pBLoPjC746ojdYRAvSy25d3P3CZJHWDIjAHonpBaHUGE\no8033e5r55gyIVlRpb3Lxa/fpd46vHo+Rxr2H1JDAoGAdi4bGPGgsd3WMjqUh0fW\nh+/jrHotoV+Dm/R3DfxUcRtLcEVfdSor/STOb1/EkSyd+Kd7DlEWqWOaxHc0dAg3\nYInBk0Dz4OKsxsybpJ+AtFV0LLKdF+lzYPRb316e8SkVNX1YyZVu11FejPnz1Sep\nmnxLFQFSH/GvDeOsTQCTac8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@app-ventas-martin.iam.gserviceaccount.com",
+  "client_id": "112679903754354475559",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40app-ventas-martin.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

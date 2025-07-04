@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XSHOP - Panel Administrador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+
+        .contenedor-principal {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+                 /* Header */
+         .header {
+             background: #000000;
+             color: white;
+            padding: 20px;
+             text-align: center;
+             position: relative;
+         }
+
+        .cerrar-sesion {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cerrar-sesion:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .titulo-principal {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Botones principales */
+        .botones-principales {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            justify-content: center;
+        }
+
+        .boton-principal {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+                 .boton-agregar {
+             background: #000000;
+             color: #ffffff;
+         }
+
+        .boton-principal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Barra de búsqueda */
+        .contenedor-busqueda {
+            padding: 0 20px 20px;
+        }
+
+        .barra-busqueda {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 50px;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 25px;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .contenedor-busqueda {
+            position: relative;
+        }
+
+        .icono-buscar {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+
+        /* Lista de productos */
+        .contenedor-productos {
+            padding: 0 20px;
+            min-height: 400px;
+        }
+
+        .producto-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .producto-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .producto-imagen {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .producto-info {
+            flex: 1;
+        }
+
+        .producto-nombre {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .producto-detalles {
+            font-size: 14px;
+            color: #666;
+        }
+
+                 .producto-precio {
+             font-size: 16px;
+             font-weight: bold;
+             color: #000000;
+         }
+
+        /* Modal para agregar/editar producto */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+                 .modal-contenido {
+             background: white;
+             width: 90%;
+             max-width: 400px;
+             max-height: 90vh;
+             border-radius: 20px;
+             overflow: hidden;
+             position: relative;
+            display: flex;
+             flex-direction: column;
+         }
+
+                 .modal-header {
+             background: #000000;
+             color: white;
+             padding: 20px;
+            text-align: center;
+             position: sticky;
+             top: 0;
+             z-index: 10;
+             border-radius: 20px 20px 0 0;
+             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+         }
+
+        .boton-volver {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-titulo {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+                 .modal-body {
+             padding: 30px 20px;
+             overflow-y: auto;
+             flex: 1;
+         }
+
+        /* Sección de imagen */
+        .seccion-imagen {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .titulo-seccion {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .contenedor-imagen {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border: 2px dashed #ddd;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+                 .contenedor-imagen:hover {
+             border-color: #000000;
+             background: #f8f9fa;
+         }
+
+        .imagen-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 13px;
+        }
+
+                 .icono-imagen {
+             font-size: 48px;
+             color: #ccc;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             width: 100%;
+             height: 100%;
+         }
+
+        .input-url-imagen {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        /* Información del producto */
+        .seccion-info {
+            margin-bottom: 20px;
+        }
+
+        .campo-formulario {
+            margin-bottom: 20px;
+        }
+
+        .input-campo {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+                 .input-campo:focus {
+             outline: none;
+             border-color: #000000;
+             box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+         }
+
+        .select-campo {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .campos-fila {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+                 .textarea-campo {
+             width: 100%;
+             padding: 15px 20px;
+             border: 1px solid #ddd;
+             border-radius: 15px;
+             font-size: 16px;
+             min-height: 100px;
+             resize: vertical;
+             font-family: inherit;
+         }
+
+         /* Selección de tallas y colores */
+         .opciones-container {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+             gap: 10px;
+             margin-top: 10px;
+         }
+
+         .opciones-container.colores {
+             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+         }
+
+         .opcion-item {
+             position: relative;
+         }
+
+         .opcion-checkbox {
+             display: none;
+         }
+
+         .opcion-label {
+             display: block;
+             padding: 10px 15px;
+             background: #f8f9fa;
+             border: 2px solid #dee2e6;
+             border-radius: 8px;
+             text-align: center;
+             font-size: 14px;
+            font-weight: 500;
+             cursor: pointer;
+             transition: all 0.3s;
+             user-select: none;
+         }
+
+         .opcion-checkbox:checked + .opcion-label {
+             background: #000000;
+             color: white;
+             border-color: #000000;
+         }
+
+         .opcion-label:hover {
+             border-color: #000000;
+         }
+
+         .color-preview {
+             width: 20px;
+             height: 20px;
+             border-radius: 50%;
+             display: inline-block;
+             margin-right: 8px;
+             border: 2px solid #ddd;
+             vertical-align: middle;
+         }
+
+         .campo-label {
+             display: block;
+             margin-bottom: 8px;
+             font-weight: 600;
+             color: #333;
+             font-size: 14px;
+         }
+
+                 /* Botones del modal */
+         .botones-modal {
+             padding: 20px;
+             border-top: 1px solid #eee;
+             display: flex;
+             gap: 15px;
+             position: sticky;
+             bottom: 0;
+             background: white;
+             z-index: 10;
+             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+         }
+
+        .boton-modal {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+                 .boton-guardar {
+             background: #000000;
+            color: white;
+         }
+
+        .boton-cancelar {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        .boton-eliminar {
+            background: #ff4757;
+            color: white;
+        }
+
+        /* Estados de carga */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+             border-top: 3px solid #000000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .mensaje-error {
+                text-align: center;
+            padding: 40px 20px;
+            color: #ff4757;
+            font-size: 16px;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .mensaje-vacio-icono {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Inputs ocultos */
+        .input-imagen-oculto {
+            display: none;
+        }
+
+        /* Toast de notificaciones */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.mostrar {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #ff4757;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .campos-fila {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-contenido {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-principal">
+        <!-- Header -->
+        <div class="header">
+            <button class="cerrar-sesion" onclick="cerrarSesion()">
+                Cerrar
+            </button>
+            <h1 class="titulo-principal">XSHOP</h1>
+                </div>
+
+                 <!-- Botones principales -->
+         <div class="botones-principales">
+             <button class="boton-principal boton-agregar" onclick="abrirModalAgregar()" style="width: 100%;">
+                 AGREGAR PRODUCTO
+             </button>
+                </div>
+
+                 <!-- Barra de búsqueda -->
+         <div class="contenedor-busqueda">
+             <div style="position: relative;">
+                 <span class="icono-buscar">
+                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M21 21L16.514 16.506M19 10.5C19 15.194 15.194 19 10.5 19S2 15.194 2 10.5 5.806 2 10.5 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                     </svg>
+                 </span>
+                 <input type="text" class="barra-busqueda" placeholder="Buscar" id="inputBusqueda" onkeyup="filtrarProductos()">
+            </div>
+         </div>
+
+        <!-- Lista de productos -->
+        <div class="contenedor-productos" id="contenedorProductos">
+            <div class="loading">
+                <div class="spinner"></div>
+                Cargando productos...
+            </div>
+            </div>
+        </div>
+
+    <!-- Modal para agregar/editar producto -->
+    <div class="modal" id="modalProducto">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <button class="boton-volver" onclick="cerrarModal()">←</button>
+                <h2 class="modal-titulo" id="tituloModal">AGREGAR PRODUCTO</h2>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Sección de imagen -->
+                <div class="seccion-imagen">
+                    <h3 class="titulo-seccion">IMAGEN DEL PRODUCTO</h3>
+                                         <div class="contenedor-imagen" onclick="seleccionarImagen()">
+                         <div class="icono-imagen" id="iconoImagen">
+                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <path d="M8.5 10C9.32843 10 10 9.32843 10 8.5C10 7.67157 9.32843 7 8.5 7C7.67157 7 7 7.67157 7 8.5C7 9.32843 7.67157 10 8.5 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                             </svg>
+            </div>
+                         <img class="imagen-preview" id="imagenPreview" style="display: none;">
+            </div>
+                    <input type="file" class="input-imagen-oculto" id="inputImagenArchivo" accept="image/*" onchange="subirImagen(this)">
+                                         <input type="text" class="input-url-imagen" id="inputUrlImagen" placeholder="URL de imagen" onchange="cargarImagenDesdeURL()">
+            </div>
+
+                <!-- Información del producto -->
+                <div class="seccion-info">
+                    <h3 class="titulo-seccion">INFORMACIÓN DEL PRODUCTO</h3>
+                    
+                                         <div class="campo-formulario">
+                         <input type="text" class="input-campo" id="inputNombre" placeholder="Nombre" required>
+        </div>
+
+                     <div class="campo-formulario">
+                         <select class="select-campo" id="selectCategoria" required>
+                             <option value="">Categoría</option>
+                            <option value="camisas">Camisas</option>
+                            <option value="polos">Polos</option>
+                            <option value="pantalones">Pantalones</option>
+                            <option value="jeans">Jeans</option>
+                            <option value="chompas">Chompas</option>
+                            <option value="casacas">Casacas</option>
+                            <option value="zapatos">Zapatos</option>
+                            <option value="zapatillas">Zapatillas</option>
+                            <option value="accesorios">Accesorios</option>
+                        </select>
+                </div>
+
+                    <div class="campos-fila">
+                        <div class="campo-formulario">
+                            <input type="number" class="input-campo" id="inputPrecio" placeholder="Precio" required min="0" step="0.01">
+                        </div>
+                                                 <div class="campo-formulario">
+                             <input type="number" class="input-campo" id="inputStock" placeholder="Stock" required min="0">
+                </div>
+            </div>
+
+                     <div class="campo-formulario">
+                         <label class="campo-label">Color</label>
+                         <div class="opciones-container colores" id="contenedorColores">
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-negro" name="color" value="Negro">
+                                 <label for="color-negro" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #000000;"></span>
+                                     Negro
+                                 </label>
+                    </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-blanco" name="color" value="Blanco">
+                                 <label for="color-blanco" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #ffffff; border-color: #000;"></span>
+                                     Blanco
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-azul" name="color" value="Azul">
+                                 <label for="color-azul" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #0066cc;"></span>
+                                     Azul
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-rojo" name="color" value="Rojo">
+                                 <label for="color-rojo" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #cc0000;"></span>
+                                     Rojo
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-verde" name="color" value="Verde">
+                                 <label for="color-verde" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #00cc00;"></span>
+                                     Verde
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-gris" name="color" value="Gris">
+                                 <label for="color-gris" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #666666;"></span>
+                                     Gris
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-amarillo" name="color" value="Amarillo">
+                                 <label for="color-amarillo" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #ffcc00;"></span>
+                                     Amarillo
+                                 </label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="radio" class="opcion-checkbox" id="color-rosa" name="color" value="Rosa">
+                                 <label for="color-rosa" class="opcion-label">
+                                     <span class="color-preview" style="background-color: #ff69b4;"></span>
+                                     Rosa
+                                 </label>
+                             </div>
+                </div>
+            </div>
+
+                     <div class="campo-formulario">
+                         <label class="campo-label">Tallas disponibles</label>
+                         <div class="opciones-container" id="contenedorTallas">
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-xs" value="XS">
+                                 <label for="talla-xs" class="opcion-label">XS</label>
+                </div>
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-s" value="S">
+                                 <label for="talla-s" class="opcion-label">S</label>
+            </div>
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-m" value="M">
+                                 <label for="talla-m" class="opcion-label">M</label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-l" value="L">
+                                 <label for="talla-l" class="opcion-label">L</label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-xl" value="XL">
+                                 <label for="talla-xl" class="opcion-label">XL</label>
+                             </div>
+                             <div class="opcion-item">
+                                 <input type="checkbox" class="opcion-checkbox" id="talla-xxl" value="XXL">
+                                 <label for="talla-xxl" class="opcion-label">XXL</label>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="campo-formulario">
+                         <textarea class="textarea-campo" id="textareaDescripcion" placeholder="Descripción del producto"></textarea>
+                     </div>
+                </div>
+            </div>
+
+            <div class="botones-modal">
+                <button class="boton-modal boton-cancelar" onclick="cerrarModal()">Cancelar</button>
+                <button class="boton-modal boton-eliminar" id="botonEliminar" onclick="eliminarProducto()" style="display: none;">Eliminar</button>
+                <button class="boton-modal boton-guardar" onclick="guardarProducto()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para cerrar sesión -->
+    <div class="modal" id="modalCerrarSesion">
+        <div class="modal-contenido" style="max-width: 300px;">
+            <div class="modal-header">
+                <h2 class="modal-titulo">Cerrar Sesión</h2>
+            </div>
+            
+            <div class="modal-body" style="text-align: center; padding: 30px 20px;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 20px; color: #666;">
+                    <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p style="margin-bottom: 20px; color: #333; font-size: 16px;">¿Estás seguro de que quieres cerrar sesión?</p>
+            </div>
+
+            <div class="botones-modal">
+                <button class="boton-modal boton-cancelar" onclick="cerrarModalCerrarSesion()">Cancelar</button>
+                <button class="boton-modal boton-eliminar" onclick="confirmarCerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { obtenerUsuarioActual, cerrarSesion as cerrarSesionFirebase } from './firebase-config.js';
+        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkGt9mcgneJCofgY5fwSyHWcKJVNUmUoU",
+            authDomain: "app-ventas-martin.firebaseapp.com",
+            projectId: "app-ventas-martin",
+            storageBucket: "app-ventas-martin.firebasestorage.app",
+            messagingSenderId: "309262005814",
+            appId: "1:309262005814:web:d1d3fc9df63f55e31cca97",
+            measurementId: "G-2ZZT0VSKT7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+                 // API Key de imgbb
+         const IMGBB_API_KEY = '2e40e99a54d9185b904e9667b2658747';
+
+                 // Variables globales
+         let productos = [];
+         let productoEditando = null;
+
+        // Verificar acceso de administrador
+        function verificarAccesoAdmin() {
+            const usuario = obtenerUsuarioActual();
+            if (!usuario || usuario.rol !== 'admin') {
+                mostrarToast('Acceso denegado. Solo administradores.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                return false;
+            }
+            return true;
+        }
+
+        // Función para mostrar toast
+        function mostrarToast(mensaje, tipo = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo === 'error' ? 'error' : ''}`;
+            toast.textContent = mensaje;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('mostrar'), 100);
+            setTimeout(() => {
+                toast.classList.remove('mostrar');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Cargar productos de Firestore
+        async function cargarProductos() {
+            try {
+                const productosRef = collection(db, "productos");
+                const snapshot = await getDocs(productosRef);
+                
+                productos = [];
+                snapshot.forEach((doc) => {
+                    productos.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                mostrarProductos();
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                document.getElementById('contenedorProductos').innerHTML = `
+                    <div class="mensaje-error">
+                        Error al cargar productos
+                    </div>
+                `;
+            }
+        }
+
+        // Mostrar lista de productos
+        function mostrarProductos() {
+            const contenedor = document.getElementById('contenedorProductos');
+            
+                         if (productos.length === 0) {
+                 contenedor.innerHTML = `
+                     <div class="mensaje-vacio">
+                         <div class="mensaje-vacio-icono">
+                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M20 7L4 7L6 21L18 21L20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                 <path d="M9 11V7C9 5.89543 9.89543 5 11 5H13C14.1046 5 15 5.89543 15 7V11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                             </svg>
+                         </div>
+                         <p>No hay productos registrados</p>
+                         <p style="margin-top: 10px; color: #ccc;">Agrega tu primer producto</p>
+                     </div>
+                 `;
+                 return;
+             }
+
+            let html = '';
+            productos.forEach(producto => {
+                const tallas = producto.tallas ? producto.tallas.split(',').map(t => t.trim()).join(', ') : '';
+                    html += `
+                    <div class="producto-item" onclick="abrirProducto('${producto.id}')">
+                        <img src="${producto.imagen || 'https://via.placeholder.com/60'}" 
+                             alt="${producto.nombre}" 
+                             class="producto-imagen" 
+                             onerror="this.src='https://via.placeholder.com/60'">
+                        <div class="producto-info">
+                            <div class="producto-nombre">${producto.nombre}</div>
+                            <div class="producto-detalles">
+                                ${producto.categoria} • ${producto.color || 'Sin color'} • Stock: ${producto.stock}
+                                ${tallas ? '<br>Tallas: ' + tallas : ''}
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                            <div class="producto-precio">S/ ${producto.precio}</div>
+                            <div style="font-size: 12px; color: #666; display: flex; align-items: center; gap: 5px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Tocar para editar
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+
+            contenedor.innerHTML = html;
+        }
+
+        // Filtrar productos por búsqueda
+        window.filtrarProductos = function() {
+            const termino = document.getElementById('inputBusqueda').value.toLowerCase();
+            const productosFiltrados = productos.filter(producto => 
+                producto.nombre.toLowerCase().includes(termino) ||
+                producto.categoria.toLowerCase().includes(termino) ||
+                (producto.color && producto.color.toLowerCase().includes(termino))
+            );
+            
+            // Mostrar productos filtrados
+            const contenedor = document.getElementById('contenedorProductos');
+            
+                         if (productosFiltrados.length === 0) {
+                 contenedor.innerHTML = `
+                     <div class="mensaje-vacio">
+                         <div class="mensaje-vacio-icono">
+                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M21 21L16.514 16.506M19 10.5C19 15.194 15.194 19 10.5 19S2 15.194 2 10.5 5.806 2 10.5 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                             </svg>
+                         </div>
+                         <p>No se encontraron productos</p>
+                         <p style="margin-top: 10px; color: #ccc;">Intenta con otro término</p>
+                     </div>
+                 `;
+                 return;
+             }
+
+            let html = '';
+            productosFiltrados.forEach(producto => {
+                const tallas = producto.tallas ? producto.tallas.split(',').map(t => t.trim()).join(', ') : '';
+                html += `
+                    <div class="producto-item" onclick="abrirProducto('${producto.id}')">
+                        <img src="${producto.imagen || 'https://via.placeholder.com/60'}" 
+                             alt="${producto.nombre}" 
+                             class="producto-imagen" 
+                             onerror="this.src='https://via.placeholder.com/60'">
+                        <div class="producto-info">
+                            <div class="producto-nombre">${producto.nombre}</div>
+                            <div class="producto-detalles">
+                                ${producto.categoria} • ${producto.color || 'Sin color'} • Stock: ${producto.stock}
+                                ${tallas ? '<br>Tallas: ' + tallas : ''}
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                            <div class="producto-precio">S/ ${producto.precio}</div>
+                            <div style="font-size: 12px; color: #666; display: flex; align-items: center; gap: 5px;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Tocar para editar
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contenedor.innerHTML = html;
+        };
+
+        // Abrir modal para agregar producto
+        window.abrirModalAgregar = function() {
+            productoEditando = null;
+            document.getElementById('tituloModal').textContent = 'AGREGAR PRODUCTO';
+            document.getElementById('botonEliminar').style.display = 'none';
+            limpiarFormulario();
+            document.getElementById('modalProducto').style.display = 'flex';
+        };
+
+                 // Abrir producto para editar
+         window.abrirProducto = function(id) {
+             const producto = productos.find(p => p.id === id);
+             if (!producto) return;
+
+             productoEditando = producto;
+             document.getElementById('tituloModal').textContent = 'EDITAR PRODUCTO';
+             document.getElementById('botonEliminar').style.display = 'block';
+            
+                         // Llenar formulario
+             document.getElementById('inputNombre').value = producto.nombre || '';
+             document.getElementById('selectCategoria').value = producto.categoria || '';
+             document.getElementById('inputPrecio').value = producto.precio || '';
+             document.getElementById('inputStock').value = producto.stock || '';
+             document.getElementById('textareaDescripcion').value = producto.descripcion || '';
+             document.getElementById('inputUrlImagen').value = producto.imagen || '';
+             
+             // Seleccionar color
+             if (producto.color) {
+                 const colorRadio = document.querySelector(`input[name="color"][value="${producto.color}"]`);
+                 if (colorRadio) {
+                     colorRadio.checked = true;
+                 }
+             }
+             
+             // Seleccionar tallas
+             if (producto.tallas) {
+                 const tallasArray = producto.tallas.split(',').map(t => t.trim());
+                 tallasArray.forEach(talla => {
+                     const tallaCheckbox = document.querySelector(`input[type="checkbox"][value="${talla}"]`);
+                     if (tallaCheckbox) {
+                         tallaCheckbox.checked = true;
+                     }
+                 });
+             }
+            
+            if (producto.imagen) {
+                mostrarImagenPreview(producto.imagen);
+            }
+            
+            document.getElementById('modalProducto').style.display = 'flex';
+        };
+
+        
+
+        // Cerrar modal
+        window.cerrarModal = function() {
+            document.getElementById('modalProducto').style.display = 'none';
+            limpiarFormulario();
+        };
+
+                 // Limpiar formulario
+         function limpiarFormulario() {
+             document.getElementById('inputNombre').value = '';
+             document.getElementById('selectCategoria').value = '';
+             document.getElementById('inputPrecio').value = '';
+             document.getElementById('inputStock').value = '';
+             document.getElementById('textareaDescripcion').value = '';
+             document.getElementById('inputUrlImagen').value = '';
+             
+             // Limpiar colores
+             document.querySelectorAll('input[name="color"]').forEach(radio => {
+                 radio.checked = false;
+             });
+             
+             // Limpiar tallas
+             document.querySelectorAll('input[type="checkbox"][id^="talla-"]').forEach(checkbox => {
+                 checkbox.checked = false;
+             });
+             
+             // Limpiar imagen
+             document.getElementById('imagenPreview').style.display = 'none';
+             document.getElementById('iconoImagen').style.display = 'block';
+             document.getElementById('inputImagenArchivo').value = '';
+         }
+
+        // Seleccionar imagen desde archivo
+        window.seleccionarImagen = function() {
+            document.getElementById('inputImagenArchivo').click();
+        };
+
+                 // Subir imagen a imgbb
+         window.subirImagen = async function(input) {
+             if (!input.files || !input.files[0]) return;
+
+             const archivo = input.files[0];
+             
+             // Validar tipo de archivo
+             if (!archivo.type.startsWith('image/')) {
+                 mostrarToast('Por favor selecciona solo archivos de imagen', 'error');
+                 return;
+             }
+             
+             // Validar tamaño (máximo 5MB)
+             if (archivo.size > 5 * 1024 * 1024) {
+                 mostrarToast('La imagen es muy grande. Máximo 5MB', 'error');
+                 return;
+             }
+
+             const formData = new FormData();
+             formData.append('image', archivo);
+
+             try {
+                 mostrarToast('Subiendo imagen...', 'info');
+                 
+                 const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                     method: 'POST',
+                     body: formData,
+                     mode: 'cors'
+                 });
+
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! status: ${response.status}`);
+                 }
+
+                 const data = await response.json();
+                 
+                 if (data.success) {
+                     const urlImagen = data.data.url;
+                     document.getElementById('inputUrlImagen').value = urlImagen;
+                     mostrarImagenPreview(urlImagen);
+                     mostrarToast('Imagen subida exitosamente');
+                 } else {
+                     throw new Error(data.error ? data.error.message : 'Error desconocido subiendo imagen');
+                 }
+            } catch (error) {
+                 console.error('Error subiendo imagen:', error);
+                 if (error.message.includes('Failed to fetch')) {
+                     mostrarToast('Error de conexión. Verifica tu internet o usa URL manual', 'error');
+                 } else {
+                     mostrarToast(`Error al subir imagen: ${error.message}`, 'error');
+                 }
+             }
+         };
+
+        // Cargar imagen desde URL
+        window.cargarImagenDesdeURL = function() {
+            const url = document.getElementById('inputUrlImagen').value;
+            if (url) {
+                mostrarImagenPreview(url);
+            }
+        };
+
+        // Mostrar preview de imagen
+        function mostrarImagenPreview(url) {
+            const preview = document.getElementById('imagenPreview');
+            const icono = document.getElementById('iconoImagen');
+            
+            preview.src = url;
+            preview.style.display = 'block';
+            icono.style.display = 'none';
+            
+            preview.onerror = function() {
+                preview.style.display = 'none';
+                icono.style.display = 'block';
+                mostrarToast('Error cargando imagen', 'error');
+            };
+        }
+
+                 // Guardar producto
+         window.guardarProducto = async function() {
+             const nombre = document.getElementById('inputNombre').value.trim();
+             const categoria = document.getElementById('selectCategoria').value;
+             const precio = parseFloat(document.getElementById('inputPrecio').value);
+             const stock = parseInt(document.getElementById('inputStock').value);
+             const descripcion = document.getElementById('textareaDescripcion').value.trim();
+             const imagen = document.getElementById('inputUrlImagen').value.trim();
+             
+             // Obtener color seleccionado
+             const colorSeleccionado = document.querySelector('input[name="color"]:checked');
+             const color = colorSeleccionado ? colorSeleccionado.value : '';
+             
+             // Obtener tallas seleccionadas
+             const tallasSeleccionadas = Array.from(document.querySelectorAll('input[type="checkbox"][id^="talla-"]:checked'))
+                 .map(checkbox => checkbox.value);
+             const tallas = tallasSeleccionadas.join(', ');
+
+                         // Validaciones
+             if (!nombre || !categoria || !precio || stock === '' || stock < 0) {
+                 mostrarToast('Por favor completa todos los campos obligatorios', 'error');
+                 return;
+             }
+             
+             if (!color) {
+                 mostrarToast('Por favor selecciona un color', 'error');
+                 return;
+             }
+             
+             if (tallasSeleccionadas.length === 0) {
+                 mostrarToast('Por favor selecciona al menos una talla', 'error');
+                 return;
+             }
+
+            if (precio <= 0) {
+                mostrarToast('El precio debe ser mayor a 0', 'error');
+                return;
+            }
+
+            if (stock < 0) {
+                mostrarToast('El stock no puede ser negativo', 'error');
+                return;
+            }
+
+            const productoData = {
+                nombre,
+                categoria,
+                precio,
+                stock,
+                color,
+                tallas,
+                descripcion,
+                imagen,
+                fechaCreacion: productoEditando ? productoEditando.fechaCreacion : new Date(),
+                fechaActualizacion: new Date()
+            };
+
+            try {
+                if (productoEditando) {
+                    // Actualizar producto existente
+                    await updateDoc(doc(db, "productos", productoEditando.id), productoData);
+                    mostrarToast('Producto actualizado exitosamente');
+                } else {
+                    // Crear nuevo producto
+                    await addDoc(collection(db, "productos"), productoData);
+                    mostrarToast('Producto agregado exitosamente');
+                }
+
+                                 cerrarModal();
+                 await cargarProductos();
+            } catch (error) {
+                console.error('Error guardando producto:', error);
+                mostrarToast('Error al guardar producto', 'error');
+            }
+        };
+
+        // Eliminar producto
+        window.eliminarProducto = async function() {
+            if (!productoEditando) return;
+
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                try {
+                    await deleteDoc(doc(db, "productos", productoEditando.id));
+                                         mostrarToast('Producto eliminado exitosamente');
+                     cerrarModal();
+                     await cargarProductos();
+                } catch (error) {
+                    console.error('Error eliminando producto:', error);
+                    mostrarToast('Error al eliminar producto', 'error');
+                }
+            }
+        };
+
+        // Mostrar modal de cerrar sesión
+        window.cerrarSesion = function() {
+            document.getElementById('modalCerrarSesion').style.display = 'flex';
+        };
+
+        // Cerrar modal de cerrar sesión
+        window.cerrarModalCerrarSesion = function() {
+            document.getElementById('modalCerrarSesion').style.display = 'none';
+        };
+
+        // Confirmar cierre de sesión
+        window.confirmarCerrarSesion = function() {
+            const resultado = cerrarSesionFirebase();
+            if (resultado.exito) {
+                mostrarToast('Sesión cerrada exitosamente');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        };
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalCerrarSesion').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModalCerrarSesion();
+            }
+        });
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (verificarAccesoAdmin()) {
+                await cargarProductos();
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalProducto').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+    </script>
+</body>
+</html> 

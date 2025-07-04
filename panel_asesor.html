@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Panel de Asesor - XSHOP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+        }
+
+        .contenedor-principal {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            background: #000000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cerrar-sesion {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cerrar-sesion:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .titulo-principal {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .info-asesor {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Filtros */
+        .filtros {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            background: #ffffff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filtro-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .filtro-btn.activo {
+            background: #000000;
+            color: white;
+        }
+
+        /* Lista de pedidos */
+        .lista-pedidos {
+            padding: 20px;
+        }
+
+        .pedido-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .pedido-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pedido-numero {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .pedido-fecha {
+            color: #666;
+        }
+
+        .pedido-cliente {
+            margin-bottom: 15px;
+        }
+
+        .pedido-productos {
+            margin-bottom: 15px;
+        }
+
+        .producto-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .pedido-total {
+            font-weight: bold;
+            text-align: right;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .pedido-acciones {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .accion-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-finalizar {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-rechazar {
+            background: #dc3545;
+            color: white;
+        }
+
+        .pedido-estado {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .estado-pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .estado-finalizado {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .estado-recoger {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .estado-rechazado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .sin-pedidos {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #28a745;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.mostrar {
+            transform: translateX(0);
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .contenedor-principal {
+                padding: 0;
+            }
+
+            .filtros {
+                padding: 15px;
+            }
+
+            .lista-pedidos {
+                padding: 15px;
+            }
+
+            .pedido-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .pedido-acciones {
+                flex-wrap: wrap;
+            }
+
+            .accion-btn {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-principal">
+        <header class="header">
+            <button class="cerrar-sesion" onclick="cerrarSesion()">
+                Cerrar Sesion
+            </button>
+            <h1 class="titulo-principal">XSHOP</h1>
+            <div class="info-asesor">
+                <div id="nombreAsesor">Cargando...</div>
+                <div id="emailAsesor">Cargando...</div>
+            </div>
+        </header>
+
+        <div class="filtros">
+            <button class="filtro-btn activo" onclick="filtrarPedidos('pendiente')">Pendientes</button>
+            <button class="filtro-btn" onclick="filtrarPedidos('finalizado')">Aceptados</button>
+            <button class="filtro-btn" onclick="filtrarPedidos('rechazado')">Rechazados</button>
+        </div>
+
+        <div class="lista-pedidos" id="listaPedidos">
+            <!-- Los pedidos se cargarán dinámicamente -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { 
+            getFirestore, 
+            collection, 
+            query, 
+            where, 
+            getDocs,
+            doc,
+            updateDoc,
+            onSnapshot,
+            orderBy
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { obtenerUsuarioActual, cerrarSesion as cerrarSesionFirebase } from './firebase-config.js';
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAkGt9mcgneJCofgY5fwSyHWcKJVNUmUoU",
+            authDomain: "app-ventas-martin.firebaseapp.com",
+            projectId: "app-ventas-martin",
+            storageBucket: "app-ventas-martin.firebasestorage.app",
+            messagingSenderId: "309262005814",
+            appId: "1:309262005814:web:d1d3fc9df63f55e31cca97",
+            measurementId: "G-2ZZT0VSKT7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let filtroActual = 'pendiente';
+        let unsubscribe = null;
+
+        // Verificar acceso de asesor
+        async function verificarAccesoAsesor() {
+            const usuario = obtenerUsuarioActual();
+            if (!usuario) {
+                mostrarToast('Debes iniciar sesión', 'error');
+                setTimeout(() => window.location.href = 'index.html', 2000);
+                return false;
+            }
+
+            try {
+                const usuariosRef = collection(db, 'usuarios');
+                const q = query(usuariosRef, where('email', '==', usuario.email));
+                const snapshot = await getDocs(q);
+                
+                if (!snapshot.empty) {
+                    const userData = snapshot.docs[0].data();
+                    if (userData.rol === 'asesor') {
+                        document.getElementById('nombreAsesor').textContent = userData.nombreUsuario || 'Asesor';
+                        document.getElementById('emailAsesor').textContent = usuario.email;
+                        return true;
+                    }
+                }
+                
+                mostrarToast('No tienes permisos de asesor', 'error');
+                setTimeout(() => window.location.href = 'index.html', 2000);
+                return false;
+            } catch (error) {
+                console.error('Error verificando rol:', error);
+                mostrarToast('Error al verificar permisos', 'error');
+                setTimeout(() => window.location.href = 'index.html', 2000);
+                return false;
+            }
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', async function() {
+            if (await verificarAccesoAsesor()) {
+                iniciarEscuchaPedidos();
+            }
+        });
+
+        // Escuchar cambios en pedidos en tiempo real
+        function iniciarEscuchaPedidos() {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+
+            const pedidosRef = collection(db, 'pedidos');
+            const q = query(pedidosRef, orderBy('fecha', 'desc'));
+            
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                actualizarListaPedidos(snapshot);
+            });
+        }
+
+        // Actualizar lista de pedidos
+        function actualizarListaPedidos(snapshot) {
+            const listaPedidos = document.getElementById('listaPedidos');
+            
+            if (snapshot.empty) {
+                listaPedidos.innerHTML = `
+                    <div class="sin-pedidos">
+                        <h3>No hay pedidos disponibles</h3>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+            snapshot.forEach((doc) => {
+                const pedido = doc.data();
+                
+                // Solo mostrar pedidos del filtro actual
+                if (pedido.estado !== filtroActual) {
+                    return;
+                }
+
+                const fecha = pedido.fecha.toDate();
+                const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                html += `
+                    <div class="pedido-card">
+                        <div class="pedido-header">
+                            <div class="pedido-numero">${pedido.numeroPedido}</div>
+                            <div class="pedido-fecha">${fechaFormateada}</div>
+                        </div>
+                        
+                        <div class="pedido-estado estado-${pedido.estado}">
+                            ${pedido.estado === 'finalizado' ? 'Aceptado' : pedido.estado.charAt(0).toUpperCase() + pedido.estado.slice(1)}
+                        </div>
+
+                        <div class="pedido-cliente">
+                            <strong>Cliente:</strong> ${pedido.cliente.email}
+                        </div>
+
+                        <div class="pedido-productos">
+                            ${pedido.productos.map(prod => `
+                                <div class="producto-item">
+                                    <span>${prod.nombre} x${prod.cantidad}</span>
+                                    <span>S/ ${(prod.precio * prod.cantidad).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="pedido-total">
+                            Total: S/ ${pedido.total.toFixed(2)}
+                        </div>
+
+                        ${pedido.estado === 'pendiente' ? `
+                            <div class="pedido-acciones">
+                                <button class="accion-btn btn-finalizar" onclick="actualizarEstadoPedido('${doc.id}', 'finalizado')">
+                                    Aceptar
+                                </button>
+                                <button class="accion-btn btn-rechazar" onclick="actualizarEstadoPedido('${doc.id}', 'rechazado')">
+                                    Rechazar
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            listaPedidos.innerHTML = html || `
+                <div class="sin-pedidos">
+                    <h3>No hay pedidos ${filtroActual === 'pendiente' ? 'pendientes' : 
+                                      filtroActual === 'finalizado' ? 'aceptados' : 'rechazados'}</h3>
+                </div>`;
+        }
+
+        // Filtrar pedidos
+        window.filtrarPedidos = function(estado) {
+            filtroActual = estado;
+            
+            // Actualizar botones de filtro
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.classList.remove('activo');
+            });
+            event.target.classList.add('activo');
+            
+            // Recargar pedidos
+            const pedidosRef = collection(db, 'pedidos');
+            const q = query(pedidosRef, orderBy('fecha', 'desc'));
+            getDocs(q).then(snapshot => actualizarListaPedidos(snapshot));
+        };
+
+        // Actualizar estado de pedido
+        window.actualizarEstadoPedido = async function(pedidoId, nuevoEstado) {
+            try {
+                const pedidoRef = doc(db, 'pedidos', pedidoId);
+                await updateDoc(pedidoRef, {
+                    estado: nuevoEstado
+                });
+                mostrarToast(nuevoEstado === 'finalizado' ? 'Pedido aceptado correctamente' : 'Pedido rechazado correctamente');
+            } catch (error) {
+                console.error('Error actualizando estado:', error);
+                mostrarToast('Error al actualizar el estado', 'error');
+            }
+        };
+
+        // Cerrar sesión
+        window.cerrarSesion = async function() {
+            try {
+                await cerrarSesionFirebase();
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                mostrarToast('Error al cerrar sesión', 'error');
+            }
+        };
+
+        // Mostrar toast
+        function mostrarToast(mensaje, tipo = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${tipo === 'error' ? 'error' : ''}`;
+            toast.textContent = mensaje;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('mostrar'), 100);
+            setTimeout(() => {
+                toast.classList.remove('mostrar');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Inicio Sesión</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="contenedor-login">
+        <h1>Inicio Sesión</h1>
+        
+        <div class="avatar">
+            <img src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" alt="Avatar de usuario">
+        </div>
+
+       
+
+        
+
+        <form class="formulario-login">
+            <div class="campo-entrada">
+                <input type="email" id="email" placeholder="Email o usuario" required>
+            </div>
+
+            <div class="campo-entrada">
+                <input type="password" id="password" placeholder="Contraseña" required>
+            </div>
+
+            <button type="submit" class="boton-iniciar">Iniciar Sesión</button>
+            
+        </form>
+
+        <div class="enlaces">
+            <a href="#" class="recuperar">Recuperar Contraseña</a>
+            <a href="registro.html" class="registrarse">Registrarse</a>
+        </div>
+    </div>
+
+    <!-- Scripts de Firebase -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="login.js"></script>
+</body>
+</html>
