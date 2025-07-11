@@ -27,11 +27,12 @@
 
                  /* Header */
          .header {
-             background: #000000;
-             color: white;
+             background: #ffffff;
+             color: #333333;
             padding: 20px;
              text-align: center;
              position: relative;
+             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
          }
 
         .cerrar-sesion {
@@ -39,9 +40,9 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.1);
             border: none;
-            color: white;
+            color: #333333;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 14px;
@@ -50,7 +51,7 @@
         }
 
         .cerrar-sesion:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.2);
         }
 
         .titulo-principal {
@@ -80,8 +81,17 @@
         }
 
                  .boton-agregar {
-             background: #000000;
+             background: #28a745;
              color: #ffffff;
+         }
+
+         .boton-editar {
+             background: #007bff;
+             color: #ffffff;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             gap: 8px;
          }
 
         .boton-principal:hover {
@@ -134,6 +144,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
 
         .producto-item:hover {
@@ -169,7 +180,36 @@
                  .producto-precio {
              font-size: 16px;
              font-weight: bold;
-             color: #000000;
+             color: #28a745;
+         }
+
+         .boton-editar-producto {
+             position: absolute;
+             top: 10px;
+             right: 10px;
+             background: #007bff;
+             color: white;
+             border: none;
+             padding: 8px 12px;
+             border-radius: 20px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             gap: 6px;
+             cursor: pointer;
+             transition: all 0.3s;
+             z-index: 2;
+             box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+             font-size: 12px;
+             font-weight: 600;
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+         }
+
+         .boton-editar-producto:hover {
+             background: #0056b3;
+             transform: translateY(-2px);
+             box-shadow: 0 4px 12px rgba(0,123,255,0.4);
          }
 
         /* Modal para agregar/editar producto */
@@ -199,8 +239,8 @@
          }
 
                  .modal-header {
-             background: #000000;
-             color: white;
+             background: #ffffff;
+             color: #333333;
              padding: 20px;
             text-align: center;
              position: sticky;
@@ -208,6 +248,7 @@
              z-index: 10;
              border-radius: 20px 20px 0 0;
              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+             border-bottom: 1px solid #eee;
          }
 
         .boton-volver {
@@ -217,7 +258,7 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: white;
+            color: #333333;
             font-size: 20px;
             cursor: pointer;
         }
@@ -265,7 +306,7 @@
         }
 
                  .contenedor-imagen:hover {
-             border-color: #000000;
+             border-color: #007bff;
              background: #f8f9fa;
          }
 
@@ -315,8 +356,8 @@
 
                  .input-campo:focus {
              outline: none;
-             border-color: #000000;
-             box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+             border-color: #007bff;
+             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
          }
 
         .select-campo {
@@ -381,13 +422,13 @@
          }
 
          .opcion-checkbox:checked + .opcion-label {
-             background: #000000;
+             background: #007bff;
              color: white;
-             border-color: #000000;
+             border-color: #007bff;
          }
 
          .opcion-label:hover {
-             border-color: #000000;
+             border-color: #007bff;
          }
 
          .color-preview {
@@ -433,7 +474,7 @@
         }
 
                  .boton-guardar {
-             background: #000000;
+             background: #007bff;
             color: white;
          }
 
@@ -456,7 +497,7 @@
 
         .spinner {
             border: 3px solid #f3f3f3;
-             border-top: 3px solid #000000;
+             border-top: 3px solid #007bff;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -540,8 +581,14 @@
 
                  <!-- Botones principales -->
          <div class="botones-principales">
-             <button class="boton-principal boton-agregar" onclick="abrirModalAgregar()" style="width: 100%;">
-                 AGREGAR PRODUCTO
+             <button class="boton-principal boton-agregar" onclick="abrirModalAgregar()">
+                 AGREGAR
+             </button>
+             <button class="boton-principal boton-editar" onclick="mostrarModoEdicion()">
+                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+                 EDITAR
              </button>
                 </div>
 
@@ -857,6 +904,12 @@
                 const tallas = producto.tallas ? producto.tallas.split(',').map(t => t.trim()).join(', ') : '';
                     html += `
                     <div class="producto-item" onclick="abrirProducto('${producto.id}')">
+                        <button class="boton-editar-producto" onclick="event.stopPropagation(); abrirProducto('${producto.id}')" title="Editar producto">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            EDITAR
+                        </button>
                         <img src="${producto.imagen || 'https://via.placeholder.com/60'}" 
                              alt="${producto.nombre}" 
                              class="producto-imagen" 
@@ -870,12 +923,6 @@
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
                             <div class="producto-precio">S/ ${producto.precio}</div>
-                            <div style="font-size: 12px; color: #666; display: flex; align-items: center; gap: 5px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                Tocar para editar
-                            </div>
                         </div>
                     </div>
                     `;
@@ -916,6 +963,12 @@
                 const tallas = producto.tallas ? producto.tallas.split(',').map(t => t.trim()).join(', ') : '';
                 html += `
                     <div class="producto-item" onclick="abrirProducto('${producto.id}')">
+                        <button class="boton-editar-producto" onclick="event.stopPropagation(); abrirProducto('${producto.id}')" title="Editar producto">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            EDITAR
+                        </button>
                         <img src="${producto.imagen || 'https://via.placeholder.com/60'}" 
                              alt="${producto.nombre}" 
                              class="producto-imagen" 
@@ -929,12 +982,6 @@
                         </div>
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
                             <div class="producto-precio">S/ ${producto.precio}</div>
-                            <div style="font-size: 12px; color: #666; display: flex; align-items: center; gap: 5px;">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H16C17.1046 20 18 19.1046 18 18V11M18.5 2.5C19.3284 1.67157 20.6716 1.67157 21.5 2.5C22.3284 3.32843 22.3284 4.67157 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                Tocar para editar
-                            </div>
                         </div>
                     </div>
                 `;
@@ -1223,6 +1270,15 @@
                     window.location.href = 'index.html';
                 }, 1500);
             }
+        };
+
+        // Mostrar modo de edición
+        window.mostrarModoEdicion = function() {
+            if (productos.length === 0) {
+                mostrarToast('No hay productos para editar', 'error');
+                return;
+            }
+            mostrarToast('Selecciona un producto para editar haciendo clic en él');
         };
 
         // Cerrar modal al hacer clic fuera
