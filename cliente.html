@@ -60,6 +60,53 @@
             margin: 0;
         }
 
+        /* Botones de navegación */
+        .contenedor-navegacion {
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .botones-navegacion {
+            display: flex;
+            gap: 10px;
+            background: #e9ecef;
+            padding: 5px;
+            border-radius: 25px;
+        }
+
+        .boton-nav {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666666;
+        }
+
+        .boton-nav.activo {
+            background: #ffffff;
+            color: #333333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .boton-nav:hover {
+            background: #f8f9fa;
+            color: #333333;
+        }
+
+        /* Secciones de contenido */
+        .seccion-contenido {
+            min-height: 400px;
+        }
+
         /* Barra de búsqueda */
         .contenedor-busqueda {
             padding: 20px;
@@ -96,38 +143,7 @@
             pointer-events: none;
         }
 
-        /* Categorías */
-        .contenedor-categorias {
-            padding: 0 20px 20px;
-            overflow-x: auto;
-        }
 
-        .categorias {
-            display: flex;
-            gap: 10px;
-            white-space: nowrap;
-        }
-
-        .categoria-btn {
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .categoria-btn.activo,
-        .categoria-btn:hover {
-            background: #000000;
-            color: white;
-            border-color: #000000;
-        }
 
         /* Lista de productos */
         .contenedor-productos {
@@ -293,7 +309,7 @@
         }
 
         .modal-contenido {
-            background: white;
+            background: #f0f0f0;
             width: 90%;
             max-width: 400px;
             max-height: 90vh;
@@ -303,41 +319,41 @@
         }
 
         .modal-header {
-            background: #000000;
-            color: white;
+            background: #f0f0f0;
+            color: #333333;
             padding: 20px;
-            text-align: center;
+            text-align: left;
             position: relative;
             border-radius: 20px 20px 0 0;
         }
 
         .boton-volver {
             position: absolute;
-            left: 20px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            background: white;
-            border: 1px solid #dee2e6;
-            color: #333333;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            font-size: 18px;
+            background: transparent;
+            border: none;
+            color: #666666;
+            font-size: 24px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: all 0.2s;
         }
 
         .boton-volver:hover {
-            background: #007bff;
-            color: white;
-            border-color: #007bff;
+            color: #333333;
+        }
+
+        .modal-titulo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333333;
+            margin: 0;
         }
 
         .modal-body {
-            padding: 30px 20px;
+            padding: 20px;
+            background: #f0f0f0;
         }
 
         .producto-imagen-grande {
@@ -348,44 +364,94 @@
             margin-bottom: 20px;
         }
 
-        .producto-titulo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+        .producto-precio-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
         }
 
-        .producto-precio-grande {
-            font-size: 28px;
-            font-weight: bold;
-            color: #000000;
+        .producto-info-item {
             margin-bottom: 15px;
         }
 
-        .producto-descripcion {
-            color: #666;
-            line-height: 1.6;
+        .producto-info-label {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 5px;
+        }
+
+        .producto-info-valor {
+            font-size: 16px;
+            color: #333333;
+            font-weight: 500;
+        }
+
+        .descripcion-section {
             margin-bottom: 20px;
         }
 
-        .producto-atributos {
-            margin-bottom: 20px;
-        }
-
-        .atributo {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .atributo-label {
+        .descripcion-title {
+            font-size: 18px;
             font-weight: 600;
-            color: #333;
+            color: #333333;
+            margin-bottom: 10px;
         }
 
-        .atributo-valor {
-            color: #666;
+        .descripcion-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666666;
+            background: #ffffff;
+            resize: none;
+            min-height: 40px;
+        }
+
+        .modal-botones {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-agregar {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-agregar:hover {
+            background: #0056b3;
+        }
+
+        .btn-comprar {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-comprar:hover {
+            background: #1e7e34;
         }
 
         /* Carrito flotante */
@@ -519,10 +585,27 @@
             background: #f0f7ff;
             color: #333333;
             padding: 20px;
-            text-align: center;
+            text-align: left;
             position: relative;
             border-radius: 20px 20px 0 0;
             border-bottom: 1px solid #d1e3ff;
+        }
+
+        .carrito-header .boton-volver {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #666666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .carrito-header .boton-volver:hover {
+            color: #333333;
         }
 
         .carrito-body {
@@ -690,7 +773,7 @@
         }
 
         .asesor-contenido {
-            background: white;
+            background: #f0f0f0;
             width: 90%;
             max-width: 400px;
             border-radius: 20px;
@@ -698,14 +781,34 @@
         }
 
         .asesor-header {
-            background: #000000;
-            color: white;
+            background: #f0f0f0;
+            color: #333333;
             padding: 20px;
-            text-align: center;
+            text-align: left;
+            position: relative;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .asesor-header .boton-volver {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #666666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .asesor-header .boton-volver:hover {
+            color: #333333;
         }
 
         .asesor-body {
             padding: 20px;
+            background: #f0f0f0;
         }
 
         .lista-asesores {
@@ -794,7 +897,7 @@
         }
 
         .pedidos-contenido {
-            background: white;
+            background: #f0f0f0;
             width: 95%;
             max-width: 500px;
             max-height: 90vh;
@@ -803,17 +906,36 @@
         }
 
         .pedidos-header {
-            background: #000000;
-            color: white;
+            background: #f0f0f0;
+            color: #333333;
             padding: 20px;
-            text-align: center;
+            text-align: left;
             position: relative;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .pedidos-header .boton-volver {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #666666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pedidos-header .boton-volver:hover {
+            color: #333333;
         }
 
         .pedidos-body {
             padding: 20px;
             overflow-y: auto;
             max-height: calc(90vh - 70px);
+            background: #f0f0f0;
         }
 
         .pedido-item {
@@ -888,6 +1010,128 @@
             padding: 40px 20px;
             color: #666;
         }
+
+        /* Sección de chats */
+        .contenedor-chats {
+            padding: 20px;
+        }
+
+        .info-chats {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .info-chats h3 {
+            color: #333333;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .info-chats p {
+            color: #666666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .lista-chats {
+            display: grid;
+            gap: 15px;
+        }
+
+        .chat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .chat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-nombre {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        .chat-estado {
+            color: #28a745;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .punto-verde {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .chat-ultimo-mensaje {
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .chat-acciones {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-chat {
+            flex: 1;
+            padding: 10px 20px;
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-chat:hover {
+            background: #128c7e;
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
@@ -900,38 +1144,51 @@
             <h1 class="titulo-principal">XSHOP</h1>
                 </div>
 
-        <!-- Barra de búsqueda -->
-        <div class="contenedor-busqueda">
-            <div style="position: relative;">
-                <span class="icono-buscar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 21L16.514 16.506M19 10.5C19 15.194 15.194 19 10.5 19S2 15.194 2 10.5 5.806 2 10.5 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </span>
-                <input type="text" class="barra-busqueda" placeholder="Buscar productos" id="inputBusqueda" onkeyup="filtrarProductos()">
+        <!-- Botones de navegación -->
+        <div class="contenedor-navegacion">
+            <div class="botones-navegacion">
+                <button class="boton-nav" onclick="mostrarSeccion('chats')">CHATS</button>
+                <button class="boton-nav activo" onclick="mostrarSeccion('productos')">PRODUCTOS</button>
             </div>
         </div>
 
-        <!-- Categorías -->
-        <div class="contenedor-categorias">
-            <div class="categorias" id="contenedorCategorias">
-                <button class="categoria-btn activo" onclick="filtrarPorCategoria('')">Todos</button>
-                <button class="categoria-btn" onclick="filtrarPorCategoria('camisas')">Camisas</button>
-                <button class="categoria-btn" onclick="filtrarPorCategoria('polos')">Polos</button>
-                <button class="categoria-btn" onclick="filtrarPorCategoria('pantalones')">Pantalones</button>
-                <button class="categoria-btn" onclick="filtrarPorCategoria('jeans')">Jeans</button>
-                <button class="categoria-btn" onclick="filtrarPorCategoria('zapatos')">Zapatos</button>
-            </div>
-        </div>
-
-        <!-- Lista de productos -->
-        <div class="contenedor-productos" id="contenedorProductos">
-            <div class="loading">
-                <div class="spinner"></div>
-                Cargando productos...
-            </div>
+        <!-- Sección de productos -->
+        <div id="seccionProductos" class="seccion-contenido">
+            <!-- Barra de búsqueda -->
+            <div class="contenedor-busqueda">
+                <div style="position: relative;">
+                    <span class="icono-buscar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 21L16.514 16.506M19 10.5C19 15.194 15.194 19 10.5 19S2 15.194 2 10.5 5.806 2 10.5 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <input type="text" class="barra-busqueda" placeholder="Buscar productos" id="inputBusqueda" onkeyup="filtrarProductos()">
                 </div>
             </div>
+
+
+
+            <!-- Lista de productos -->
+            <div class="contenedor-productos" id="contenedorProductos">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Cargando productos...
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de chats -->
+        <div id="seccionChats" class="seccion-contenido" style="display: none;">
+            <div class="contenedor-chats">
+                <div class="info-chats">
+                    <h3>Tus Conversaciones</h3>
+                    <p>Mantén contacto con nuestros asesores</p>
+                </div>
+                <div class="lista-chats" id="listaChats">
+                    <!-- Los chats se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
 
     <!-- Carrito flotante -->
     <div class="carrito-flotante" onclick="abrirCarrito()">
@@ -945,9 +1202,9 @@
     <div class="modal" id="modalProducto">
         <div class="modal-contenido">
             <div class="modal-header">
-                <button class="boton-volver" onclick="cerrarModal()">←</button>
-                <h2 class="modal-titulo">Detalles del Producto</h2>
-        </div>
+                <h2 class="modal-titulo">Producto</h2>
+                <button class="boton-volver" onclick="cerrarModal()">×</button>
+            </div>
             <div class="modal-body" id="modalBody">
                 <!-- Contenido dinámico -->
             </div>
@@ -958,8 +1215,8 @@
     <div class="modal-carrito" id="modalCarrito">
         <div class="carrito-contenido">
             <div class="carrito-header">
-                <button class="boton-volver" onclick="cerrarCarrito()">←</button>
                 <h2>Mi Carrito</h2>
+                <button class="boton-volver" onclick="cerrarCarrito()">×</button>
             </div>
             <div class="carrito-body" id="carritoBody">
                 <!-- El contenido del carrito se generará dinámicamente -->
@@ -972,6 +1229,7 @@
         <div class="asesor-contenido">
             <div class="asesor-header">
                 <h2>Selecciona un Asesor</h2>
+                <button class="boton-volver" onclick="cerrarModalAsesor()">×</button>
             </div>
             <div class="asesor-body">
                 <div class="lista-asesores" id="listaAsesores">
@@ -992,8 +1250,8 @@
     <div class="modal-pedidos" id="modalPedidos">
         <div class="pedidos-contenido">
             <div class="pedidos-header">
-                <button class="boton-volver" onclick="cerrarModalPedidos()">←</button>
                 <h2>Mis Pedidos</h2>
+                <button class="boton-volver" onclick="cerrarModalPedidos()">×</button>
             </div>
             <div class="pedidos-body" id="pedidosBody">
                 <!-- El contenido se cargará dinámicamente -->
@@ -1023,7 +1281,6 @@
         // Variables globales
         let productos = [];
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        let categoriaActual = '';
 
         // Variables para asesores y pedidos
         const asesores = [
@@ -1107,11 +1364,6 @@
             
             let productosFiltrados = productos;
             
-            // Filtrar por categoría
-            if (categoriaActual) {
-                productosFiltrados = productos.filter(p => p.categoria === categoriaActual);
-            }
-            
             // Filtrar por búsqueda
             const termino = document.getElementById('inputBusqueda').value.toLowerCase();
             if (termino) {
@@ -1194,26 +1446,17 @@
             mostrarProductos();
         };
 
-        // Filtrar por categoría
-        window.filtrarPorCategoria = function(categoria) {
-            categoriaActual = categoria;
-            
-            // Actualizar botones de categoría
-            document.querySelectorAll('.categoria-btn').forEach(btn => {
-                btn.classList.remove('activo');
-            });
-            event.target.classList.add('activo');
-            
-            mostrarProductos();
-        };
+
 
         // Abrir producto en modal
         window.abrirProducto = function(id) {
             const producto = productos.find(p => p.id === id);
             if (!producto) return;
 
-            const tallas = producto.tallas ? producto.tallas.split(',').map(t => t.trim()) : [];
             const enStock = producto.stock > 0;
+            
+            // Actualizar título del modal
+            document.querySelector('.modal-titulo').textContent = producto.nombre;
 
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
@@ -1222,60 +1465,40 @@
                      class="producto-imagen-grande" 
                      onerror="this.src='https://via.placeholder.com/300'">
                 
-                <h3 class="producto-titulo">${producto.nombre}</h3>
-                <div class="producto-precio-grande">S/ ${producto.precio}</div>
+                <div class="producto-precio-badge">S/${producto.precio}</div>
                 
-                ${producto.descripcion ? `<p class="producto-descripcion">${producto.descripcion}</p>` : ''}
+                ${producto.color ? `
+                <div class="producto-info-item">
+                    <div class="producto-info-label">Color:</div>
+                    <div class="producto-info-valor">${producto.color}</div>
+                </div>` : ''}
                 
-                <div class="producto-atributos">
-                    <div class="atributo">
-                        <span class="atributo-label">Categoría:</span>
-                        <span class="atributo-valor">${producto.categoria}</span>
-                    </div>
-                    ${producto.color ? `
-                    <div class="atributo">
-                        <span class="atributo-label">Color:</span>
-                        <span class="atributo-valor">${producto.color}</span>
-                    </div>` : ''}
-                    ${tallas.length > 0 ? `
-                    <div class="atributo">
-                        <span class="atributo-label">Tallas:</span>
-                        <span class="atributo-valor">${tallas.join(', ')}</span>
-                    </div>` : ''}
-                    <div class="atributo">
-                        <span class="atributo-label">Stock:</span>
-                        <span class="atributo-valor ${enStock ? '' : 'producto-sin-stock'}">${enStock ? producto.stock + ' disponibles' : 'Sin stock'}</span>
-                    </div>
+                <div class="descripcion-section">
+                    <div class="descripcion-title">Descripción</div>
+                    <textarea class="descripcion-input" readonly>${producto.descripcion || producto.nombre.toLowerCase() + ' bonita'}</textarea>
                 </div>
                 
                 ${enStock ? `
-                <button style="
-                    width: 100%;
-                    padding: 15px;
-                    background: #28a745;
-                    color: white;
-                    border: none;
-                    border-radius: 12px;
-                    font-size: 16px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                " onclick="agregarAlCarrito('${producto.id}', this)" onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'">
-                    Agregar al Carrito
-                </button>` : `
-                <button style="
-                    width: 100%;
-                    padding: 15px;
-                    background: #6c757d;
-                    color: white;
-                    border: none;
-                    border-radius: 12px;
-                    font-size: 16px;
-                    font-weight: 600;
-                    cursor: not-allowed;
-                " disabled>
-                    Sin Stock
-                </button>`}
+                <div class="modal-botones">
+                    <button class="modal-btn btn-agregar" onclick="agregarAlCarrito('${producto.id}', this)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 2L3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6L18 2H6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 10C16 13.3137 13.3137 16 10 16C6.68629 16 4 13.3137 4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Agregar
+                    </button>
+                    <button class="modal-btn btn-comprar" onclick="comprarDirecto('${producto.id}')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11V7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7V11M5 11H19L18 21H6L5 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Comprar
+                    </button>
+                </div>` : `
+                <div class="modal-botones">
+                    <button class="modal-btn" style="background: #6c757d; color: white;" disabled>
+                        Sin Stock
+                    </button>
+                </div>`}
             `;
             
             document.getElementById('modalProducto').style.display = 'flex';
@@ -1552,6 +1775,11 @@
             }
         };
 
+        // Función para cerrar modal de asesor
+        window.cerrarModalAsesor = function() {
+            document.getElementById('modalAsesor').style.display = 'none';
+        };
+
         // Cerrar modal de asesor al hacer clic fuera
         document.getElementById('modalAsesor').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -1665,6 +1893,186 @@
                 this.style.display = 'none';
             }
         });
+
+        // Función para mostrar/ocultar secciones
+        window.mostrarSeccion = function(seccion) {
+            const seccionProductos = document.getElementById('seccionProductos');
+            const seccionChats = document.getElementById('seccionChats');
+            const botones = document.querySelectorAll('.boton-nav');
+            
+            // Ocultar todas las secciones
+            seccionProductos.style.display = 'none';
+            seccionChats.style.display = 'none';
+            
+            // Remover clase activa de todos los botones
+            botones.forEach(btn => btn.classList.remove('activo'));
+            
+            // Mostrar la sección seleccionada
+            if (seccion === 'chats') {
+                seccionChats.style.display = 'block';
+                botones[0].classList.add('activo');
+                cargarChats();
+            } else if (seccion === 'productos') {
+                seccionProductos.style.display = 'block';
+                botones[1].classList.add('activo');
+            }
+        };
+
+        // Función para cargar chats
+        function cargarChats() {
+            const listaChats = document.getElementById('listaChats');
+            
+            let html = '';
+            asesores.forEach(asesor => {
+                html += `
+                    <div class="chat-card">
+                        <div class="chat-header">
+                            <img src="${asesor.foto}" alt="${asesor.nombre}" class="chat-avatar">
+                            <div class="chat-info">
+                                <div class="chat-nombre">${asesor.nombre}</div>
+                                <div class="chat-estado">
+                                    <span class="punto-verde"></span>
+                                    En línea
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-ultimo-mensaje">
+                            ¡Hola! ¿En qué puedo ayudarte hoy?
+                        </div>
+                        <div class="chat-acciones">
+                            <button class="btn-chat" onclick="contactarAsesor('${asesor.id}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Abrir Chat
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listaChats.innerHTML = html;
+        }
+
+        // Función para contactar asesor directamente
+        window.contactarAsesor = function(asesorId) {
+            const asesor = asesores.find(a => a.id === parseInt(asesorId));
+            if (!asesor) return;
+
+            const usuario = obtenerUsuarioActual();
+            const mensaje = `¡Hola! Soy ${usuario.email} y me gustaría obtener información sobre sus productos. ¿Podrían ayudarme?`;
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            
+            window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
+        };
+
+        // Función para comprar producto directamente
+        window.comprarDirecto = function(id) {
+            const producto = productos.find(p => p.id === id);
+            if (!producto || producto.stock <= 0) {
+                mostrarToast('Producto sin stock disponible', 'error');
+                return;
+            }
+
+            if (!estaEnHorarioOficina()) {
+                mostrarToast('Los asesores solo están disponibles de lunes a viernes de 9:00 AM a 6:00 PM', 'error');
+                return;
+            }
+
+            // Crear carrito temporal con este producto
+            const carritoTemporal = [{
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precio,
+                imagen: producto.imagen,
+                cantidad: 1
+            }];
+
+            // Cerrar el modal del producto
+            cerrarModal();
+
+            // Abrir modal de selección de asesor
+            const modalAsesor = document.getElementById('modalAsesor');
+            const listaAsesores = document.getElementById('listaAsesores');
+            
+            // Generar HTML de asesores
+            let html = '';
+            asesores.forEach(asesor => {
+                html += `
+                    <div class="asesor-item" onclick="procesarCompraDirecta('${asesor.id}', '${producto.id}')">
+                        <img src="${asesor.foto}" alt="${asesor.nombre}" class="asesor-foto">
+                        <div class="asesor-info">
+                            <div class="asesor-nombre">${asesor.nombre}</div>
+                            <div class="asesor-estado">Horario: L-V 9am - 6pm</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listaAsesores.innerHTML = html;
+            modalAsesor.style.display = 'flex';
+        };
+
+        // Función para procesar compra directa
+        window.procesarCompraDirecta = async function(asesorId, productoId) {
+            const asesor = asesores.find(a => a.id === parseInt(asesorId));
+            const producto = productos.find(p => p.id === productoId);
+            
+            if (!asesor || !producto) return;
+
+            // Generar número de pedido
+            const numeroPedido = generarNumeroPedido();
+            
+            // Crear objeto de pedido
+            const pedido = {
+                numeroPedido: numeroPedido,
+                fecha: new Date(),
+                cliente: {
+                    email: obtenerUsuarioActual().email
+                },
+                asesor: {
+                    id: asesor.id,
+                    nombre: asesor.nombre
+                },
+                productos: [{
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    precio: producto.precio,
+                    cantidad: 1
+                }],
+                total: producto.precio,
+                estado: 'pendiente'
+            };
+
+            try {
+                // Guardar pedido en Firestore
+                const pedidosRef = collection(db, "pedidos");
+                await addDoc(pedidosRef, pedido);
+
+                // Generar mensaje para WhatsApp
+                let mensajeWhatsApp = `*Nuevo Pedido: ${numeroPedido}*\n\n`;
+                mensajeWhatsApp += `*Cliente:* ${pedido.cliente.email}\n\n`;
+                mensajeWhatsApp += "*Productos:*\n";
+                mensajeWhatsApp += `- ${producto.nombre} x1 - S/ ${producto.precio}\n`;
+                mensajeWhatsApp += `\n*Total: S/ ${producto.precio}*`;
+
+                // Codificar mensaje para URL
+                const mensajeCodificado = encodeURIComponent(mensajeWhatsApp);
+                
+                // Abrir WhatsApp
+                window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
+
+                // Cerrar modal de asesor
+                document.getElementById('modalAsesor').style.display = 'none';
+
+                // Mostrar mensaje de éxito
+                mostrarToast('¡Pedido realizado con éxito! Te contactaremos por WhatsApp');
+
+            } catch (error) {
+                console.error('Error al procesar el pedido:', error);
+                mostrarToast('Error al procesar el pedido. Por favor, intenta nuevamente.', 'error');
+            }
+        };
 
         // Función para cerrar sesión
         window.cerrarSesion = function() {
