@@ -1156,10 +1156,6 @@
         <!-- Sección de chats -->
         <div id="seccionChats" class="seccion-contenido" style="display: none;">
             <div class="contenedor-chats">
-                <div class="info-chats">
-                    <h3>Tus Conversaciones</h3>
-                    <p>Mantén contacto con nuestros asesores</p>
-                </div>
                 <div class="lista-chats" id="listaChats">
                     <!-- Los chats se cargarán dinámicamente -->
                 </div>
@@ -1215,12 +1211,7 @@
         </div>
     </div>
 
-    <!-- Botón flotante de pedidos -->
-    <div class="pedidos-flotante" onclick="verPedidos()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5V3H15V5M9 5H15M12 12H15M12 16H15M9 12H9.01M9 16H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-    </div>
+
 
     <!-- Modal de pedidos -->
     <div class="modal-pedidos" id="modalPedidos">
@@ -1628,27 +1619,10 @@
             return `PED${año}${mes}${dia}${aleatorio}`;
         }
 
-        // Función para verificar horario de oficina
-        function estaEnHorarioOficina() {
-            const ahora = new Date();
-            const hora = ahora.getHours();
-            const dia = ahora.getDay();
 
-            // Verificar si es día de semana (1-5, Lunes a Viernes)
-            if (dia >= 1 && dia <= 5) {
-                // Verificar si está entre 9:00 AM y 6:00 PM
-                return hora >= 9 && hora < 18;
-            }
-            return false;
-        }
 
         // Modificar la función realizarCompra
         window.realizarCompra = async function() {
-            if (!estaEnHorarioOficina()) {
-                mostrarToast('Los asesores solo están disponibles de lunes a viernes de 9:00 AM a 6:00 PM', 'error');
-                return;
-            }
-
             const modalAsesor = document.getElementById('modalAsesor');
             const listaAsesores = document.getElementById('listaAsesores');
             
@@ -1660,7 +1634,7 @@
                         <img src="${asesor.foto}" alt="${asesor.nombre}" class="asesor-foto">
                         <div class="asesor-info">
                             <div class="asesor-nombre">${asesor.nombre}</div>
-                            <div class="asesor-estado">Horario: L-V 9am - 6pm</div>
+                            <div class="asesor-estado">Disponible</div>
                         </div>
                     </div>
                 `;
@@ -1672,11 +1646,6 @@
 
         // Actualizar la función seleccionarAsesor
         window.seleccionarAsesor = async function(asesorId) {
-            if (!estaEnHorarioOficina()) {
-                mostrarToast('Los asesores solo están disponibles de lunes a viernes de 9:00 AM a 6:00 PM', 'error');
-                return;
-            }
-
             const asesor = asesores.find(a => a.id === parseInt(asesorId));
             if (!asesor) return;
 
@@ -1944,11 +1913,6 @@
                 return;
             }
 
-            if (!estaEnHorarioOficina()) {
-                mostrarToast('Los asesores solo están disponibles de lunes a viernes de 9:00 AM a 6:00 PM', 'error');
-                return;
-            }
-
             // Crear carrito temporal con este producto
             const carritoTemporal = [{
                 id: producto.id,
@@ -1973,7 +1937,7 @@
                         <img src="${asesor.foto}" alt="${asesor.nombre}" class="asesor-foto">
                         <div class="asesor-info">
                             <div class="asesor-nombre">${asesor.nombre}</div>
-                            <div class="asesor-estado">Horario: L-V 9am - 6pm</div>
+                            <div class="asesor-estado">Disponible</div>
                         </div>
                     </div>
                 `;

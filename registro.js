@@ -1,24 +1,12 @@
 // Importar funciones de Firebase
 import { registrarUsuario } from './firebase-config.js';
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// Configuración de Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyAkGt9mcgneJCofgY5fwSyHWcKJVNUmUoU",
-    authDomain: "app-ventas-martin.firebaseapp.com",
-    projectId: "app-ventas-martin",
-    storageBucket: "app-ventas-martin.firebasestorage.app",
-    messagingSenderId: "309262005814",
-    appId: "1:309262005814:web:d1d3fc9df63f55e31cca97",
-    measurementId: "G-2ZZT0VSKT7"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+console.log('=== INICIO - Cargando registro.js ===');
 
 // Función para mostrar mensajes al usuario
 function mostrarMensaje(mensaje, tipo = 'info') {
+    console.log(`[MENSAJE] Tipo: ${tipo}, Mensaje: ${mensaje}`);
+    
     // Remover mensaje anterior si existe
     const mensajeAnterior = document.querySelector('.mensaje-estado');
     if (mensajeAnterior) {
@@ -72,7 +60,9 @@ function mostrarMensaje(mensaje, tipo = 'info') {
 
 // Función para validar el formulario
 function validarFormulario(nombreUsuario, email, password) {
-    if (!nombreUsuario.trim()) {
+    console.log(`[VALIDACION] Nombre: ${nombreUsuario}, Email: ${email}, Password length: ${password ? password.length : 0}`);
+    
+    if (!nombreUsuario || !nombreUsuario.trim()) {
         return { valido: false, mensaje: "El nombre de usuario es requerido" };
     }
     
@@ -80,7 +70,7 @@ function validarFormulario(nombreUsuario, email, password) {
         return { valido: false, mensaje: "El nombre de usuario debe tener al menos 3 caracteres" };
     }
     
-    if (!email.trim()) {
+    if (!email || !email.trim()) {
         return { valido: false, mensaje: "El correo electrónico es requerido" };
     }
     
@@ -98,16 +88,24 @@ function validarFormulario(nombreUsuario, email, password) {
         return { valido: false, mensaje: "La contraseña debe tener al menos 6 caracteres" };
     }
     
+    console.log('[VALIDACION] ✅ Todos los datos son válidos');
     return { valido: true };
 }
 
 // Función para cambiar el estado del botón
 function cambiarEstadoBoton(boton, cargando = false) {
+    if (!boton) {
+        console.error('[BOTON] Error: Botón no encontrado');
+        return;
+    }
+    
     if (cargando) {
+        console.log('[BOTON] Cambiando a estado: Cargando...');
         boton.disabled = true;
         boton.textContent = 'Registrando...';
         boton.style.opacity = '0.7';
     } else {
+        console.log('[BOTON] Cambiando a estado: Normal');
         boton.disabled = false;
         boton.textContent = 'Registrarse';
         boton.style.opacity = '1';
@@ -116,152 +114,102 @@ function cambiarEstadoBoton(boton, cargando = false) {
 
 // Función principal para manejar el registro
 async function manejarRegistro(evento) {
+    console.log('\n=== INICIO DEL PROCESO DE REGISTRO ===');
     evento.preventDefault();
     
-    // Obtener elementos del formulario
-    const nombreUsuario = document.getElementById('nombre').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const boton = evento.target.querySelector('.boton-registrarse');
-    
-    // Validar formulario
-    const validacion = validarFormulario(nombreUsuario, email, password);
-    if (!validacion.valido) {
-        mostrarMensaje(validacion.mensaje, 'error');
-        return;
-    }
-    
-    // Cambiar estado del botón
-    cambiarEstadoBoton(boton, true);
-    
     try {
+        // Obtener elementos del formulario
+        const nombreUsuario = document.getElementById('nombre')?.value || '';
+        const email = document.getElementById('email')?.value || '';
+        const password = document.getElementById('password')?.value || '';
+        const boton = evento.target.querySelector('.boton-registrarse');
+        
+        console.log('[FORMULARIO] Datos obtenidos:', {
+            nombre: nombreUsuario,
+            email: email,
+            passwordLength: password.length
+        });
+        
+        // Validar formulario
+        const validacion = validarFormulario(nombreUsuario, email, password);
+        if (!validacion.valido) {
+            console.error('[VALIDACION] ❌ Error:', validacion.mensaje);
+            mostrarMensaje(validacion.mensaje, 'error');
+            return;
+        }
+        
+        // Cambiar estado del botón
+        cambiarEstadoBoton(boton, true);
+        
+        console.log('[FIREBASE] Intentando registrar usuario...');
+        
         // Intentar registrar usuario
         const resultado = await registrarUsuario(nombreUsuario, email, password);
         
-        if (resultado.exito) {
+        console.log('[FIREBASE] Resultado del registro:', resultado);
+        
+        if (resultado && resultado.exito) {
+            console.log('[REGISTRO] ✅ ÉXITO: Usuario registrado correctamente');
             mostrarMensaje('¡Usuario registrado exitosamente!', 'exito');
             
             // Limpiar formulario
-            document.getElementById('nombre').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
+            const campoNombre = document.getElementById('nombre');
+            const campoEmail = document.getElementById('email');
+            const campoPassword = document.getElementById('password');
+            
+            if (campoNombre) campoNombre.value = '';
+            if (campoEmail) campoEmail.value = '';
+            if (campoPassword) campoPassword.value = '';
+            
+            console.log('[REGISTRO] Formulario limpiado, redirigiendo en 2 segundos...');
             
             // Redirigir al login después de 2 segundos
             setTimeout(() => {
+                console.log('[REGISTRO] Redirigiendo a index.html');
                 window.location.href = 'index.html';
             }, 2000);
             
         } else {
-            mostrarMensaje(resultado.error, 'error');
+            console.error('[REGISTRO] ❌ ERROR:', resultado ? resultado.error : 'Resultado vacío');
+            const mensajeError = resultado?.error || 'Error desconocido en el registro';
+            mostrarMensaje(mensajeError, 'error');
         }
         
     } catch (error) {
-        console.error('Error inesperado:', error);
+        console.error('[REGISTRO] ❌ EXCEPCIÓN:', error);
         mostrarMensaje('Error inesperado. Por favor, intenta nuevamente.', 'error');
     } finally {
         // Restaurar estado del botón
+        const boton = evento.target.querySelector('.boton-registrarse');
         cambiarEstadoBoton(boton, false);
+        console.log('=== FIN DEL PROCESO DE REGISTRO ===\n');
     }
 }
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('[DOM] Documento cargado, inicializando...');
+    
     const formulario = document.querySelector('.formulario-registro');
     
     if (formulario) {
+        console.log('[DOM] ✅ Formulario encontrado, agregando event listener');
         formulario.addEventListener('submit', manejarRegistro);
         
-        // Mejorar la experiencia de usuario con validación en tiempo real
+        // Validación en tiempo real
         const campoNombre = document.getElementById('nombre');
         const campoEmail = document.getElementById('email');
         const campoPassword = document.getElementById('password');
         
-        // Validación en tiempo real para el nombre
-        campoNombre.addEventListener('blur', function() {
-            if (this.value.trim() && this.value.trim().length < 3) {
-                this.style.borderColor = '#f44336';
-            } else {
-                this.style.borderColor = '#e0e0e0';
-            }
+        console.log('[DOM] Campos encontrados:', {
+            nombre: !!campoNombre,
+            email: !!campoEmail,
+            password: !!campoPassword
         });
         
-        // Validación en tiempo real para el email
-        campoEmail.addEventListener('blur', function() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (this.value.trim() && !emailRegex.test(this.value)) {
-                this.style.borderColor = '#f44336';
-            } else {
-                this.style.borderColor = '#e0e0e0';
-            }
-        });
-        
-        // Validación en tiempo real para la contraseña
-        campoPassword.addEventListener('blur', function() {
-            if (this.value && this.value.length < 6) {
-                this.style.borderColor = '#f44336';
-            } else {
-                this.style.borderColor = '#e0e0e0';
-            }
-        });
-        
-        // Restaurar color al enfocar
-        [campoNombre, campoEmail, campoPassword].forEach(campo => {
-            campo.addEventListener('focus', function() {
-                this.style.borderColor = '#6200ee';
-            });
-        });
+    } else {
+        console.error('[DOM] ❌ No se encontró el formulario de registro');
     }
 });
 
-// Registro normal de usuarios
-document.addEventListener('DOMContentLoaded', function() {
-    const formulario = document.querySelector('.formulario-registro');
-    
-    formulario.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        try {
-            // Guardar información en Firestore
-            await addDoc(collection(db, 'usuarios'), {
-                email: email,
-                rol: 'cliente'
-            });
-
-            // Mostrar mensaje de éxito
-            mostrarToast('Registro exitoso');
-            
-            // Redirigir al inicio de sesión
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
-            
-        } catch (error) {
-            let mensajeError = 'Error en el registro';
-            mostrarToast(mensajeError, 'error');
-        }
-    });
-});
-
-// Función para mostrar mensajes toast
-function mostrarToast(mensaje, tipo = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${tipo}`;
-    toast.textContent = mensaje;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.classList.add('mostrar');
-    }, 100);
-    
-    setTimeout(() => {
-        toast.classList.remove('mostrar');
-        setTimeout(() => {
-            toast.remove();
-        }, 300);
-    }, 3000);
-}
-
-console.log('Script de registro cargado exitosamente'); 
+console.log('=== FIN - registro.js cargado ==='); 

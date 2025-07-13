@@ -19,23 +19,64 @@ console.log("🔥 Iniciando Firebase con configuración real - Proyecto:", fireb
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Test de conectividad
+async function testFirebaseConnection() {
+    try {
+        console.log('🧪 [TEST] Probando conexión a Firestore...');
+        const testCollection = collection(db, 'test');
+        console.log('✅ [TEST] Conexión a Firestore exitosa');
+        return true;
+    } catch (error) {
+        console.error('❌ [TEST] Error de conexión a Firestore:', error);
+        return false;
+    }
+}
+
+// Ejecutar test al cargar
+testFirebaseConnection();
+
 // Función para registrar usuario en colección de Firestore
 export async function registrarUsuario(nombreUsuario, email, password) {
+    console.log('\n🔥 [FIREBASE] Iniciando función registrarUsuario');
+    console.log('📝 [FIREBASE] Parámetros recibidos:', {
+        nombreUsuario: nombreUsuario,
+        email: email,
+        passwordLength: password ? password.length : 0
+    });
+    
     try {
+        console.log('🔍 [FIREBASE] Verificando conexión a Firestore...');
+        
         // Verificar si el email ya existe
         const usuariosRef = collection(db, "usuarios");
+        console.log('📊 [FIREBASE] Referencia a colección usuarios creada');
+        
+        console.log('🔍 [FIREBASE] Buscando email duplicado...');
         const consultaEmail = query(usuariosRef, where("email", "==", email));
         const resultadoEmail = await getDocs(consultaEmail);
         
+        console.log('📧 [FIREBASE] Resultado búsqueda email:', {
+            vacio: resultadoEmail.empty,
+            tamaño: resultadoEmail.size
+        });
+        
         if (!resultadoEmail.empty) {
+            console.log('❌ [FIREBASE] Email ya registrado');
             return { exito: false, error: "Este correo electrónico ya está registrado" };
         }
         
+        console.log('🔍 [FIREBASE] Buscando nombre de usuario duplicado...');
         // Verificar si el nombre de usuario ya existe
         const consultaNombre = query(usuariosRef, where("nombreUsuario", "==", nombreUsuario));
         const resultadoNombre = await getDocs(consultaNombre);
         
+        console.log('👤 [FIREBASE] Resultado búsqueda nombre:', {
+            vacio: resultadoNombre.empty,
+            tamaño: resultadoNombre.size
+        });
+        
         if (!resultadoNombre.empty) {
+            console.log('❌ [FIREBASE] Nombre de usuario ya existe');
             return { exito: false, error: "Este nombre de usuario ya está en uso" };
         }
         
@@ -50,10 +91,17 @@ export async function registrarUsuario(nombreUsuario, email, password) {
             ultimoAcceso: null
         };
         
+        console.log('✨ [FIREBASE] Creando nuevo usuario:', {
+            nombreUsuario: nuevoUsuario.nombreUsuario,
+            email: nuevoUsuario.email,
+            rol: nuevoUsuario.rol
+        });
+        
         // Guardar en Firestore
+        console.log('💾 [FIREBASE] Guardando en Firestore...');
         const docRef = await addDoc(usuariosRef, nuevoUsuario);
         
-        console.log("Usuario cliente registrado exitosamente:", docRef.id);
+        console.log('✅ [FIREBASE] Usuario registrado exitosamente con ID:', docRef.id);
         return { 
             exito: true, 
             usuario: { 
@@ -63,8 +111,23 @@ export async function registrarUsuario(nombreUsuario, email, password) {
         };
         
     } catch (error) {
-        console.error("Error al registrar usuario:", error);
-        return { exito: false, error: "Error al registrar usuario: " + error.message };
+        console.error('💥 [FIREBASE] ERROR COMPLETO:', error);
+        console.error('💥 [FIREBASE] Error message:', error.message);
+        console.error('💥 [FIREBASE] Error code:', error.code);
+        console.error('💥 [FIREBASE] Error stack:', error.stack);
+        
+        let mensajeError = "Error al registrar usuario";
+        
+        // Mensajes específicos según el tipo de error
+        if (error.code === 'permission-denied') {
+            mensajeError = "Error de permisos. Verifica la configuración de Firestore";
+        } else if (error.code === 'network-request-failed') {
+            mensajeError = "Error de conexión. Verifica tu conexión a internet";
+        } else if (error.message) {
+            mensajeError = error.message;
+        }
+        
+        return { exito: false, error: mensajeError };
     }
 }
 
