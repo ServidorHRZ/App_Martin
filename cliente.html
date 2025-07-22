@@ -390,6 +390,149 @@
             min-height: 40px;
         }
 
+        /* Estilos para opciones de envío e IGV */
+        .opciones-compra {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .opciones-titulo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .opcion-envio {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .opcion-envio:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .opcion-envio.seleccionada {
+            border-color: #007bff;
+            background: #e7f3ff;
+        }
+
+        .opcion-envio-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opcion-envio-radio {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #dee2e6;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .opcion-envio.seleccionada .opcion-envio-radio {
+            border-color: #007bff;
+        }
+
+        .opcion-envio.seleccionada .opcion-envio-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #007bff;
+            border-radius: 50%;
+        }
+
+        .opcion-envio-texto {
+            flex: 1;
+        }
+
+        .opcion-envio-nombre {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .opcion-envio-descripcion {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .opcion-envio-precio {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .resumen-compra {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .resumen-titulo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resumen-linea {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #666;
+        }
+
+        .resumen-linea.total {
+            border-top: 1px solid #e9ecef;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .precio-original {
+            color: #666;
+        }
+
+        .precio-envio {
+            color: #007bff;
+        }
+
+        .precio-igv {
+            color: #ffc107;
+        }
+
+        .precio-total {
+            color: #28a745;
+        }
+
         .modal-botones {
             display: flex;
             gap: 10px;
@@ -623,6 +766,59 @@
             font-size: 16px;
         }
 
+        /* Estilos para el carrito mejorado */
+        .carrito-item-detalles {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin: 8px 0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .carrito-item-talla,
+        .carrito-item-color,
+        .carrito-item-envio {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+            width: fit-content;
+        }
+        
+        .carrito-item-envio {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .carrito-item-total {
+            font-weight: 600;
+            color: #007bff;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        
+        .carrito-resumen {
+            border-top: 2px solid #eee;
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+        
+        .carrito-resumen-linea {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .carrito-resumen-linea:last-child {
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
         .carrito-item-cantidad {
             display: flex;
             align-items: center;
@@ -731,6 +927,19 @@
             font-size: 16px;
             color: #333;
             margin-top: 10px;
+        }
+
+        /* Estilos para información de envío en historial */
+        .pedido-envio-info {
+            margin-top: 5px;
+            padding-left: 15px;
+        }
+        
+        .pedido-envio-info small {
+            display: block;
+            color: #666;
+            font-size: 12px;
+            margin: 2px 0;
         }
 
         /* Modal de selección de asesor */
@@ -1524,6 +1733,37 @@
             const colores = producto.color ? producto.color.split(',').map(c => c.trim()) : [];
             let tallaSeleccionada = '';
             let colorSeleccionado = colores.length > 0 ? colores[0] : '';
+            let opcionEnvioSeleccionada = 'recojo'; // Por defecto recojo en tienda
+            
+            // Configuración de precios
+            const precioBase = parseFloat(producto.precio);
+            const costoEnvio = 15.00; // Costo fijo de envío en Perú
+            const porcentajeIGV = 0.18; // 18% IGV en Perú
+            
+            function calcularPrecios() {
+                let subtotal = precioBase;
+                let envio = opcionEnvioSeleccionada === 'envio' ? costoEnvio : 0;
+                let baseImponible = subtotal + envio;
+                let igv = baseImponible * porcentajeIGV;
+                let total = baseImponible + igv;
+                
+                return {
+                    subtotal: subtotal,
+                    envio: envio,
+                    baseImponible: baseImponible,
+                    igv: igv,
+                    total: total
+                };
+            }
+            
+            function actualizarResumen() {
+                const precios = calcularPrecios();
+                document.getElementById('resumenSubtotal').textContent = `S/ ${precios.subtotal.toFixed(2)}`;
+                document.getElementById('resumenEnvio').textContent = precios.envio > 0 ? `S/ ${precios.envio.toFixed(2)}` : 'Gratis';
+                document.getElementById('resumenIGV').textContent = `S/ ${precios.igv.toFixed(2)}`;
+                document.getElementById('resumenTotal').textContent = `S/ ${precios.total.toFixed(2)}`;
+            }
+            
             document.querySelector('.modal-titulo').textContent = producto.nombre;
             const modalBody = document.getElementById('modalBody');
             modalBody.innerHTML = `
@@ -1531,7 +1771,7 @@
                      alt="${producto.nombre}" 
                      class="producto-imagen-grande" 
                      onerror="this.src='https://via.placeholder.com/300'">
-                <div class="producto-precio-badge">S/${producto.precio}</div>
+                <div class="producto-precio-badge">S/ ${producto.precio}</div>
                 <div class="producto-info-item">
                     <div class="producto-info-label">Color:</div>
                     <div class="producto-info-valor" id="colorChips">
@@ -1548,6 +1788,70 @@
                         `).join('')}
                     </div>
                 </div>
+                
+                <!-- Opciones de envío -->
+                <div class="opciones-compra">
+                    <div class="opciones-titulo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H11M16 3L19 6H16V3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15 12L21 18M21 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Opciones de Entrega
+                    </div>
+                    
+                    <div class="opcion-envio seleccionada" data-tipo="recojo">
+                        <div class="opcion-envio-info">
+                            <div class="opcion-envio-radio"></div>
+                            <div class="opcion-envio-texto">
+                                <div class="opcion-envio-nombre">Recojo en Tienda</div>
+                                <div class="opcion-envio-descripcion">Retira tu pedido en nuestra tienda física</div>
+                            </div>
+                        </div>
+                        <div class="opcion-envio-precio">Gratis</div>
+                    </div>
+                    
+                    <div class="opcion-envio" data-tipo="envio">
+                        <div class="opcion-envio-info">
+                            <div class="opcion-envio-radio"></div>
+                            <div class="opcion-envio-texto">
+                                <div class="opcion-envio-nombre">Envío a Domicilio</div>
+                                <div class="opcion-envio-descripcion">Entrega en 2-3 días hábiles</div>
+                            </div>
+                        </div>
+                        <div class="opcion-envio-precio">S/ ${costoEnvio.toFixed(2)}</div>
+                    </div>
+                </div>
+                
+                <!-- Resumen de compra -->
+                <div class="resumen-compra">
+                    <div class="resumen-titulo">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Resumen de Compra
+                    </div>
+                    
+                    <div class="resumen-linea">
+                        <span>Precio del producto:</span>
+                        <span class="precio-original" id="resumenSubtotal">S/ ${precioBase.toFixed(2)}</span>
+                    </div>
+                    
+                    <div class="resumen-linea">
+                        <span>Costo de envío:</span>
+                        <span class="precio-envio" id="resumenEnvio">Gratis</span>
+                    </div>
+                    
+                    <div class="resumen-linea">
+                        <span>IGV (18%):</span>
+                        <span class="precio-igv" id="resumenIGV">S/ ${(precioBase * porcentajeIGV).toFixed(2)}</span>
+                    </div>
+                    
+                    <div class="resumen-linea total">
+                        <span>Total a pagar:</span>
+                        <span class="precio-total" id="resumenTotal">S/ ${(precioBase + (precioBase * porcentajeIGV)).toFixed(2)}</span>
+                    </div>
+                </div>
+                
                 <div class="descripcion-section">
                     <div class="descripcion-title">Descripción</div>
                     <textarea class="descripcion-input" readonly>${producto.descripcion || producto.nombre.toLowerCase() + ' bonita'}</textarea>
@@ -1575,6 +1879,17 @@
                 </div>`}
             `;
             document.getElementById('modalProducto').style.display = 'flex';
+            
+            // Eventos para opciones de envío
+            document.querySelectorAll('.opcion-envio').forEach(opcion => {
+                opcion.onclick = function() {
+                    document.querySelectorAll('.opcion-envio').forEach(o => o.classList.remove('seleccionada'));
+                    this.classList.add('seleccionada');
+                    opcionEnvioSeleccionada = this.getAttribute('data-tipo');
+                    actualizarResumen();
+                };
+            });
+            
             // Eventos para chips de color
             document.querySelectorAll('.chip-color').forEach(btn => {
                 btn.onclick = function() {
@@ -1605,7 +1920,8 @@
                         mostrarToast('Selecciona un color', 'error');
                         return;
                     }
-                    agregarAlCarrito(producto.id, null, tallaSeleccionada, colorSeleccionado);
+                    const precios = calcularPrecios();
+                    agregarAlCarrito(producto.id, null, tallaSeleccionada, colorSeleccionado, opcionEnvioSeleccionada, precios.total);
                 };
                 document.getElementById('btnComprarDirecto').onclick = function() {
                     if (!tallaSeleccionada) {
@@ -1616,7 +1932,8 @@
                         mostrarToast('Selecciona un color', 'error');
                         return;
                     }
-                    comprarDirecto(producto.id, tallaSeleccionada, colorSeleccionado);
+                    const precios = calcularPrecios();
+                    comprarDirecto(producto.id, tallaSeleccionada, colorSeleccionado, opcionEnvioSeleccionada, precios.total);
                 };
             }
         };
@@ -1654,8 +1971,8 @@
             document.getElementById('modalProducto').style.display = 'none';
         };
 
-        // Modificar agregarAlCarrito para guardar talla y color
-        window.agregarAlCarrito = function(id, botonElement, talla, color) {
+        // Modificar agregarAlCarrito para guardar talla, color, envío y precio total
+        window.agregarAlCarrito = function(id, botonElement, talla, color, tipoEnvio, precioTotal) {
             const producto = productos.find(p => p.id === id);
             if (!producto || producto.stock <= 0) {
                 mostrarToast('Producto sin stock disponible', 'error');
@@ -1676,7 +1993,7 @@
                     botonElement.style.transform = '';
                 }, 150);
             }
-            const itemEnCarrito = carrito.find(item => item.id === id && item.talla === talla && item.color === color);
+            const itemEnCarrito = carrito.find(item => item.id === id && item.talla === talla && item.color === color && item.tipoEnvio === tipoEnvio);
             if (itemEnCarrito) {
                 itemEnCarrito.cantidad++;
                 mostrarToast(`${producto.nombre} (${talla}, ${color}) agregado al carrito (cantidad: ${itemEnCarrito.cantidad})`);
@@ -1685,12 +2002,15 @@
                     id: producto.id,
                     nombre: producto.nombre,
                     precio: producto.precio,
+                    precioTotal: precioTotal || producto.precio,
                     imagen: producto.imagen,
                     talla: talla,
                     color: color,
+                    tipoEnvio: tipoEnvio || 'recojo',
                     cantidad: 1
                 });
-                mostrarToast(`${producto.nombre} (${talla}, ${color}) agregado al carrito`);
+                const tipoEnvioTexto = tipoEnvio === 'envio' ? 'con envío' : 'recojo en tienda';
+                mostrarToast(`${producto.nombre} (${talla}, ${color}, ${tipoEnvioTexto}) agregado al carrito`);
             }
             localStorage.setItem('carrito', JSON.stringify(carrito));
             actualizarContadorCarrito();
@@ -1727,11 +2047,22 @@
                     </div>`;
             } else {
                 let html = '';
-                let total = 0;
+                let subtotalGeneral = 0;
+                let envioTotal = 0;
+                let igvTotal = 0;
                 
                 carrito.forEach(item => {
-                    const subtotal = item.precio * item.cantidad;
-                    total += subtotal;
+                    const precioBase = parseFloat(item.precio);
+                    const costoEnvio = item.tipoEnvio === 'envio' ? 15.00 : 0;
+                    const baseImponible = (precioBase + costoEnvio) * item.cantidad;
+                    const igvItem = baseImponible * 0.18;
+                    const totalItem = baseImponible + igvItem;
+                    
+                    subtotalGeneral += precioBase * item.cantidad;
+                    envioTotal += costoEnvio * item.cantidad;
+                    igvTotal += igvItem;
+                    
+                    const tipoEnvioTexto = item.tipoEnvio === 'envio' ? 'Con envío' : 'Recojo en tienda';
                     
                     html += `
                         <div class="carrito-item">
@@ -1741,21 +2072,43 @@
                                  onerror="this.src='https://via.placeholder.com/60'">
                             <div class="carrito-item-info">
                                 <div class="carrito-item-nombre">${item.nombre}</div>
-                                <div class="carrito-item-precio">S/ ${item.precio}</div>
-                                <div class="carrito-item-cantidad">
-                                    <button class="cantidad-btn" onclick="cambiarCantidad('${item.id}', -1)">-</button>
-                                    <span class="cantidad-numero">${item.cantidad}</span>
-                                    <button class="cantidad-btn" onclick="cambiarCantidad('${item.id}', 1)">+</button>
+                                <div class="carrito-item-detalles">
+                                    <span class="carrito-item-talla">Talla: ${item.talla}</span>
+                                    <span class="carrito-item-color">Color: ${item.color}</span>
+                                    <span class="carrito-item-envio">${tipoEnvioTexto}</span>
                                 </div>
+                                <div class="carrito-item-precio">S/ ${precioBase.toFixed(2)} c/u</div>
+                                <div class="carrito-item-cantidad">
+                                    <button class="cantidad-btn" onclick="cambiarCantidad('${item.id}', -1, '${item.talla}', '${item.color}', '${item.tipoEnvio}')">-</button>
+                                    <span class="cantidad-numero">${item.cantidad}</span>
+                                    <button class="cantidad-btn" onclick="cambiarCantidad('${item.id}', 1, '${item.talla}', '${item.color}', '${item.tipoEnvio}')">+</button>
+                                </div>
+                                <div class="carrito-item-total">Total: S/ ${totalItem.toFixed(2)}</div>
                             </div>
                         </div>
                     `;
                 });
 
+                const totalFinal = subtotalGeneral + envioTotal + igvTotal;
+
                 html += `
-                    <div class="carrito-total">
-                        <span>Total:</span>
-                        <span>S/ ${total.toFixed(2)}</span>
+                    <div class="carrito-resumen">
+                        <div class="carrito-resumen-linea">
+                            <span>Subtotal productos:</span>
+                            <span>S/ ${subtotalGeneral.toFixed(2)}</span>
+                        </div>
+                        <div class="carrito-resumen-linea">
+                            <span>Costo de envío:</span>
+                            <span>S/ ${envioTotal.toFixed(2)}</span>
+                        </div>
+                        <div class="carrito-resumen-linea">
+                            <span>IGV (18%):</span>
+                            <span>S/ ${igvTotal.toFixed(2)}</span>
+                        </div>
+                        <div class="carrito-total">
+                            <span>Total a pagar:</span>
+                            <span>S/ ${totalFinal.toFixed(2)}</span>
+                        </div>
                     </div>
                     <div class="carrito-botones">
                         <button class="carrito-btn btn-vaciar" onclick="vaciarCarrito()">Vaciar</button>
@@ -1775,12 +2128,12 @@
         };
 
         // Cambiar cantidad de un producto
-        window.cambiarCantidad = function(id, cambio) {
-            const item = carrito.find(i => i.id === id);
+        window.cambiarCantidad = function(id, cambio, talla, color, tipoEnvio) {
+            const item = carrito.find(i => i.id === id && i.talla === talla && i.color === color && i.tipoEnvio === tipoEnvio);
             if (item) {
                 item.cantidad += cambio;
                 if (item.cantidad <= 0) {
-                    carrito = carrito.filter(i => i.id !== id);
+                    carrito = carrito.filter(i => !(i.id === id && i.talla === talla && i.color === color && i.tipoEnvio === tipoEnvio));
                 }
                 localStorage.setItem('carrito', JSON.stringify(carrito));
                 actualizarContadorCarrito();
@@ -1841,8 +2194,36 @@
             // Generar número de pedido
             const numeroPedido = generarNumeroPedido();
             
-            // Calcular total
-            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            // Calcular totales con envío e IGV
+            let subtotalGeneral = 0;
+            let envioTotal = 0;
+            let igvTotal = 0;
+            
+            const productosConDetalles = carrito.map(item => {
+                const precioBase = parseFloat(item.precio);
+                const costoEnvio = item.tipoEnvio === 'envio' ? 15.00 : 0;
+                const baseImponible = (precioBase + costoEnvio) * item.cantidad;
+                const igvItem = baseImponible * 0.18;
+                const totalItem = baseImponible + igvItem;
+                
+                subtotalGeneral += precioBase * item.cantidad;
+                envioTotal += costoEnvio * item.cantidad;
+                igvTotal += igvItem;
+                
+                return {
+                    id: item.id,
+                    nombre: item.nombre,
+                    precio: precioBase,
+                    talla: item.talla,
+                    color: item.color,
+                    tipoEnvio: item.tipoEnvio,
+                    cantidad: item.cantidad,
+                    costoEnvio: costoEnvio,
+                    totalItem: totalItem
+                };
+            });
+            
+            const totalFinal = subtotalGeneral + envioTotal + igvTotal;
             
             // Crear objeto de pedido
             const pedido = {
@@ -1855,15 +2236,11 @@
                     id: asesor.id,
                     nombre: asesor.nombre
                 },
-                productos: carrito.map(item => ({
-                    id: item.id,
-                    nombre: item.nombre,
-                    precio: item.precio,
-                    talla: item.talla,
-                    color: item.color,
-                    cantidad: item.cantidad
-                })),
-                total: total,
+                productos: productosConDetalles,
+                subtotal: subtotalGeneral,
+                envio: envioTotal,
+                igv: igvTotal,
+                total: totalFinal,
                 estado: 'pendiente'
             };
 
@@ -1876,10 +2253,16 @@
                 let mensajeWhatsApp = `*Nuevo Pedido: ${numeroPedido}*\n\n`;
                 mensajeWhatsApp += `*Cliente:* ${pedido.cliente.email}\n\n`;
                 mensajeWhatsApp += "*Productos:*\n";
-                pedido.productos.forEach(prod => {
-                    mensajeWhatsApp += `- ${prod.nombre} (${prod.talla}, ${prod.color}) x${prod.cantidad} - S/ ${prod.precio * prod.cantidad}\n`;
+                productosConDetalles.forEach(prod => {
+                    const tipoEnvioTexto = prod.tipoEnvio === 'envio' ? 'Con envío' : 'Recojo en tienda';
+                    mensajeWhatsApp += `- ${prod.nombre} (${prod.talla}, ${prod.color}) x${prod.cantidad}\n`;
+                    mensajeWhatsApp += `  ${tipoEnvioTexto} - S/ ${prod.totalItem.toFixed(2)}\n`;
                 });
-                mensajeWhatsApp += `\n*Total: S/ ${total.toFixed(2)}*`;
+                mensajeWhatsApp += `\n*Resumen:*\n`;
+                mensajeWhatsApp += `Subtotal: S/ ${subtotalGeneral.toFixed(2)}\n`;
+                mensajeWhatsApp += `Envío: S/ ${envioTotal.toFixed(2)}\n`;
+                mensajeWhatsApp += `IGV (18%): S/ ${igvTotal.toFixed(2)}\n`;
+                mensajeWhatsApp += `*Total: S/ ${totalFinal.toFixed(2)}*`;
 
                 // Codificar mensaje para URL
                 const mensajeCodificado = encodeURIComponent(mensajeWhatsApp);
@@ -1994,10 +2377,23 @@
                                         <span>${prod.nombre} (${prod.talla}, ${prod.color}) x${prod.cantidad}</span>
                                         <span>S/ ${(prod.precio * prod.cantidad).toFixed(2)}</span>
                                     </div>
+                                    ${prod.tipoEnvio === 'con-envio' ? `
+                                        <div class="pedido-envio-info">
+                                            <small>• Envío: S/ ${(prod.costoEnvio || 0).toFixed(2)}</small>
+                                            <small>• IGV: S/ ${(prod.igv || 0).toFixed(2)}</small>
+                                        </div>
+                                    ` : ''}
                                 `).join('')}
                             </div>
                             <div class="pedido-total">
-                                Total: S/ ${pedido.total.toFixed(2)}
+                                ${pedido.subtotal ? `
+                                    <div style="font-size: 13px; color: #666; margin-bottom: 5px;">
+                                        Subtotal: S/ ${pedido.subtotal.toFixed(2)}
+                                        ${pedido.costoEnvio > 0 ? `<br>Envío: S/ ${pedido.costoEnvio.toFixed(2)}` : ''}
+                                        ${pedido.igv > 0 ? `<br>IGV (18%): S/ ${pedido.igv.toFixed(2)}` : ''}
+                                    </div>
+                                ` : ''}
+                                <strong>Total: S/ ${pedido.total.toFixed(2)}</strong>
                             </div>
                         </div>
                     `;
@@ -2096,8 +2492,8 @@
             window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
         };
 
-        // Modificar comprarDirecto para pasar talla y color
-        window.comprarDirecto = function(id, talla, color) {
+        // Modificar comprarDirecto para pasar talla, color, envío y precio total
+        window.comprarDirecto = function(id, talla, color, tipoEnvio, precioTotal) {
             const producto = productos.find(p => p.id === id);
             if (!producto || producto.stock <= 0) {
                 mostrarToast('Producto sin stock disponible', 'error');
@@ -2116,9 +2512,11 @@
                 id: producto.id,
                 nombre: producto.nombre,
                 precio: producto.precio,
+                precioTotal: precioTotal || producto.precio,
                 imagen: producto.imagen,
                 talla: talla,
                 color: color,
+                tipoEnvio: tipoEnvio || 'recojo',
                 cantidad: 1
             };
             mostrarModalPago();
@@ -2427,13 +2825,31 @@
             const file = input.files[0];
             try {
                 const urlComprobante = await subirComprobanteAImgbb(file);
+                
+                // Calcular totales con envío e IGV
+                const precioBase = producto.precio;
+                const tipoEnvio = producto.tipoEnvio || 'sin-envio';
+                const costoEnvio = tipoEnvio === 'con-envio' ? 10 : 0;
+                const subtotal = precioBase + costoEnvio;
+                const igv = tipoEnvio === 'con-envio' ? subtotal * 0.18 : 0;
+                const total = subtotal + igv;
+                
                 // Guardar pedido en Firestore
                 const pedido = {
                     numeroPedido: generarNumeroPedido(),
                     fecha: new Date(),
                     cliente: { email: usuario.email },
-                    productos: [producto],
-                    total: producto.precio,
+                    productos: [{
+                        ...producto,
+                        tipoEnvio: tipoEnvio,
+                        costoEnvio: costoEnvio,
+                        igv: igv,
+                        precioTotal: total
+                    }],
+                    subtotal: precioBase,
+                    costoEnvio: costoEnvio,
+                    igv: igv,
+                    total: total,
                     estado: 'pagado', // Estado pagado y en revisión
                     metodoPago: metodo,
                     comprobante: urlComprobante,
@@ -2642,4 +3058,4 @@
         };
     </script>
 </body>
-</html> 
+</html>
