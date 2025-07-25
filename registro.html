@@ -8,60 +8,85 @@
     <link rel="stylesheet" href="registro.css">
 </head>
 <body>
-    <div class="contenedor-registro">
-        <header class="barra-superior">
-            <a href="index.html" class="boton-atras">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" fill="currentColor"/>
+    <div class="contenedor-registro-moderno">
+        <header class="header-registro">
+            <a href="index.html" class="boton-atras-moderno">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/>
                 </svg>
             </a>
-            <h1>Registro</h1>
+            <h1 class="titulo-header">Crear Cuenta</h1>
         </header>
 
-        <form class="formulario-registro">
-            <div class="campo-entrada">
-                <span class="icono-campo">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
-                    </svg>
-                </span>
-                <input type="text" id="nombre" placeholder="Nombre de Usuario" required>
+        <div class="contenido-registro">
+            <div class="icono-registro">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
             </div>
 
-            <div class="campo-entrada">
-                <span class="icono-campo">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
-                    </svg>
-                </span>
-                <input type="email" id="email" placeholder="Correo Electrónico" required>
+            <!-- Indicador de progreso -->
+            <div class="indicador-progreso">
+                <div class="paso-progreso activo" id="paso-1"></div>
+                <div class="paso-progreso" id="paso-2"></div>
+                <div class="paso-progreso" id="paso-3"></div>
             </div>
 
-            <div class="campo-entrada">
-                <span class="icono-campo">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" fill="currentColor"/>
-                    </svg>
-                </span>
-                <input type="password" id="password" placeholder="Contraseña" required>
+            <p class="descripcion-registro">
+                Completa los siguientes datos para crear tu cuenta de forma segura.
+            </p>
+
+            <form class="formulario-registro">
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </span>
+                    <input type="text" id="nombre" placeholder="Nombre de Usuario" required>
+                </div>
+
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </span>
+                    <input type="email" id="email" placeholder="Correo Electrónico" required>
+                </div>
+
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </span>
+                    <input type="password" id="password" placeholder="Contraseña (mínimo 6 caracteres)" required>
+                </div>
+
+                <!-- Campo de verificación (inicialmente oculto) -->
+                <div class="campo-moderno" id="campo-verificacion" style="display: none;">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                    </span>
+                    <input type="text" id="codigo-verificacion" placeholder="Código de verificación (6 dígitos)" maxlength="6">
+                </div>
+
+                <button type="button" id="boton-enviar-codigo" class="boton-secundario" style="display: none;">
+                    Enviar Código de Verificación
+                </button>
+
+                <button type="submit" class="boton-principal">Registrarse</button>
+            </form>
+
+            <div class="enlace-volver">
+                <a href="index.html">
+                    ¿Ya tienes cuenta? Iniciar Sesión
+                </a>
             </div>
-
-            <!-- Campo de verificación (inicialmente oculto) -->
-            <div class="campo-entrada" id="campo-verificacion" style="display: none;">
-                <span class="icono-campo">
-                    <svg width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" fill="currentColor"/>
-                    </svg>
-                </span>
-                <input type="text" id="codigo-verificacion" placeholder="Código de verificación" maxlength="6">
-            </div>
-
-            <button type="button" id="boton-enviar-codigo" class="boton-registrarse" style="display: none;">
-                Enviar Código de Verificación
-            </button>
-
-            <button type="submit" class="boton-registrarse">Registrarse</button>
-        </form>
+        </div>
     </div>
 
     <!-- EmailJS SDK -->

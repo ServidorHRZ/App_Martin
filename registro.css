@@ -48,9 +48,9 @@
 .formulario-registro {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 24px;
-    margin: auto;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
     width: 100%;
     max-width: 400px;
 }
@@ -184,6 +184,216 @@
     font-weight: normal;
 }
 
+/* Estilos modernos para registro con fondo blanco */
+.contenedor-registro-moderno {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 0;
+    margin: 0;
+}
+
+.header-registro {
+    background: rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.boton-atras-moderno {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.boton-atras-moderno:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.titulo-header {
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    flex: 1;
+}
+
+.contenido-registro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    background: white;
+    max-width: 400px;
+    margin: 65px auto 0;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+}
+
+.icono-registro {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.descripcion-registro {
+    text-align: center;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+    padding: 0 10px;
+}
+
+.campo-moderno {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.campo-moderno input {
+    width: 100%;
+    padding: 16px 18px 16px 50px;
+    border: 2px solid #f0f0f0;
+    border-radius: 14px;
+    font-size: 16px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.campo-moderno input:focus {
+    border-color: #000000;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.icono-campo-moderno {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 2;
+}
+
+.boton-principal {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.boton-principal:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.boton-principal:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.boton-secundario {
+    width: 100%;
+    padding: 16px;
+    background: #f8f9fa;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 12px;
+}
+
+.boton-secundario:hover:not(:disabled) {
+    background: #000000;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.enlace-volver {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.enlace-volver a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.enlace-volver a:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+
+/* Indicador de progreso compacto */
+.indicador-progreso {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 5px;
+}
+
+.paso-progreso {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.paso-progreso.activo {
+    background: #000000;
+    transform: scale(1.2);
+}
+
+.paso-progreso.completado {
+    background: #333333;
+}
+
 /* Ajustes para dispositivos móviles */
 @media (max-width: 768px) {
     .formulario-registro {
@@ -197,5 +407,17 @@
     
     #codigo-verificacion {
         font-size: 16px;
+    }
+    
+    .contenido-registro {
+        padding: 15px;
+    }
+}
+
+/* Responsive para tablets y desktop */
+@media (min-width: 768px) {
+    .contenido-registro {
+        max-width: 450px;
+        padding: 30px;
     }
 } 

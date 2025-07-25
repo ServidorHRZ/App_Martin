@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Recuperar Contraseña</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="registro.css">
+    <style>
+        /* Estilos específicos para recuperación de contraseña - Mobile First */
+        .contenedor-recuperacion {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            padding: 0;
+            margin: 0;
+        }
+
+        .header-recuperacion {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .boton-atras-moderno {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .boton-atras-moderno:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .titulo-header {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            flex: 1;
+        }
+
+        .contenido-principal {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px 20px;
+            background: white;
+            border-radius: 25px 25px 0 0;
+            margin-top: 20px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .icono-principal {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .descripcion-proceso {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            padding: 0 10px;
+        }
+
+        .campo-moderno {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .campo-moderno input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid #f0f0f0;
+            border-radius: 16px;
+            font-size: 16px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .campo-moderno input:focus {
+            border-color: #000000;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .icono-campo-moderno {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            z-index: 2;
+        }
+
+        .boton-principal {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .boton-principal:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .boton-principal:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .boton-secundario {
+            width: 100%;
+            padding: 18px;
+            background: #f8f9fa;
+            color: #000000;
+            border: 2px solid #000000;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .boton-secundario:hover:not(:disabled) {
+            background: #000000;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .contenedor-contrasena-moderno {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border: 2px solid #28a745;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .titulo-exito {
+            color: #28a745;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contenedor-contrasena-display {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contrasena-texto {
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+            flex: 1;
+            text-align: left;
+            word-break: break-all;
+            letter-spacing: 1px;
+        }
+
+        .boton-copiar-moderno {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 90px;
+            justify-content: center;
+        }
+
+        .boton-copiar-moderno:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .boton-copiar-moderno.copiado {
+            background: #28a745;
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .mensaje-seguridad {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 15px 0 0 0;
+            padding: 15px;
+            background: rgba(108, 117, 125, 0.1);
+            border-radius: 10px;
+        }
+
+        .enlace-volver {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .enlace-volver a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .enlace-volver a:hover {
+            color: #333333;
+            text-decoration: underline;
+        }
+
+        /* Responsive para tablets */
+        @media (min-width: 768px) {
+            .contenido-principal {
+                max-width: 500px;
+                margin: 20px auto 0;
+                border-radius: 25px;
+                min-height: auto;
+            }
+
+            .contenedor-recuperacion {
+                padding: 20px;
+            }
+        }
+
+        /* Responsive para desktop */
+        @media (min-width: 1024px) {
+            .contenedor-recuperacion {
+                align-items: center;
+                justify-content: center;
+                padding: 40px;
+            }
+
+            .contenido-principal {
+                max-width: 450px;
+                margin: 0;
+                border-radius: 25px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            }
+
+            .header-recuperacion {
+                border-radius: 25px 25px 0 0;
+            }
+        }
+
+        /* Mejoras para pantallas muy pequeñas */
+        @media (max-width: 360px) {
+            .contenido-principal {
+                padding: 20px 15px;
+            }
+
+            .campo-moderno input {
+                padding: 16px 18px 16px 50px;
+                font-size: 16px;
+            }
+
+            .boton-principal, .boton-secundario {
+                padding: 16px;
+                font-size: 15px;
+            }
+
+            .contrasena-texto {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-recuperacion">
+        <header class="header-recuperacion">
+            <a href="index.html" class="boton-atras-moderno">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/>
+                </svg>
+            </a>
+            <h1 class="titulo-header">Recuperar Contraseña</h1>
+        </header>
+
+        <div class="contenido-principal">
+            <div class="icono-principal">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="white">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9V6zM16 16h-3v3h-2v-3H8v-2h3v-3h2v3h3v2z"/>
+                </svg>
+            </div>
+
+            <p class="descripcion-proceso">
+                Ingresa tu correo electrónico para recuperar tu contraseña de forma segura.
+            </p>
+
+            <form class="formulario-recuperacion">
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </span>
+                    <input type="email" id="email-recuperacion" placeholder="Correo Electrónico" required>
+                </div>
+
+                <!-- Campo de verificación (inicialmente oculto) -->
+                <div class="campo-moderno" id="campo-verificacion" style="display: none;">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                        </svg>
+                    </span>
+                    <input type="text" id="codigo-verificacion" placeholder="Código de verificación (6 dígitos)" maxlength="6">
+                </div>
+
+                <!-- Contenedor para mostrar la contraseña (inicialmente oculto) -->
+                <div id="contenedor-contrasena" class="contenedor-contrasena-moderno" style="display: none;">
+                    <h3 class="titulo-exito">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        ¡Contraseña Recuperada!
+                    </h3>
+                    
+                    <div class="contenedor-contrasena-display">
+                        <span id="contrasena-mostrada" class="contrasena-texto"></span>
+                        <button type="button" id="boton-copiar" class="boton-copiar-moderno">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                            Copiar
+                        </button>
+                    </div>
+                    
+                    <div class="mensaje-seguridad">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        Por seguridad, te recomendamos cambiar tu contraseña después de iniciar sesión.
+                    </div>
+                </div>
+
+                <button type="button" id="boton-enviar-codigo" class="boton-secundario" style="display: none;">
+                    Enviar Código de Verificación
+                </button>
+
+                <button type="submit" class="boton-principal">
+                    Recuperar Contraseña
+                </button>
+            </form>
+
+            <div class="enlace-volver">
+                <a href="index.html">
+                    ¿Recordaste tu contraseña? Iniciar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Scripts de configuración -->
+    <script type="module" src="emailjs-config.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="recuperar-contrasena.js"></script>
+</body>
+</html>

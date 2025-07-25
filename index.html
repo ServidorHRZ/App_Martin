@@ -7,30 +7,53 @@
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="contenedor-login">
-        
-        
-        <div class="avatar">
-            <img src="logo.jpeg" alt="Avatar de usuario">
-        </div>
-
-        <h1>Inicio Sesión</h1>
-        <form class="formulario-login">
-            <div class="campo-entrada">
-                <input type="email" id="email" placeholder="Email o usuario" required>
+    <div class="contenedor-login-moderno">
+        <div class="tarjeta-login">
+            <div class="logo-contenedor">
+                <img src="logo.jpeg" alt="Logo de la aplicación" class="logo-imagen">
             </div>
 
-            <div class="campo-entrada">
-                <input type="password" id="password" placeholder="Contraseña" required>
+            <h1 class="titulo-login">Bienvenido</h1>
+
+            <form class="formulario-login">
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                    </span>
+                    <input type="email" id="email" placeholder="Correo Electrónico" required>
+                </div>
+
+                <div class="campo-moderno">
+                    <span class="icono-campo-moderno">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                        </svg>
+                    </span>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit" class="boton-login-principal">
+                    <span class="indicador-carga"></span>
+                    <span class="texto-boton">Iniciar Sesión</span>
+                </button>
+            </form>
+
+            <div class="enlaces-login">
+                <a href="recuperar-contrasena.html" class="enlace-login">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9V6zM16 16h-3v3h-2v-3H8v-2h3v-3h2v3h3v2z"/>
+                    </svg>
+                    ¿Olvidaste tu contraseña?
+                </a>
+                <a href="registro.html" class="enlace-login enlace-principal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px; vertical-align: middle;">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Crear nueva cuenta
+                </a>
             </div>
-
-            <button type="submit" class="boton-iniciar">Iniciar Sesión</button>
-            
-        </form>
-
-        <div class="enlaces">
-            <a href="#" class="recuperar">Recuperar Contraseña</a>
-            <a href="registro.html" class="registrarse">Registrarse</a>
         </div>
     </div>
 

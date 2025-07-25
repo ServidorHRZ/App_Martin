@@ -458,4 +458,61 @@ export function cerrarSesion() {
     usuarioActual = null;
     localStorage.removeItem('usuarioActual');
     return { exito: true };
+}
+
+// Función para obtener la contraseña de un usuario por email (para recuperación)
+export async function obtenerContrasenaUsuario(email) {
+    console.log('\n🔍 [OBTENER_CONTRASENA] Buscando usuario:', email);
+    
+    try {
+        // Buscar usuario por email en Firebase
+        const usuariosRef = collection(db, "usuarios");
+        const consulta = query(usuariosRef, where("email", "==", email));
+        const resultado = await getDocs(consulta);
+        
+        if (!resultado.empty) {
+            const usuarioDoc = resultado.docs[0];
+            const datosUsuario = usuarioDoc.data();
+            
+            console.log('✅ [OBTENER_CONTRASENA] Usuario encontrado en Firebase');
+            return { 
+                exito: true, 
+                contrasena: datosUsuario.password,
+                nombreUsuario: datosUsuario.nombreUsuario
+            };
+        }
+        
+        console.log('⚠️ [OBTENER_CONTRASENA] Usuario no encontrado en Firebase, verificando localStorage...');
+        
+    } catch (firebaseError) {
+        console.warn('⚠️ [OBTENER_CONTRASENA] Error de Firebase, usando localStorage:', firebaseError.message);
+    }
+    
+    // Fallback: verificar con localStorage
+    try {
+        const usuariosLocalStorage = JSON.parse(localStorage.getItem('usuarios_registrados') || '[]');
+        const usuario = usuariosLocalStorage.find(u => u.email === email);
+        
+        if (!usuario) {
+            console.log('❌ [OBTENER_CONTRASENA] Usuario no encontrado');
+            return { 
+                exito: false, 
+                error: "No se encontró ninguna cuenta asociada a este correo electrónico" 
+            };
+        }
+        
+        console.log('✅ [OBTENER_CONTRASENA] Usuario encontrado en localStorage');
+        return { 
+            exito: true, 
+            contrasena: usuario.password,
+            nombreUsuario: usuario.nombreUsuario
+        };
+        
+    } catch (localStorageError) {
+        console.error('❌ [OBTENER_CONTRASENA] Error al buscar usuario:', localStorageError);
+        return { 
+            exito: false, 
+            error: "Error al buscar usuario. Intenta nuevamente." 
+        };
+    }
 } 

@@ -75,14 +75,22 @@ function validarFormularioLogin(email, password) {
 
 // Función para cambiar el estado del botón
 function cambiarEstadoBoton(boton, cargando = false) {
+    const indicadorCarga = boton.querySelector('.indicador-carga');
+    const textoBoton = boton.querySelector('.texto-boton');
+    
     if (cargando) {
         boton.disabled = true;
-        boton.textContent = 'Iniciando...';
-        boton.style.opacity = '0.7';
+        boton.classList.add('cargando');
+        if (textoBoton) textoBoton.textContent = 'Iniciando...';
+        
+        // Vibración en móviles (si está disponible)
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
     } else {
         boton.disabled = false;
-        boton.textContent = 'Iniciar Sesión';
-        boton.style.opacity = '1';
+        boton.classList.remove('cargando');
+        if (textoBoton) textoBoton.textContent = 'Iniciar Sesión';
     }
 }
 
@@ -206,7 +214,7 @@ async function manejarLogin(evento) {
     // Obtener elementos del formulario
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const boton = evento.target.querySelector('.boton-iniciar');
+    const boton = evento.target.querySelector('.boton-login-principal');
     
     // Validar formulario
     const validacion = validarFormularioLogin(email, password);

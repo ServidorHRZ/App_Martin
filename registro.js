@@ -122,8 +122,26 @@ function cambiarEstadoBoton(boton, cargando = false, texto = null) {
 // Función para mostrar/ocultar elementos del formulario
 function mostrarElemento(elemento, mostrar = true) {
     if (elemento) {
-        elemento.style.display = mostrar ? 'flex' : 'none';
+        elemento.style.display = mostrar ? 'block' : 'none';
     }
+}
+
+// Función para actualizar el indicador de progreso
+function actualizarProgreso(paso) {
+    const pasos = ['paso-1', 'paso-2', 'paso-3'];
+    
+    pasos.forEach((pasoId, index) => {
+        const elemento = document.getElementById(pasoId);
+        if (elemento) {
+            elemento.classList.remove('activo', 'completado');
+            
+            if (index < paso - 1) {
+                elemento.classList.add('completado');
+            } else if (index === paso - 1) {
+                elemento.classList.add('activo');
+            }
+        }
+    });
 }
 
 // Función para enviar código de verificación
@@ -201,6 +219,9 @@ async function manejarRegistro(evento) {
         if (!estadoVerificacion.codigoEnviado) {
             console.log('[REGISTRO] Paso 1: Mostrar opción para enviar código');
             
+            // Actualizar progreso
+            actualizarProgreso(1);
+            
             // Validar datos básicos
             const nombreUsuario = document.getElementById('nombre')?.value || '';
             const email = document.getElementById('email')?.value || '';
@@ -225,6 +246,9 @@ async function manejarRegistro(evento) {
         // Si el código fue enviado pero no verificado, verificar código
         if (estadoVerificacion.codigoEnviado && !estadoVerificacion.emailVerificado) {
             console.log('[REGISTRO] Paso 2: Verificar código');
+            
+            // Actualizar progreso
+            actualizarProgreso(2);
             
             const codigoIngresado = document.getElementById('codigo-verificacion')?.value || '';
             
@@ -255,6 +279,9 @@ async function manejarRegistro(evento) {
         if (estadoVerificacion.emailVerificado) {
             console.log('[REGISTRO] Paso 3: Completar registro');
             
+            // Actualizar progreso
+            actualizarProgreso(3);
+            
             cambiarEstadoBoton(boton, true, 'Registrando usuario...');
             
             const { nombreUsuario, email, password } = estadoVerificacion.datosUsuario;
@@ -265,6 +292,9 @@ async function manejarRegistro(evento) {
             if (resultado && resultado.exito) {
                 console.log('[REGISTRO] ✅ ÉXITO: Usuario registrado correctamente');
                 mostrarMensaje('¡Usuario registrado exitosamente!', 'exito');
+                
+                // Marcar todos los pasos como completados
+                actualizarProgreso(4); // Paso extra para mostrar todo completado
                 
                 // Limpiar formulario y estado
                 document.getElementById('nombre').value = '';
