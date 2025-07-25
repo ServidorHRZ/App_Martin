@@ -470,11 +470,30 @@
                         <div class="pedido-productos">
                             ${pedido.productos.map(prod => `
                                 <div class="producto-item">
-                                    <span>${prod.nombre} x${prod.cantidad}</span>
+                                    <span>${prod.nombre} ${prod.talla ? `(${prod.talla}, ${prod.color})` : ''} x${prod.cantidad}</span>
                                     <span>S/ ${(prod.precio * prod.cantidad).toFixed(2)}</span>
                                 </div>
+                                ${prod.tipoEnvio === 'envio' && prod.direccionEnvio ? `
+                                    <div style="margin-left: 20px; margin-top: 5px; padding: 8px; background: #e3f2fd; border-radius: 6px; font-size: 12px; color: #1976d2;">
+                                        <strong>📍 Envío a:</strong><br>
+                                        ${prod.direccionEnvio.departamento.charAt(0).toUpperCase() + prod.direccionEnvio.departamento.slice(1)}, ${prod.direccionEnvio.provincia}, ${prod.direccionEnvio.distrito}<br>
+                                        <span style="color: #666;">${prod.direccionEnvio.direccion}</span>
+                                    </div>
+                                ` : ''}
                             `).join('')}
                         </div>
+                        
+                        ${pedido.direccionEnvio ? `
+                            <div style="margin: 15px 0; padding: 12px; background: #e8f4fd; border-radius: 8px; border-left: 4px solid #007bff;">
+                                <div style="font-weight: 600; color: #007bff; margin-bottom: 8px;">📍 Dirección de Envío:</div>
+                                <div style="font-size: 14px; color: #333;">
+                                    <strong>Departamento:</strong> ${pedido.direccionEnvio.departamento.charAt(0).toUpperCase() + pedido.direccionEnvio.departamento.slice(1)}<br>
+                                    <strong>Provincia:</strong> ${pedido.direccionEnvio.provincia}<br>
+                                    <strong>Distrito:</strong> ${pedido.direccionEnvio.distrito}<br>
+                                    <strong>Dirección:</strong> ${pedido.direccionEnvio.direccion}
+                                </div>
+                            </div>
+                        ` : ''}
 
                         <div class="pedido-total">
                             Total: S/ ${pedido.total.toFixed(2)}
