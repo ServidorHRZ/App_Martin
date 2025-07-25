@@ -46,11 +46,29 @@
                 <input type="password" id="password" placeholder="Contraseña" required>
             </div>
 
+            <!-- Campo de verificación (inicialmente oculto) -->
+            <div class="campo-entrada" id="campo-verificacion" style="display: none;">
+                <span class="icono-campo">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <input type="text" id="codigo-verificacion" placeholder="Código de verificación" maxlength="6">
+            </div>
+
+            <button type="button" id="boton-enviar-codigo" class="boton-registrarse" style="display: none;">
+                Enviar Código de Verificación
+            </button>
+
             <button type="submit" class="boton-registrarse">Registrarse</button>
         </form>
     </div>
 
-    <!-- Scripts de Firebase -->
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Scripts de configuración -->
+    <script type="module" src="emailjs-config.js"></script>
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="registro.js"></script>
 </body>

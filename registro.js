@@ -1,7 +1,14 @@
 // Importar funciones de Firebase
-import { registrarUsuario } from './firebase-config.js';
+import { registrarUsuario, enviarCodigoVerificacion, verificarCodigo } from './firebase-config.js';
 
 console.log('=== INICIO - Cargando registro.js ===');
+
+// Variables de estado para el proceso de verificación
+let estadoVerificacion = {
+    codigoEnviado: false,
+    emailVerificado: false,
+    datosUsuario: null
+};
 
 // Función para mostrar mensajes al usuario
 function mostrarMensaje(mensaje, tipo = 'info') {
@@ -93,7 +100,7 @@ function validarFormulario(nombreUsuario, email, password) {
 }
 
 // Función para cambiar el estado del botón
-function cambiarEstadoBoton(boton, cargando = false) {
+function cambiarEstadoBoton(boton, cargando = false, texto = null) {
     if (!boton) {
         console.error('[BOTON] Error: Botón no encontrado');
         return;
@@ -102,13 +109,83 @@ function cambiarEstadoBoton(boton, cargando = false) {
     if (cargando) {
         console.log('[BOTON] Cambiando a estado: Cargando...');
         boton.disabled = true;
-        boton.textContent = 'Registrando...';
+        boton.textContent = texto || 'Cargando...';
         boton.style.opacity = '0.7';
     } else {
         console.log('[BOTON] Cambiando a estado: Normal');
         boton.disabled = false;
-        boton.textContent = 'Registrarse';
+        boton.textContent = texto || 'Registrarse';
         boton.style.opacity = '1';
+    }
+}
+
+// Función para mostrar/ocultar elementos del formulario
+function mostrarElemento(elemento, mostrar = true) {
+    if (elemento) {
+        elemento.style.display = mostrar ? 'flex' : 'none';
+    }
+}
+
+// Función para enviar código de verificación
+async function manejarEnvioCodigo() {
+    console.log('\n=== ENVIANDO CÓDIGO DE VERIFICACIÓN ===');
+    
+    try {
+        const email = document.getElementById('email')?.value || '';
+        const nombreUsuario = document.getElementById('nombre')?.value || '';
+        const password = document.getElementById('password')?.value || '';
+        const botonEnviar = document.getElementById('boton-enviar-codigo');
+        
+        // Validar datos básicos antes de enviar código
+        const validacion = validarFormulario(nombreUsuario, email, password);
+        if (!validacion.valido) {
+            mostrarMensaje(validacion.mensaje, 'error');
+            return;
+        }
+        
+        // Guardar datos temporalmente
+        estadoVerificacion.datosUsuario = { nombreUsuario, email, password };
+        
+        // Cambiar estado del botón
+        cambiarEstadoBoton(botonEnviar, true, 'Enviando código...');
+        
+        // Enviar código de verificación
+        const resultado = await enviarCodigoVerificacion(email, nombreUsuario);
+        
+        if (resultado && resultado.exito) {
+            console.log('[VERIFICACION] ✅ Código enviado correctamente');
+            mostrarMensaje('Código de verificación enviado a tu correo', 'exito');
+            
+            // Actualizar estado
+            estadoVerificacion.codigoEnviado = true;
+            
+            // Mostrar campo de verificación
+            const campoVerificacion = document.getElementById('campo-verificacion');
+            mostrarElemento(campoVerificacion, true);
+            
+            // Ocultar botón de enviar código y cambiar texto del botón principal
+            mostrarElemento(botonEnviar, false);
+            const botonRegistro = document.querySelector('button[type="submit"]');
+            cambiarEstadoBoton(botonRegistro, false, 'Verificar y Registrarse');
+            
+            // Enfocar el campo de código
+            const campoCodigoVerificacion = document.getElementById('codigo-verificacion');
+            if (campoCodigoVerificacion) {
+                campoCodigoVerificacion.focus();
+            }
+            
+        } else {
+            console.error('[VERIFICACION] ❌ Error:', resultado ? resultado.error : 'Resultado vacío');
+            const mensajeError = resultado?.error || 'Error desconocido al enviar código';
+            mostrarMensaje(mensajeError, 'error');
+        }
+        
+    } catch (error) {
+        console.error('[VERIFICACION] ❌ Excepción:', error);
+        mostrarMensaje('Error al enviar código de verificación: ' + error.message, 'error');
+    } finally {
+        const botonEnviar = document.getElementById('boton-enviar-codigo');
+        cambiarEstadoBoton(botonEnviar, false, 'Enviar Código de Verificación');
     }
 }
 
@@ -118,72 +195,113 @@ async function manejarRegistro(evento) {
     evento.preventDefault();
     
     try {
-        // Obtener elementos del formulario
-        const nombreUsuario = document.getElementById('nombre')?.value || '';
-        const email = document.getElementById('email')?.value || '';
-        const password = document.getElementById('password')?.value || '';
-        const boton = evento.target.querySelector('.boton-registrarse');
+        const boton = evento.target.querySelector('button[type="submit"]');
         
-        console.log('[FORMULARIO] Datos obtenidos:', {
-            nombre: nombreUsuario,
-            email: email,
-            passwordLength: password.length
-        });
-        
-        // Validar formulario
-        const validacion = validarFormulario(nombreUsuario, email, password);
-        if (!validacion.valido) {
-            console.error('[VALIDACION] ❌ Error:', validacion.mensaje);
-            mostrarMensaje(validacion.mensaje, 'error');
+        // Si no se ha enviado el código, mostrar botón para enviarlo
+        if (!estadoVerificacion.codigoEnviado) {
+            console.log('[REGISTRO] Paso 1: Mostrar opción para enviar código');
+            
+            // Validar datos básicos
+            const nombreUsuario = document.getElementById('nombre')?.value || '';
+            const email = document.getElementById('email')?.value || '';
+            const password = document.getElementById('password')?.value || '';
+            
+            const validacion = validarFormulario(nombreUsuario, email, password);
+            if (!validacion.valido) {
+                mostrarMensaje(validacion.mensaje, 'error');
+                return;
+            }
+            
+            // Mostrar botón para enviar código
+            const botonEnviarCodigo = document.getElementById('boton-enviar-codigo');
+            mostrarElemento(botonEnviarCodigo, true);
+            cambiarEstadoBoton(boton, false, 'Primero envía el código de verificación');
+            boton.disabled = true;
+            
+            mostrarMensaje('Haz clic en "Enviar Código de Verificación" para continuar', 'info');
             return;
         }
         
-        // Cambiar estado del botón
-        cambiarEstadoBoton(boton, true);
+        // Si el código fue enviado pero no verificado, verificar código
+        if (estadoVerificacion.codigoEnviado && !estadoVerificacion.emailVerificado) {
+            console.log('[REGISTRO] Paso 2: Verificar código');
+            
+            const codigoIngresado = document.getElementById('codigo-verificacion')?.value || '';
+            
+            if (!codigoIngresado || codigoIngresado.length !== 6) {
+                mostrarMensaje('Por favor, ingresa el código de verificación de 6 dígitos', 'error');
+                return;
+            }
+            
+            cambiarEstadoBoton(boton, true, 'Verificando código...');
+            
+            // Verificar código
+            const resultadoVerificacion = await verificarCodigo(estadoVerificacion.datosUsuario.email, codigoIngresado);
+            
+            if (!resultadoVerificacion.exito) {
+                mostrarMensaje(resultadoVerificacion.error, 'error');
+                cambiarEstadoBoton(boton, false, 'Verificar y Registrarse');
+                return;
+            }
+            
+            // Código verificado correctamente
+            console.log('[VERIFICACION] ✅ Email verificado correctamente');
+            estadoVerificacion.emailVerificado = true;
+            mostrarMensaje('Email verificado correctamente', 'exito');
+            cambiarEstadoBoton(boton, false, 'Completar Registro');
+        }
         
-        console.log('[FIREBASE] Intentando registrar usuario...');
-        
-        // Intentar registrar usuario
-        const resultado = await registrarUsuario(nombreUsuario, email, password);
-        
-        console.log('[FIREBASE] Resultado del registro:', resultado);
-        
-        if (resultado && resultado.exito) {
-            console.log('[REGISTRO] ✅ ÉXITO: Usuario registrado correctamente');
-            mostrarMensaje('¡Usuario registrado exitosamente!', 'exito');
+        // Si el email está verificado, proceder con el registro
+        if (estadoVerificacion.emailVerificado) {
+            console.log('[REGISTRO] Paso 3: Completar registro');
             
-            // Limpiar formulario
-            const campoNombre = document.getElementById('nombre');
-            const campoEmail = document.getElementById('email');
-            const campoPassword = document.getElementById('password');
+            cambiarEstadoBoton(boton, true, 'Registrando usuario...');
             
-            if (campoNombre) campoNombre.value = '';
-            if (campoEmail) campoEmail.value = '';
-            if (campoPassword) campoPassword.value = '';
+            const { nombreUsuario, email, password } = estadoVerificacion.datosUsuario;
             
-            console.log('[REGISTRO] Formulario limpiado, redirigiendo en 2 segundos...');
+            // Registrar usuario
+            const resultado = await registrarUsuario(nombreUsuario, email, password);
             
-            // Redirigir al login después de 2 segundos
-            setTimeout(() => {
-                console.log('[REGISTRO] Redirigiendo a index.html');
-                window.location.href = 'index.html';
-            }, 2000);
-            
-        } else {
-            console.error('[REGISTRO] ❌ ERROR:', resultado ? resultado.error : 'Resultado vacío');
-            const mensajeError = resultado?.error || 'Error desconocido en el registro';
-            mostrarMensaje(mensajeError, 'error');
+            if (resultado && resultado.exito) {
+                console.log('[REGISTRO] ✅ ÉXITO: Usuario registrado correctamente');
+                mostrarMensaje('¡Usuario registrado exitosamente!', 'exito');
+                
+                // Limpiar formulario y estado
+                document.getElementById('nombre').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('codigo-verificacion').value = '';
+                
+                // Resetear estado
+                estadoVerificacion = {
+                    codigoEnviado: false,
+                    emailVerificado: false,
+                    datosUsuario: null
+                };
+                
+                console.log('[REGISTRO] Redirigiendo en 2 segundos...');
+                
+                // Redirigir al login después de 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+                
+            } else {
+                console.error('[REGISTRO] ❌ ERROR:', resultado ? resultado.error : 'Resultado vacío');
+                const mensajeError = resultado?.error || 'Error desconocido en el registro';
+                mostrarMensaje(mensajeError, 'error');
+                cambiarEstadoBoton(boton, false, 'Completar Registro');
+            }
         }
         
     } catch (error) {
         console.error('[REGISTRO] ❌ EXCEPCIÓN:', error);
         mostrarMensaje('Error inesperado. Por favor, intenta nuevamente.', 'error');
-    } finally {
-        // Restaurar estado del botón
-        const boton = evento.target.querySelector('.boton-registrarse');
-        cambiarEstadoBoton(boton, false);
-        console.log('=== FIN DEL PROCESO DE REGISTRO ===\n');
+        const boton = evento.target.querySelector('button[type="submit"]');
+        cambiarEstadoBoton(boton, false, 'Registrarse');
     }
+    
+    console.log('=== FIN DEL PROCESO DE REGISTRO ===\n');
 }
 
 // Inicializar cuando el DOM esté listo
@@ -191,21 +309,38 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('[DOM] Documento cargado, inicializando...');
     
     const formulario = document.querySelector('.formulario-registro');
+    const botonEnviarCodigo = document.getElementById('boton-enviar-codigo');
     
     if (formulario) {
         console.log('[DOM] ✅ Formulario encontrado, agregando event listener');
         formulario.addEventListener('submit', manejarRegistro);
         
+        // Event listener para el botón de enviar código
+        if (botonEnviarCodigo) {
+            console.log('[DOM] ✅ Botón enviar código encontrado, agregando event listener');
+            botonEnviarCodigo.addEventListener('click', manejarEnvioCodigo);
+        }
+        
         // Validación en tiempo real
         const campoNombre = document.getElementById('nombre');
         const campoEmail = document.getElementById('email');
         const campoPassword = document.getElementById('password');
+        const campoCodigoVerificacion = document.getElementById('codigo-verificacion');
         
         console.log('[DOM] Campos encontrados:', {
             nombre: !!campoNombre,
             email: !!campoEmail,
-            password: !!campoPassword
+            password: !!campoPassword,
+            codigoVerificacion: !!campoCodigoVerificacion
         });
+        
+        // Validación en tiempo real para el código de verificación
+        if (campoCodigoVerificacion) {
+            campoCodigoVerificacion.addEventListener('input', function(e) {
+                // Solo permitir números y limitar a 6 dígitos
+                e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 6);
+            });
+        }
         
     } else {
         console.error('[DOM] ❌ No se encontró el formulario de registro');

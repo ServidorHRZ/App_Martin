@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Registro</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 15px; margin: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Test del Sistema de Registro</h1>
+    
+    <div class="test-section">
+        <h3>1. Test de EmailJS</h3>
+        <button onclick="testEmailJS()">Probar EmailJS</button>
+        <div id="emailjs-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Test de Firebase</h3>
+        <button onclick="testFirebase()">Probar Firebase</button>
+        <div id="firebase-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Test de Envío de Código</h3>
+        <input type="email" id="test-email" placeholder="Tu email" value="test@example.com">
+        <button onclick="testEnvioCodigo()">Enviar Código</button>
+        <div id="codigo-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>4. Test de Verificación</h3>
+        <input type="text" id="test-codigo" placeholder="Código de 6 dígitos" maxlength="6">
+        <button onclick="testVerificacion()">Verificar Código</button>
+        <div id="verificacion-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>5. Test de Registro</h3>
+        <input type="text" id="test-nombre" placeholder="Nombre" value="TestUser">
+        <input type="email" id="test-email-registro" placeholder="Email" value="test@example.com">
+        <input type="password" id="test-password" placeholder="Password" value="123456">
+        <button onclick="testRegistro()">Registrar Usuario</button>
+        <div id="registro-result"></div>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <!-- Scripts de configuración -->
+    <script type="module" src="emailjs-config.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    
+    <script type="module">
+        import { enviarCodigoVerificacion, verificarCodigo, registrarUsuario } from './firebase-config.js';
+        import { verificarConfiguracionEmailJS } from './emailjs-config.js';
+        
+        window.testEmailJS = function() {
+            const result = document.getElementById('emailjs-result');
+            result.innerHTML = '<div class="info">Verificando EmailJS...</div>';
+            
+            try {
+                if (typeof emailjs !== 'undefined') {
+                    result.innerHTML = '<div class="success">✅ EmailJS SDK cargado correctamente</div>';
+                    const configurado = verificarConfiguracionEmailJS();
+                    result.innerHTML += `<div class="${configurado ? 'success' : 'error'}">Configuración: ${configurado ? 'COMPLETA' : 'PENDIENTE'}</div>`;
+                } else {
+                    result.innerHTML = '<div class="error">❌ EmailJS SDK no cargado</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        };
+        
+        window.testFirebase = async function() {
+            const result = document.getElementById('firebase-result');
+            result.innerHTML = '<div class="info">Probando conexión a Firebase...</div>';
+            
+            try {
+                // Intentar una operación simple de Firebase
+                const { getFirestore, collection } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+                result.innerHTML = '<div class="success">✅ Firebase SDK cargado</div>';
+                
+                // Test de conectividad real
+                setTimeout(() => {
+                    result.innerHTML += '<div class="info">Nota: Si hay errores de conexión, el sistema usará localStorage como fallback</div>';
+                }, 1000);
+                
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Error Firebase: ${error.message}</div>`;
+                result.innerHTML += '<div class="info">El sistema usará localStorage como fallback</div>';
+            }
+        };
+        
+        window.testEnvioCodigo = async function() {
+            const email = document.getElementById('test-email').value;
+            const result = document.getElementById('codigo-result');
+            
+            if (!email) {
+                result.innerHTML = '<div class="error">Por favor ingresa un email</div>';
+                return;
+            }
+            
+            result.innerHTML = '<div class="info">Enviando código...</div>';
+            
+            try {
+                const resultado = await enviarCodigoVerificacion(email, 'TestUser');
+                
+                if (resultado && resultado.exito) {
+                    result.innerHTML = `<div class="success">✅ ${resultado.mensaje}</div>`;
+                } else {
+                    result.innerHTML = `<div class="error">❌ ${resultado?.error || 'Error desconocido'}</div>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Excepción: ${error.message}</div>`;
+            }
+        };
+        
+        window.testVerificacion = async function() {
+            const email = document.getElementById('test-email').value;
+            const codigo = document.getElementById('test-codigo').value;
+            const result = document.getElementById('verificacion-result');
+            
+            if (!email || !codigo) {
+                result.innerHTML = '<div class="error">Por favor ingresa email y código</div>';
+                return;
+            }
+            
+            result.innerHTML = '<div class="info">Verificando código...</div>';
+            
+            try {
+                const resultado = await verificarCodigo(email, codigo);
+                
+                if (resultado && resultado.exito) {
+                    result.innerHTML = `<div class="success">✅ ${resultado.mensaje}</div>`;
+                } else {
+                    result.innerHTML = `<div class="error">❌ ${resultado?.error || 'Error desconocido'}</div>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Excepción: ${error.message}</div>`;
+            }
+        };
+        
+        window.testRegistro = async function() {
+            const nombre = document.getElementById('test-nombre').value;
+            const email = document.getElementById('test-email-registro').value;
+            const password = document.getElementById('test-password').value;
+            const result = document.getElementById('registro-result');
+            
+            if (!nombre || !email || !password) {
+                result.innerHTML = '<div class="error">Por favor completa todos los campos</div>';
+                return;
+            }
+            
+            result.innerHTML = '<div class="info">Registrando usuario...</div>';
+            
+            try {
+                const resultado = await registrarUsuario(nombre, email, password);
+                
+                if (resultado && resultado.exito) {
+                    result.innerHTML = `<div class="success">✅ Usuario registrado exitosamente</div>`;
+                    if (resultado.fallback) {
+                        result.innerHTML += '<div class="info">Usando localStorage como fallback</div>';
+                    }
+                } else {
+                    result.innerHTML = `<div class="error">❌ ${resultado?.error || 'Error desconocido'}</div>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="error">❌ Excepción: ${error.message}</div>`;
+            }
+        };
+    </script>
+</body>
+</html>

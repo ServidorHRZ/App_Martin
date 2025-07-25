@@ -121,14 +121,81 @@
     height: 24px;
 }
 
+/* Estilos para el botón de enviar código */
+#boton-enviar-codigo {
+    background-color: #6200ee;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 12px;
+    height: 56px;
+    box-shadow: 0 2px 4px rgba(98, 0, 238, 0.2);
+    transition: all 0.2s ease;
+}
+
+#boton-enviar-codigo:hover {
+    background-color: #5500cc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(98, 0, 238, 0.3);
+}
+
+#boton-enviar-codigo:active {
+    background-color: #4400aa;
+    transform: scale(0.98);
+}
+
+#boton-enviar-codigo:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el campo de código de verificación */
+#campo-verificacion {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos especiales para el input de código */
+#codigo-verificacion {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+#codigo-verificacion::placeholder {
+    letter-spacing: normal;
+    font-weight: normal;
+}
+
 /* Ajustes para dispositivos móviles */
 @media (max-width: 768px) {
     .formulario-registro {
         padding: 20px;
-        margin-top: 25vh; /* Esto centrará mejor el formulario en la pantalla */
+        margin-top: 20vh; /* Ajustado para acomodar el campo adicional */
     }
     
     .campo-entrada {
         margin-bottom: 0;
+    }
+    
+    #codigo-verificacion {
+        font-size: 16px;
     }
 } 
