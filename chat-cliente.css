@@ -1,0 +1,399 @@
+/* Estilos para el sistema de chat del cliente */
+
+/* Botón flotante de chat */
+.chat-cliente-flotante {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #28a745;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.chat-cliente-flotante:hover {
+    background: #1e7e34;
+    transform: scale(1.1);
+}
+
+.chat-cliente-flotante.tiene-mensajes {
+    animation: pulsoVerde 2s infinite;
+}
+
+@keyframes pulsoVerde {
+    0% { box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(40, 167, 69, 0.6); }
+    100% { box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); }
+}
+
+/* Modal de selección de asesor */
+.modal-seleccion-asesor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-seleccion-asesor.mostrar {
+    display: flex;
+}
+
+.contenedor-seleccion-asesor {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.header-seleccion-asesor {
+    background: #28a745;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.cerrar-seleccion-asesor {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.lista-asesores-chat {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.asesor-chat-item {
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.asesor-chat-item:hover {
+    border-color: #28a745;
+    background: #f8f9fa;
+}
+
+.asesor-avatar {
+    width: 50px;
+    height: 50px;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+}
+
+.asesor-info-chat {
+    flex: 1;
+}
+
+.asesor-nombre-chat {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.asesor-estado-chat {
+    font-size: 14px;
+    color: #28a745;
+}
+
+/* Modal de chat individual del cliente */
+.modal-chat-cliente {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-chat-cliente.mostrar {
+    display: flex;
+}
+
+.contenedor-chat-cliente {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.header-chat-cliente {
+    background: #28a745;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-asesor-chat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-asesor {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nombre-asesor-chat {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.cerrar-chat-cliente {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mensajes-container-cliente {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.mensaje-cliente {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.mensaje-cliente.enviado {
+    flex-direction: row-reverse;
+}
+
+.mensaje-contenido-cliente {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.mensaje-cliente.recibido .mensaje-contenido-cliente {
+    background: white;
+    color: #333;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.mensaje-cliente.enviado .mensaje-contenido-cliente {
+    background: #28a745;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.mensaje-hora-cliente {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+.mensaje-cliente.recibido .mensaje-hora-cliente {
+    color: #666;
+}
+
+.mensaje-cliente.enviado .mensaje-hora-cliente {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.input-container-cliente {
+    padding: 15px 20px;
+    background: white;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 12px 12px;
+}
+
+.input-mensaje-cliente {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.campo-mensaje-cliente {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 10px 15px;
+    resize: none;
+    max-height: 100px;
+    min-height: 40px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.campo-mensaje-cliente:focus {
+    border-color: #28a745;
+}
+
+.btn-enviar-cliente {
+    background: #28a745;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-enviar-cliente:hover {
+    background: #1e7e34;
+}
+
+.btn-enviar-cliente:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Sin asesores disponibles */
+.sin-asesores {
+    padding: 40px 20px;
+    text-align: center;
+    color: #666;
+}
+
+.sin-asesores h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Indicador de conversación existente */
+.conversacion-existente {
+    background: #e8f5e8;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 20px;
+    text-align: center;
+}
+
+.conversacion-existente h4 {
+    color: #28a745;
+    margin-bottom: 8px;
+}
+
+.conversacion-existente p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.btn-continuar-chat {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-continuar-chat:hover {
+    background: #1e7e34;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor-seleccion-asesor,
+    .contenedor-chat-cliente {
+        width: 95%;
+        height: 90vh;
+    }
+    
+    .chat-cliente-flotante {
+        bottom: 150px;
+        right: 15px;
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+}
+
+/* Scrollbar personalizado */
+.mensajes-container-cliente::-webkit-scrollbar,
+.lista-asesores-chat::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mensajes-container-cliente::-webkit-scrollbar-track,
+.lista-asesores-chat::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.mensajes-container-cliente::-webkit-scrollbar-thumb,
+.lista-asesores-chat::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.mensajes-container-cliente::-webkit-scrollbar-thumb:hover,
+.lista-asesores-chat::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
