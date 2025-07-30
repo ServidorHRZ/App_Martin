@@ -236,6 +236,133 @@
     align-items: flex-end;
 }
 
+/* Botón para seleccionar imagen */
+.btn-imagen-cliente {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-imagen-cliente:hover {
+    background: #e9ecef;
+    color: #333;
+    border-color: #28a745;
+}
+
+.btn-imagen-cliente:disabled {
+    background: #f8f9fa;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Preview de imagen antes de enviar */
+.preview-imagen-cliente {
+    margin-top: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.preview-contenedor {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.preview-contenedor img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-cancelar-imagen {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cancelar-imagen:hover {
+    background: #c82333;
+}
+
+.btn-enviar-imagen {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-enviar-imagen:hover {
+    background: #1e7e34;
+    transform: translateY(-1px);
+}
+
+.btn-enviar-imagen:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Estilos para mensajes con imagen */
+.mensaje-imagen {
+    padding: 8px !important;
+    max-width: 80% !important;
+}
+
+.imagen-mensaje {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.imagen-mensaje:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación de carga */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .campo-mensaje-cliente {
     flex: 1;
     border: 1px solid #ddd;

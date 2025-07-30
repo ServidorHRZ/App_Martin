@@ -23,6 +23,7 @@ class ChatCliente {
         this.asesorSeleccionado = null;
         this.unsubscribeMensajes = null;
         this.unsubscribeConversacion = null;
+        this.imagenSeleccionada = null;
         
         this.inicializar();
     }
@@ -78,6 +79,13 @@ class ChatCliente {
                 </div>
                 <div class="input-container-cliente">
                     <div class="input-mensaje-cliente">
+                        <button class="btn-imagen-cliente" id="btnImagenCliente" onclick="chatCliente.seleccionarImagen()" title="Enviar imagen">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
                         <textarea 
                             class="campo-mensaje-cliente" 
                             id="campoMensajeCliente" 
@@ -86,6 +94,20 @@ class ChatCliente {
                         ></textarea>
                         <button class="btn-enviar-cliente" id="btnEnviarCliente" onclick="chatCliente.enviarMensaje()">
                             ➤
+                        </button>
+                    </div>
+                    <input type="file" id="inputImagenCliente" accept="image/*" style="display: none;" onchange="chatCliente.manejarSeleccionImagen(event)">
+                    <div class="preview-imagen-cliente" id="previewImagenCliente" style="display: none;">
+                        <div class="preview-contenedor">
+                            <img id="imagenPreview" src="" alt="Preview">
+                            <button class="btn-cancelar-imagen" onclick="chatCliente.cancelarImagen()">×</button>
+                        </div>
+                        <button class="btn-enviar-imagen" onclick="chatCliente.enviarImagen()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Enviar Imagen
                         </button>
                     </div>
                 </div>
@@ -373,14 +395,26 @@ class ChatCliente {
                 minute: '2-digit' 
             }) : '';
 
-            html += `
-                <div class="mensaje-cliente ${esEnviado ? 'enviado' : 'recibido'}">
-                    <div class="mensaje-contenido-cliente">
-                        ${mensaje.texto}
-                        <div class="mensaje-hora-cliente">${horaFormateada}</div>
+            // Verificar si es un mensaje con imagen
+            if (mensaje.tipo === 'imagen' && mensaje.imagen) {
+                html += `
+                    <div class="mensaje-cliente ${esEnviado ? 'enviado' : 'recibido'}">
+                        <div class="mensaje-contenido-cliente mensaje-imagen">
+                            <img src="${mensaje.imagen}" alt="Imagen enviada" class="imagen-mensaje" onclick="this.requestFullscreen()">
+                            <div class="mensaje-hora-cliente">${horaFormateada}</div>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                html += `
+                    <div class="mensaje-cliente ${esEnviado ? 'enviado' : 'recibido'}">
+                        <div class="mensaje-contenido-cliente">
+                            ${mensaje.texto}
+                            <div class="mensaje-hora-cliente">${horaFormateada}</div>
+                        </div>
+                    </div>
+                `;
+            }
         });
 
         mensajesContainer.innerHTML = html;
@@ -472,6 +506,123 @@ class ChatCliente {
             toast.classList.remove('mostrar');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
+    }
+
+    // Funciones para manejo de imágenes
+    seleccionarImagen() {
+        document.getElementById('inputImagenCliente').click();
+    }
+
+    manejarSeleccionImagen(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Validar tipo de archivo
+        if (!file.type.startsWith('image/')) {
+            this.mostrarToast('Por favor selecciona una imagen válida', 'error');
+            return;
+        }
+
+        // Validar tamaño (máximo 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            this.mostrarToast('La imagen es muy grande. Máximo 5MB', 'error');
+            return;
+        }
+
+        // Mostrar preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('imagenPreview').src = e.target.result;
+            document.getElementById('previewImagenCliente').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        // Guardar archivo para envío
+        this.imagenSeleccionada = file;
+    }
+
+    cancelarImagen() {
+        document.getElementById('previewImagenCliente').style.display = 'none';
+        document.getElementById('inputImagenCliente').value = '';
+        this.imagenSeleccionada = null;
+    }
+
+    async enviarImagen() {
+        if (!this.imagenSeleccionada || !this.conversacionActual) return;
+
+        const btnEnviarImagen = document.querySelector('.btn-enviar-imagen');
+        const btnImagenCliente = document.getElementById('btnImagenCliente');
+
+        try {
+            btnEnviarImagen.disabled = true;
+            btnImagenCliente.disabled = true;
+            btnEnviarImagen.innerHTML = `
+                <div style="width: 16px; height: 16px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                Subiendo...
+            `;
+
+            // Subir imagen a ImgBB
+            const urlImagen = await this.subirImagenImgBB(this.imagenSeleccionada);
+
+            // Enviar mensaje con imagen
+            const mensajesRef = collection(this.db, 'conversaciones', this.conversacionActual, 'mensajes');
+            await addDoc(mensajesRef, {
+                texto: '[Imagen]',
+                imagen: urlImagen,
+                remitente: 'cliente',
+                timestamp: serverTimestamp(),
+                tipo: 'imagen'
+            });
+
+            // Actualizar conversación principal
+            const conversacionRef = doc(this.db, 'conversaciones', this.conversacionActual);
+            await updateDoc(conversacionRef, {
+                ultimoMensaje: '[Imagen]',
+                ultimaActividad: serverTimestamp(),
+                mensajesNuevosAsesor: (await getDoc(conversacionRef)).data()?.mensajesNuevosAsesor + 1 || 1
+            });
+
+            // Limpiar
+            this.cancelarImagen();
+            this.mostrarToast('Imagen enviada correctamente');
+
+        } catch (error) {
+            console.error('Error enviando imagen:', error);
+            this.mostrarToast('Error al enviar imagen', 'error');
+        } finally {
+            btnEnviarImagen.disabled = false;
+            btnImagenCliente.disabled = false;
+            btnEnviarImagen.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Enviar Imagen
+            `;
+        }
+    }
+
+    async subirImagenImgBB(file) {
+        const apiKey = '31d404c5b858689b8dc3103bf0ade0c3';
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al subir imagen a ImgBB');
+        }
+
+        const data = await response.json();
+        
+        if (data.success) {
+            return data.data.url;
+        } else {
+            throw new Error('Error en la respuesta de ImgBB');
+        }
     }
 
     destruir() {

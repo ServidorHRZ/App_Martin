@@ -265,6 +265,28 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
+/* Estilos para mensajes con imagen */
+.mensaje-imagen {
+    padding: 8px !important;
+    max-width: 80% !important;
+}
+
+.imagen-mensaje {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.imagen-mensaje:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .input-container {
     padding: 15px 20px;
     background: white;

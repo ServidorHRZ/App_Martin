@@ -382,14 +382,26 @@ class ChatAsesor {
                 minute: '2-digit' 
             }) : '';
 
-            html += `
-                <div class="mensaje ${esEnviado ? 'enviado' : 'recibido'}">
-                    <div class="mensaje-contenido">
-                        ${mensaje.texto}
-                        <div class="mensaje-hora">${horaFormateada}</div>
+            // Verificar si es un mensaje con imagen
+            if (mensaje.tipo === 'imagen' && mensaje.imagen) {
+                html += `
+                    <div class="mensaje ${esEnviado ? 'enviado' : 'recibido'}">
+                        <div class="mensaje-contenido mensaje-imagen">
+                            <img src="${mensaje.imagen}" alt="Imagen enviada" class="imagen-mensaje" onclick="this.requestFullscreen()">
+                            <div class="mensaje-hora">${horaFormateada}</div>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                html += `
+                    <div class="mensaje ${esEnviado ? 'enviado' : 'recibido'}">
+                        <div class="mensaje-contenido">
+                            ${mensaje.texto}
+                            <div class="mensaje-hora">${horaFormateada}</div>
+                        </div>
+                    </div>
+                `;
+            }
         });
 
         mensajesContainer.innerHTML = html;
