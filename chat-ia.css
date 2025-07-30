@@ -1,0 +1,303 @@
+/* Estilos para el chat con IA */
+
+/* Modal de chat con IA */
+.modal-chat-ia {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2200;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-chat-ia.mostrar {
+    display: flex;
+}
+
+.contenedor-chat-ia {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.header-chat-ia {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-ia {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-ia {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.nombre-ia {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.cerrar-chat-ia {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.cerrar-chat-ia:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mensajes-container-ia {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: linear-gradient(to bottom, #f8f9ff 0%, #f0f2ff 100%);
+}
+
+.mensaje-ia {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.mensaje-ia.enviado {
+    flex-direction: row-reverse;
+}
+
+.mensaje-contenido-ia {
+    max-width: 75%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    word-wrap: break-word;
+    position: relative;
+    line-height: 1.4;
+}
+
+.mensaje-ia.recibido .mensaje-contenido-ia {
+    background: white;
+    color: #333;
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8eaff;
+}
+
+.mensaje-ia.enviado .mensaje-contenido-ia {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.mensaje-hora-ia {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 6px;
+    text-align: right;
+}
+
+.mensaje-ia.recibido .mensaje-hora-ia {
+    color: #666;
+    text-align: left;
+}
+
+.mensaje-ia.enviado .mensaje-hora-ia {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Indicador de escritura */
+.indicador-escritura .mensaje-contenido-ia {
+    padding: 16px 20px;
+}
+
+.puntos-escritura {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.puntos-escritura span {
+    width: 8px;
+    height: 8px;
+    background: #667eea;
+    border-radius: 50%;
+    animation: puntosEscritura 1.4s infinite ease-in-out;
+}
+
+.puntos-escritura span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.puntos-escritura span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes puntosEscritura {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.input-container-ia {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e8eaff;
+}
+
+.input-mensaje-ia {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.campo-mensaje-ia {
+    flex: 1;
+    border: 2px solid #e8eaff;
+    border-radius: 25px;
+    padding: 12px 18px;
+    resize: none;
+    max-height: 100px;
+    min-height: 44px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #f8f9ff;
+}
+
+.campo-mensaje-ia:focus {
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.btn-enviar-ia {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-enviar-ia:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-enviar-ia:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estilos para texto formateado */
+.mensaje-contenido-ia strong {
+    font-weight: 700;
+}
+
+.mensaje-contenido-ia em {
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor-chat-ia {
+        width: 95%;
+        height: 90vh;
+        border-radius: 12px;
+    }
+    
+    .header-chat-ia {
+        padding: 15px;
+    }
+    
+    .mensajes-container-ia {
+        padding: 15px;
+    }
+    
+    .input-container-ia {
+        padding: 15px;
+    }
+    
+    .mensaje-contenido-ia {
+        max-width: 85%;
+        padding: 12px 16px;
+    }
+}
+
+/* Scrollbar personalizado */
+.mensajes-container-ia::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mensajes-container-ia::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.mensajes-container-ia::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.mensajes-container-ia::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+/* Animación de entrada del modal */
+.modal-chat-ia.mostrar .contenedor-chat-ia {
+    animation: entradaModal 0.3s ease-out;
+}
+
+@keyframes entradaModal {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}

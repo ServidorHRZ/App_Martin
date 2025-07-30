@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>XSHOP - Tienda</title>
     <link rel="stylesheet" href="chat-cliente.css">
+    <link rel="stylesheet" href="chat-ia.css">
     <style>
         * {
             margin: 0;
@@ -1282,6 +1283,26 @@
             border-color: #007bff;
         }
 
+        /* Estilos especiales para el chat IA */
+        .chat-ia-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .chat-ia-card:hover {
+            border-color: #ffffff;
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .chat-ia-card .chat-nombre {
+            color: white;
+        }
+
+        .chat-ia-card .chat-ultimo-mensaje {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .chat-header {
             display: flex;
             align-items: center;
@@ -1294,6 +1315,14 @@
             border-radius: 50%;
             margin-right: 15px;
             object-fit: cover;
+        }
+
+        .chat-avatar-ia {
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
         }
 
         .chat-info {
@@ -1316,6 +1345,10 @@
             gap: 5px;
         }
 
+        .chat-estado-ia {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .punto-verde {
             width: 8px;
             height: 8px;
@@ -1324,11 +1357,26 @@
             display: inline-block;
         }
 
+        .punto-ia {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulsoIA 2s infinite;
+        }
+
+        @keyframes pulsoIA {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .chat-ultimo-mensaje {
             color: #666666;
             font-size: 14px;
             margin-bottom: 15px;
             font-style: italic;
+            line-height: 1.4;
         }
 
         .chat-acciones {
@@ -1356,6 +1404,42 @@
         .btn-chat:hover {
             background: #128c7e;
             transform: translateY(-1px);
+        }
+
+        .btn-chat-ia {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-chat-ia:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Separador entre IA y asesores humanos */
+        .separador-chats {
+            text-align: center;
+            margin: 30px 0 20px 0;
+            position: relative;
+        }
+
+        .separador-chats::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .separador-chats span {
+            background: #f5f5f7;
+            padding: 0 15px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .chip-color,
@@ -1489,11 +1573,48 @@
         <div id="seccionChats" class="seccion-contenido" style="display: none;">
             <div class="contenedor-chats">
                 <div class="info-chats">
-                    <h3>Chat con Asesores</h3>
-                    <p>Selecciona un asesor para iniciar una conversación</p>
+                    <h3>Chats Disponibles</h3>
+                    <p>Elige entre asesor virtual IA o asesores humanos</p>
                 </div>
+                
+                <!-- Chat con IA - Primera opción -->
+                <div class="chat-card chat-ia-card" onclick="chatIA.abrirChatIA()">
+                    <div class="chat-header">
+                        <div class="chat-avatar chat-avatar-ia">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 21L9.5 16.5L13 18L9.5 19.5L8 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 5L17 8L20 9L17 10L16 13L15 10L12 9L15 8L16 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="chat-info">
+                            <div class="chat-nombre">Asesor Virtual IA</div>
+                            <div class="chat-estado chat-estado-ia">
+                                <span class="punto-ia"></span>
+                                Siempre disponible
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-ultimo-mensaje">
+                        ¡Hola! Soy tu asesor virtual. Pregúntame sobre productos, tallas, envíos y más...
+                    </div>
+                    <div class="chat-acciones">
+                        <button class="btn-chat btn-chat-ia">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Iniciar Chat IA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Separador -->
+                <div class="separador-chats">
+                    <span>Asesores Humanos</span>
+                </div>
+
                 <div class="lista-chats" id="listaChats">
-                    <!-- Los chats se cargarán dinámicamente -->
+                    <!-- Los chats con asesores humanos se cargarán dinámicamente -->
                 </div>
             </div>
         </div>
@@ -3468,6 +3589,9 @@
                 mostrarProductos();
             };
         </script>
+
+        <!-- Script del Chat con IA -->
+        <script src="chat-ia.js"></script>
 </body>
 
 </html>
