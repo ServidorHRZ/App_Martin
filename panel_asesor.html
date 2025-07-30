@@ -77,6 +77,123 @@
             border-bottom: 1px solid #eee;
         }
 
+        /* Botón de reportes - Alineado exactamente como el botón de chat */
+        .btn-reportes {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #007bff;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-reportes:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Modal de reportes */
+        .modal-reportes {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-reportes.mostrar {
+            display: flex;
+        }
+
+        .contenedor-reportes {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .header-reportes {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cerrar-reportes {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .body-reportes {
+            padding: 20px;
+        }
+
+        .selector-mes {
+            margin-bottom: 20px;
+        }
+
+        .selector-mes label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .selector-mes select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn-generar-pdf {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-generar-pdf:hover {
+            background: #1e7e34;
+        }
+
+        .btn-generar-pdf:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
         .filtro-btn {
             padding: 10px 20px;
             border: none;
@@ -322,6 +439,43 @@
 
         <div class="lista-pedidos" id="listaPedidos">
             <!-- Los pedidos se cargarán dinámicamente -->
+        </div>
+
+        <!-- Botón flotante de reportes -->
+        <button class="btn-reportes" onclick="abrirModalReportes()" title="Generar reporte PDF">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+
+        <!-- Modal de reportes -->
+        <div class="modal-reportes" id="modalReportes">
+            <div class="contenedor-reportes">
+                <div class="header-reportes">
+                    <h3>Generar Reporte de Ventas</h3>
+                    <button class="cerrar-reportes" onclick="cerrarModalReportes()">&times;</button>
+                </div>
+                <div class="body-reportes">
+                    <div class="selector-mes">
+                        <label for="selectMes">Seleccionar Mes:</label>
+                        <select id="selectMes">
+                            <!-- Las opciones se generarán dinámicamente -->
+                        </select>
+                    </div>
+                    <button class="btn-generar-pdf" onclick="generarReportePDF()" id="btnGenerarPDF">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                            <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Generar PDF
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Agregar modal para ver imagen grande del comprobante -->
@@ -592,6 +746,294 @@
           document.getElementById('modalComprobante').style.display = 'none';
           document.getElementById('imgComprobanteGrande').src = '';
         };
+
+        // Funciones para el modal de reportes
+        window.abrirModalReportes = function() {
+            cargarOpcionesMeses();
+            document.getElementById('modalReportes').classList.add('mostrar');
+        };
+
+        window.cerrarModalReportes = function() {
+            document.getElementById('modalReportes').classList.remove('mostrar');
+        };
+
+        // Cargar opciones de meses disponibles (solo con ventas aceptadas)
+        async function cargarOpcionesMeses() {
+            const selectMes = document.getElementById('selectMes');
+            const meses = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
+
+            try {
+                // Obtener todos los pedidos finalizados (ventas aceptadas)
+                const pedidosRef = collection(db, 'pedidos');
+                const q = query(pedidosRef, where('estado', '==', 'finalizado'));
+                const snapshot = await getDocs(q);
+
+                // Extraer meses únicos con ventas
+                const mesesConVentas = new Set();
+                
+                snapshot.forEach((doc) => {
+                    const pedido = doc.data();
+                    const fecha = pedido.fecha.toDate();
+                    const año = fecha.getFullYear();
+                    const mes = fecha.getMonth() + 1;
+                    const mesFormato = `${año}-${mes.toString().padStart(2, '0')}`;
+                    mesesConVentas.add(mesFormato);
+                });
+
+                // Convertir a array y ordenar (más reciente primero)
+                const mesesOrdenados = Array.from(mesesConVentas).sort((a, b) => b.localeCompare(a));
+
+                let html = '<option value="">Seleccionar mes</option>';
+                
+                if (mesesOrdenados.length === 0) {
+                    html += '<option value="" disabled>No hay ventas registradas</option>';
+                } else {
+                    mesesOrdenados.forEach(mesValor => {
+                        const [año, mes] = mesValor.split('-');
+                        const nombreMes = meses[parseInt(mes) - 1];
+                        html += `<option value="${mesValor}">${nombreMes} ${año}</option>`;
+                    });
+                }
+                
+                selectMes.innerHTML = html;
+            } catch (error) {
+                console.error('Error cargando meses:', error);
+                selectMes.innerHTML = '<option value="">Error al cargar meses</option>';
+            }
+        }
+
+        // Generar reporte PDF
+        window.generarReportePDF = async function() {
+            const selectMes = document.getElementById('selectMes');
+            const mesSeleccionado = selectMes.value;
+            const btnGenerar = document.getElementById('btnGenerarPDF');
+
+            if (!mesSeleccionado) {
+                mostrarToast('Selecciona un mes', 'error');
+                return;
+            }
+
+            try {
+                btnGenerar.disabled = true;
+                btnGenerar.textContent = 'Generando...';
+
+                // Obtener datos del mes seleccionado
+                const [año, mes] = mesSeleccionado.split('-');
+                const fechaInicio = new Date(parseInt(año), parseInt(mes) - 1, 1);
+                const fechaFin = new Date(parseInt(año), parseInt(mes), 0, 23, 59, 59);
+
+                const pedidosRef = collection(db, 'pedidos');
+                const q = query(
+                    pedidosRef,
+                    where('fecha', '>=', fechaInicio),
+                    where('fecha', '<=', fechaFin),
+                    orderBy('fecha', 'desc')
+                );
+
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    mostrarToast('No hay ventas en el mes seleccionado', 'error');
+                    return;
+                }
+
+                // Procesar datos para el reporte
+                const ventas = [];
+                let totalVentas = 0;
+                let totalPedidos = 0;
+                const ventasPorEstado = {
+                    finalizado: 0,
+                    pagado: 0,
+                    rechazado: 0,
+                    pendiente: 0
+                };
+                const productosMasVendidos = {};
+
+                snapshot.forEach((doc) => {
+                    const pedido = doc.data();
+                    const fecha = pedido.fecha.toDate();
+                    
+                    ventas.push({
+                        numero: pedido.numeroPedido,
+                        fecha: fecha.toLocaleDateString('es-ES'),
+                        cliente: pedido.cliente.email,
+                        total: pedido.total,
+                        estado: pedido.estado,
+                        productos: pedido.productos
+                    });
+
+                    totalPedidos++;
+                    if (pedido.estado === 'finalizado') {
+                        totalVentas += pedido.total;
+                    }
+                    
+                    ventasPorEstado[pedido.estado] = (ventasPorEstado[pedido.estado] || 0) + 1;
+
+                    // Contar productos más vendidos
+                    pedido.productos.forEach(prod => {
+                        const key = prod.nombre;
+                        if (!productosMasVendidos[key]) {
+                            productosMasVendidos[key] = { cantidad: 0, ingresos: 0 };
+                        }
+                        productosMasVendidos[key].cantidad += prod.cantidad;
+                        if (pedido.estado === 'finalizado') {
+                            productosMasVendidos[key].ingresos += prod.precio * prod.cantidad;
+                        }
+                    });
+                });
+
+                // Generar PDF
+                await generarPDFReporte(mesSeleccionado, ventas, {
+                    totalVentas,
+                    totalPedidos,
+                    ventasPorEstado,
+                    productosMasVendidos
+                });
+
+                mostrarToast('Reporte PDF generado correctamente');
+                cerrarModalReportes();
+
+            } catch (error) {
+                console.error('Error generando reporte:', error);
+                mostrarToast('Error al generar el reporte', 'error');
+            } finally {
+                btnGenerar.disabled = false;
+                btnGenerar.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                        <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Generar PDF
+                `;
+            }
+        };
+
+        // Función para generar el PDF usando jsPDF
+        async function generarPDFReporte(mesSeleccionado, ventas, estadisticas) {
+            // Cargar jsPDF dinámicamente
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+            document.head.appendChild(script);
+
+            script.onload = function() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Configuración
+                const pageWidth = doc.internal.pageSize.width;
+                const margin = 20;
+                let yPosition = 30;
+
+                // Título
+                doc.setFontSize(20);
+                doc.setFont(undefined, 'bold');
+                doc.text('REPORTE DE VENTAS - XSHOP', pageWidth / 2, yPosition, { align: 'center' });
+                
+                yPosition += 15;
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'normal');
+                const [año, mes] = mesSeleccionado.split('-');
+                const nombreMes = new Date(parseInt(año), parseInt(mes) - 1).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                doc.text(`Período: ${nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1)}`, pageWidth / 2, yPosition, { align: 'center' });
+
+                yPosition += 20;
+
+                // Resumen estadístico
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('RESUMEN EJECUTIVO', margin, yPosition);
+                yPosition += 15;
+
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'normal');
+                doc.text(`Total de Pedidos: ${estadisticas.totalPedidos}`, margin, yPosition);
+                yPosition += 8;
+                doc.text(`Ventas Confirmadas: ${estadisticas.ventasPorEstado.finalizado || 0}`, margin, yPosition);
+                yPosition += 8;
+                doc.text(`Ingresos Totales: S/ ${estadisticas.totalVentas.toFixed(2)}`, margin, yPosition);
+                yPosition += 8;
+                doc.text(`Pedidos Pendientes: ${estadisticas.ventasPorEstado.pagado || 0}`, margin, yPosition);
+                yPosition += 8;
+                doc.text(`Pedidos Rechazados: ${estadisticas.ventasPorEstado.rechazado || 0}`, margin, yPosition);
+
+                yPosition += 20;
+
+                // Productos más vendidos
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('PRODUCTOS MÁS VENDIDOS', margin, yPosition);
+                yPosition += 15;
+
+                const productosOrdenados = Object.entries(estadisticas.productosMasVendidos)
+                    .sort((a, b) => b[1].cantidad - a[1].cantidad)
+                    .slice(0, 5);
+
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'normal');
+                productosOrdenados.forEach(([producto, datos], index) => {
+                    doc.text(`${index + 1}. ${producto}: ${datos.cantidad} unidades - S/ ${datos.ingresos.toFixed(2)}`, margin, yPosition);
+                    yPosition += 8;
+                });
+
+                yPosition += 15;
+
+                // Detalle de ventas
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('DETALLE DE VENTAS', margin, yPosition);
+                yPosition += 15;
+
+                // Encabezados de tabla
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text('Pedido', margin, yPosition);
+                doc.text('Fecha', margin + 40, yPosition);
+                doc.text('Cliente', margin + 80, yPosition);
+                doc.text('Estado', margin + 130, yPosition);
+                doc.text('Total', margin + 160, yPosition);
+                yPosition += 8;
+
+                // Línea separadora
+                doc.line(margin, yPosition, pageWidth - margin, yPosition);
+                yPosition += 5;
+
+                // Datos de ventas
+                doc.setFont(undefined, 'normal');
+                ventas.forEach((venta, index) => {
+                    if (yPosition > 270) { // Nueva página si es necesario
+                        doc.addPage();
+                        yPosition = 30;
+                    }
+
+                    doc.text(venta.numero, margin, yPosition);
+                    doc.text(venta.fecha, margin + 40, yPosition);
+                    doc.text(venta.cliente.substring(0, 20) + '...', margin + 80, yPosition);
+                    doc.text(venta.estado, margin + 130, yPosition);
+                    doc.text(`S/ ${venta.total.toFixed(2)}`, margin + 160, yPosition);
+                    yPosition += 8;
+                });
+
+                // Pie de página
+                const fechaGeneracion = new Date().toLocaleDateString('es-ES');
+                doc.setFontSize(8);
+                doc.text(`Reporte generado el ${fechaGeneracion}`, margin, doc.internal.pageSize.height - 10);
+
+                // Descargar PDF
+                const nombreArchivo = `Reporte_Ventas_${mesSeleccionado}.pdf`;
+                doc.save(nombreArchivo);
+            };
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modalReportes').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModalReportes();
+            }
+        });
     </script>
 </body>
 </html> 
