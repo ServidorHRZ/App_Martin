@@ -1073,6 +1073,40 @@
             transform: scale(1.1);
         }
 
+        /* Botón de chat flotante */
+        .chat-flotante-cliente {
+            position: fixed;
+            bottom: 160px;
+            right: 20px;
+            background: #000000;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            z-index: 999;
+            border: none;
+        }
+
+        .chat-flotante-cliente:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-flotante-cliente.tiene-mensajes {
+            animation: pulsoChat 2s infinite;
+        }
+
+        @keyframes pulsoChat {
+            0% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(220, 53, 69, 0.6); }
+            100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+        }
+
         /* Modal de pedidos */
         .modal-pedidos {
             position: fixed;
@@ -1454,6 +1488,10 @@
         <!-- Sección de chats -->
         <div id="seccionChats" class="seccion-contenido" style="display: none;">
             <div class="contenedor-chats">
+                <div class="info-chats">
+                    <h3>Chat con Asesores</h3>
+                    <p>Selecciona un asesor para iniciar una conversación</p>
+                </div>
                 <div class="lista-chats" id="listaChats">
                     <!-- Los chats se cargarán dinámicamente -->
                 </div>
@@ -1526,6 +1564,13 @@
             </div>
         </div>
 
+        <!-- Botón de chat flotante -->
+        <button class="chat-flotante-cliente" onclick="abrirChatFlotante()" title="Chat con asesor">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+
         <!-- 1. Botón de historial en la interfaz (después del carrito flotante) -->
         <div class="pedidos-flotante" onclick="verHistorial()" title="Ver historial de pedidos">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1574,23 +1619,8 @@
             let productos = [];
             let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-            // Variables para asesores y pedidos
-            const asesores = [
-                {
-                    id: 1,
-                    nombre: "Asesor 1",
-                    telefono: "51928106472",
-                    foto: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
-                    estado: "Disponible"
-                },
-                {
-                    id: 2,
-                    nombre: "Asesor 2",
-                    telefono: "51941828390",
-                    foto: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
-                    estado: "Disponible"
-                }
-            ];
+            // Variables para pedidos
+            let asesoresDisponibles = [];
 
             // Verificar acceso de cliente
             function verificarAccesoCliente() {
@@ -2595,142 +2625,21 @@
 
 
 
-            // Modificar la función realizarCompra
+            // Función para realizar compra usando chat interno
             window.realizarCompra = async function () {
-                const modalAsesor = document.getElementById('modalAsesor');
-                const listaAsesores = document.getElementById('listaAsesores');
-
-                // Generar HTML de asesores
-                let html = '';
-                asesores.forEach(asesor => {
-                    html += `
-                    <div class="asesor-item" onclick="seleccionarAsesor('${asesor.id}')">
-                        <img src="${asesor.foto}" alt="${asesor.nombre}" class="asesor-foto">
-                        <div class="asesor-info">
-                            <div class="asesor-nombre">${asesor.nombre}</div>
-                            <div class="asesor-estado">Disponible</div>
-                        </div>
-                    </div>
-                `;
-                });
-
-                listaAsesores.innerHTML = html;
-                modalAsesor.style.display = 'flex';
-            };
-
-            // Actualizar la función seleccionarAsesor
-            window.seleccionarAsesor = async function (asesorId) {
-                const asesor = asesores.find(a => a.id === parseInt(asesorId));
-                if (!asesor) return;
-
-                // Generar número de pedido
-                const numeroPedido = generarNumeroPedido();
-
-                // Calcular totales con envío e IGV
-                let subtotalGeneral = 0;
-                let envioTotal = 0;
-                let igvTotal = 0;
-
-                const productosConDetalles = carrito.map(item => {
-                    const precioBase = parseFloat(item.precio);
-                    const costoEnvio = item.tipoEnvio === 'envio' ? 15.00 : 0;
-                    const baseImponible = (precioBase + costoEnvio) * item.cantidad;
-                    const igvItem = baseImponible * 0.18;
-                    const totalItem = baseImponible + igvItem;
-
-                    subtotalGeneral += precioBase * item.cantidad;
-                    envioTotal += costoEnvio * item.cantidad;
-                    igvTotal += igvItem;
-
-                    return {
-                        id: item.id,
-                        nombre: item.nombre,
-                        precio: precioBase,
-                        talla: item.talla,
-                        color: item.color,
-                        tipoEnvio: item.tipoEnvio,
-                        cantidad: item.cantidad,
-                        costoEnvio: costoEnvio,
-                        totalItem: totalItem
-                    };
-                });
-
-                const totalFinal = subtotalGeneral + envioTotal + igvTotal;
-
-                // Crear objeto de pedido
-                const pedido = {
-                    numeroPedido: numeroPedido,
-                    fecha: new Date(),
-                    cliente: {
-                        email: obtenerUsuarioActual().email
-                    },
-                    asesor: {
-                        id: asesor.id,
-                        nombre: asesor.nombre
-                    },
-                    productos: productosConDetalles,
-                    subtotal: subtotalGeneral,
-                    envio: envioTotal,
-                    igv: igvTotal,
-                    total: totalFinal,
-                    estado: 'pendiente'
-                };
-
-                try {
-                    // Guardar pedido en Firestore
-                    const pedidosRef = collection(db, "pedidos");
-                    await addDoc(pedidosRef, pedido);
-
-                    // Generar mensaje para WhatsApp
-                    let mensajeWhatsApp = `*Nuevo Pedido: ${numeroPedido}*\n\n`;
-                    mensajeWhatsApp += `*Cliente:* ${pedido.cliente.email}\n\n`;
-                    mensajeWhatsApp += "*Productos:*\n";
-                    productosConDetalles.forEach(prod => {
-                        const tipoEnvioTexto = prod.tipoEnvio === 'envio' ? 'Con envío' : 'Recojo en tienda';
-                        mensajeWhatsApp += `- ${prod.nombre} (${prod.talla}, ${prod.color}) x${prod.cantidad}\n`;
-                        mensajeWhatsApp += `  ${tipoEnvioTexto} - S/ ${prod.totalItem.toFixed(2)}\n`;
-                    });
-                    mensajeWhatsApp += `\n*Resumen:*\n`;
-                    mensajeWhatsApp += `Subtotal: S/ ${subtotalGeneral.toFixed(2)}\n`;
-                    mensajeWhatsApp += `Envío: S/ ${envioTotal.toFixed(2)}\n`;
-                    mensajeWhatsApp += `IGV (18%): S/ ${igvTotal.toFixed(2)}\n`;
-                    mensajeWhatsApp += `*Total: S/ ${totalFinal.toFixed(2)}*`;
-
-                    // Codificar mensaje para URL
-                    const mensajeCodificado = encodeURIComponent(mensajeWhatsApp);
-
-                    // Abrir WhatsApp
-                    window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
-
-                    // Limpiar carrito
-                    carrito = [];
-                    localStorage.setItem('carrito', JSON.stringify(carrito));
-                    actualizarContadorCarrito();
-
-                    // Cerrar modales
-                    document.getElementById('modalAsesor').style.display = 'none';
-                    document.getElementById('modalCarrito').style.display = 'none';
-
-                    // Mostrar mensaje de éxito
-                    mostrarToast('¡Pedido realizado con éxito! Te contactaremos por WhatsApp');
-
-                } catch (error) {
-                    console.error('Error al procesar el pedido:', error);
-                    mostrarToast('Error al procesar el pedido. Por favor, intenta nuevamente.', 'error');
+                if (chatCliente) {
+                    chatCliente.mostrarSeleccionAsesor();
+                } else {
+                    mostrarToast('Sistema de chat no disponible', 'error');
                 }
             };
 
-            // Función para cerrar modal de asesor
+
+
+            // Función para cerrar modal de asesor (mantenida para compatibilidad)
             window.cerrarModalAsesor = function () {
-                document.getElementById('modalAsesor').style.display = 'none';
+                // Ya no se usa, pero se mantiene para evitar errores
             };
-
-            // Cerrar modal de asesor al hacer clic fuera
-            document.getElementById('modalAsesor').addEventListener('click', function (e) {
-                if (e.target === this) {
-                    this.style.display = 'none';
-                }
-            });
 
             // Inicializar aplicación
             document.addEventListener('DOMContentLoaded', async function () {
@@ -2882,51 +2791,94 @@
             };
 
             // Función para cargar chats
-            function cargarChats() {
+            async function cargarChats() {
                 const listaChats = document.getElementById('listaChats');
 
-                let html = '';
-                asesores.forEach(asesor => {
-                    html += `
-                    <div class="chat-card">
-                        <div class="chat-header">
-                            <img src="${asesor.foto}" alt="${asesor.nombre}" class="chat-avatar">
-                            <div class="chat-info">
-                                <div class="chat-nombre">${asesor.nombre}</div>
-                                <div class="chat-estado">
-                                    <span class="punto-verde"></span>
-                                    En línea
+                try {
+                    const usuariosRef = collection(db, 'usuarios');
+                    const q = query(usuariosRef, where('rol', '==', 'asesor'));
+                    const snapshot = await getDocs(q);
+
+                    if (snapshot.empty) {
+                        listaChats.innerHTML = `
+                            <div class="sin-pedidos">
+                                <h3>No hay asesores disponibles</h3>
+                                <p>Los asesores aparecerán aquí cuando estén en línea</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let html = '';
+                    snapshot.forEach((doc) => {
+                        const asesor = doc.data();
+                        const iniciales = obtenerIniciales(asesor.nombreUsuario || asesor.email);
+
+                        html += `
+                        <div class="chat-card" onclick="iniciarChatConAsesor('${asesor.email}', '${asesor.nombreUsuario || asesor.email}')">
+                            <div class="chat-header">
+                                <div class="chat-avatar" style="width: 50px; height: 50px; border-radius: 50%; background: #007bff; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">${iniciales}</div>
+                                <div class="chat-info">
+                                    <div class="chat-nombre">${asesor.nombreUsuario || asesor.email}</div>
+                                    <div class="chat-estado">
+                                        <span class="punto-verde"></span>
+                                        Disponible
+                                    </div>
                                 </div>
                             </div>
+                            <div class="chat-ultimo-mensaje">
+                                ¡Hola! ¿En qué puedo ayudarte hoy?
+                            </div>
+                            <div class="chat-acciones">
+                                <button class="btn-chat" onclick="event.stopPropagation(); iniciarChatConAsesor('${asesor.email}', '${asesor.nombreUsuario || asesor.email}')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Iniciar Chat
+                                </button>
+                            </div>
                         </div>
-                        <div class="chat-ultimo-mensaje">
-                            ¡Hola! ¿En qué puedo ayudarte hoy?
-                        </div>
-                        <div class="chat-acciones">
-                            <button class="btn-chat" onclick="contactarAsesor('${asesor.id}')">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                Abrir Chat
-                            </button>
-                        </div>
-                    </div>
-                `;
-                });
+                    `;
+                    });
 
-                listaChats.innerHTML = html;
+                    listaChats.innerHTML = html;
+                } catch (error) {
+                    console.error('Error cargando asesores:', error);
+                    listaChats.innerHTML = `
+                        <div class="sin-pedidos">
+                            <h3>Error al cargar asesores</h3>
+                            <p>Intenta recargar la página</p>
+                        </div>
+                    `;
+                }
             }
 
-            // Función para contactar asesor directamente
-            window.contactarAsesor = function (asesorId) {
-                const asesor = asesores.find(a => a.id === parseInt(asesorId));
-                if (!asesor) return;
+            // Función para obtener iniciales
+            function obtenerIniciales(nombre) {
+                if (!nombre) return 'A';
+                const palabras = nombre.split(' ');
+                if (palabras.length >= 2) {
+                    return (palabras[0][0] + palabras[1][0]).toUpperCase();
+                }
+                return nombre[0].toUpperCase();
+            }
 
-                const usuario = obtenerUsuarioActual();
-                const mensaje = `¡Hola! Soy ${usuario.email} y me gustaría obtener información sobre sus productos. ¿Podrían ayudarme?`;
-                const mensajeCodificado = encodeURIComponent(mensaje);
+            // Función para iniciar chat con asesor
+            window.iniciarChatConAsesor = function (asesorEmail, asesorNombre) {
+                if (chatCliente) {
+                    chatCliente.seleccionarAsesor(asesorEmail, asesorNombre);
+                } else {
+                    mostrarToast('Sistema de chat no disponible', 'error');
+                }
+            };
 
-                window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
+            // Función para abrir chat desde botón flotante
+            window.abrirChatFlotante = function () {
+                if (chatCliente) {
+                    chatCliente.mostrarSeleccionAsesor();
+                } else {
+                    mostrarToast('Sistema de chat no disponible', 'error');
+                }
             };
 
             // Modificar comprarDirecto para pasar talla, color, envío, precio total y dirección
@@ -2979,50 +2931,7 @@
                 mostrarModalPago();
             };
 
-            // Modificar procesarCompraDirecta para recibir talla y color
-            window.procesarCompraDirecta = async function (asesorId, productoId, talla, color) {
-                const asesor = asesores.find(a => a.id === parseInt(asesorId));
-                const producto = productos.find(p => p.id === productoId);
-                if (!asesor || !producto) return;
-                const numeroPedido = generarNumeroPedido();
-                const pedido = {
-                    numeroPedido: numeroPedido,
-                    fecha: new Date(),
-                    cliente: {
-                        email: obtenerUsuarioActual().email
-                    },
-                    asesor: {
-                        id: asesor.id,
-                        nombre: asesor.nombre
-                    },
-                    productos: [{
-                        id: producto.id,
-                        nombre: producto.nombre,
-                        precio: producto.precio,
-                        talla: talla,
-                        color: color,
-                        cantidad: 1
-                    }],
-                    total: producto.precio,
-                    estado: 'pendiente'
-                };
-                try {
-                    const pedidosRef = collection(db, "pedidos");
-                    await addDoc(pedidosRef, pedido);
-                    let mensajeWhatsApp = `*Nuevo Pedido: ${numeroPedido}*\n\n`;
-                    mensajeWhatsApp += `*Cliente:* ${pedido.cliente.email}\n\n`;
-                    mensajeWhatsApp += "*Productos:*\n";
-                    mensajeWhatsApp += `- ${producto.nombre} (${talla}, ${color}) x1 - S/ ${producto.precio}\n`;
-                    mensajeWhatsApp += `\n*Total: S/ ${producto.precio}*`;
-                    const mensajeCodificado = encodeURIComponent(mensajeWhatsApp);
-                    window.open(`https://wa.me/${asesor.telefono}?text=${mensajeCodificado}`, '_blank');
-                    document.getElementById('modalAsesor').style.display = 'none';
-                    mostrarToast('¡Pedido realizado con éxito! Te contactaremos por WhatsApp');
-                } catch (error) {
-                    console.error('Error al procesar el pedido:', error);
-                    mostrarToast('Error al procesar el pedido. Por favor, intenta nuevamente.', 'error');
-                }
-            };
+
 
             // Función para cerrar sesión
             window.cerrarSesion = function () {

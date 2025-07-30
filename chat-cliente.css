@@ -1,38 +1,5 @@
 /* Estilos para el sistema de chat del cliente */
 
-/* Botón flotante de chat */
-.chat-cliente-flotante {
-    position: fixed;
-    bottom: 160px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background: #28a745;
-    border-radius: 50%;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-    z-index: 999;
-    transition: all 0.3s ease;
-}
-
-.chat-cliente-flotante:hover {
-    background: #1e7e34;
-    transform: scale(1.1);
-}
-
-.chat-cliente-flotante.tiene-mensajes {
-    animation: pulsoVerde 2s infinite;
-}
-
-@keyframes pulsoVerde {
-    0% { box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); }
-    50% { box-shadow: 0 4px 20px rgba(40, 167, 69, 0.6); }
-    100% { box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); }
-}
-
 /* Modal de selección de asesor */
 .modal-seleccion-asesor {
     display: none;
