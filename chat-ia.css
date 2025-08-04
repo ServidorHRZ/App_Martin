@@ -196,13 +196,22 @@
     font-size: 14px;
     outline: none;
     transition: all 0.3s ease;
-    background: #f8f9ff;
+    background: #ffffff;
+    color: #333333;
+    font-weight: 500;
 }
 
 .campo-mensaje-ia:focus {
     border-color: #667eea;
-    background: white;
+    background: #ffffff;
+    color: #333333;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    font-weight: 500;
+}
+
+.campo-mensaje-ia::placeholder {
+    color: #666666;
+    font-weight: 400;
 }
 
 .btn-enviar-ia {

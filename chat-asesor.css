@@ -312,10 +312,18 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.2s;
+    background: #ffffff;
+    color: #333333;
+    font-weight: 500;
 }
 
 .campo-mensaje:focus {
     border-color: #007bff;
+}
+
+.campo-mensaje::placeholder {
+    color: #666666;
+    font-weight: 400;
 }
 
 .btn-enviar {
