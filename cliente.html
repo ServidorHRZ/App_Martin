@@ -1103,9 +1103,17 @@
         }
 
         @keyframes pulsoChat {
-            0% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-            50% { box-shadow: 0 4px 20px rgba(220, 53, 69, 0.6); }
-            100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+            0% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 4px 20px rgba(220, 53, 69, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
         }
 
         /* Modal de pedidos */
@@ -1367,8 +1375,15 @@
         }
 
         @keyframes pulsoIA {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
         .chat-ultimo-mensaje {
@@ -1576,15 +1591,20 @@
                     <h3>Chats Disponibles</h3>
                     <p>Elige entre asesor virtual IA o asesores humanos</p>
                 </div>
-                
+
                 <!-- Chat con IA - Primera opción -->
                 <div class="chat-card chat-ia-card" onclick="chatIA.abrirChatIA()">
                     <div class="chat-header">
                         <div class="chat-avatar chat-avatar-ia">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 21L9.5 16.5L13 18L9.5 19.5L8 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 5L17 8L20 9L17 10L16 13L15 10L12 9L15 8L16 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8 21L9.5 16.5L13 18L9.5 19.5L8 21Z" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M16 5L17 8L20 9L17 10L16 13L15 10L12 9L15 8L16 5Z" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
                         <div class="chat-info">
@@ -1600,8 +1620,12 @@
                     </div>
                     <div class="chat-acciones">
                         <button class="btn-chat btn-chat-ia">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                             Iniciar Chat IA
                         </button>
@@ -1688,7 +1712,9 @@
         <!-- Botón de chat flotante -->
         <button class="chat-flotante-cliente" onclick="abrirChatFlotante()" title="Chat con asesor">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                    d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </button>
 
@@ -1733,7 +1759,7 @@
 
             const app = initializeApp(firebaseConfig);
             const db = getFirestore(app);
-            
+
             let chatCliente = null;
 
             // Variables globales
@@ -2766,7 +2792,7 @@
             document.addEventListener('DOMContentLoaded', async function () {
                 if (verificarAccesoCliente()) {
                     await cargarProductos();
-                    
+
                     // Inicializar sistema de chat
                     const usuario = obtenerUsuarioActual();
                     chatCliente = new ChatCliente(db, usuario);
@@ -3075,20 +3101,40 @@
                 body.innerHTML = `
                 <div style='text-align:center;'>
                     <h3 style='font-size:22px;margin-bottom:18px;'>Método de pago</h3>
-                    <div style='display:flex;justify-content:center;margin:20px 0;'>
-                        <button class='chip-talla metodo-pago-btn' id='btnYape' style='background:#fff;border:2px solid #7c4dff;color:#7c4dff;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;'>
+                    <div style='display:flex;justify-content:center;gap:15px;margin:20px 0;flex-wrap:wrap;'>
+                        <button class='chip-talla metodo-pago-btn' id='btnYape' style='background:#fff;border:2px solid #ddd;color:#7c4dff;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;transition:all 0.3s;'>
                             <img src='img2.png' alt='Cuenta Yape' style='width:48px;height:48px;border-radius:12px;box-shadow:0 2px 8px #7c4dff33;'>
                             <span style='font-weight:700;font-size:15px;'>Yape</span>
+                        </button>
+                        <button class='chip-talla metodo-pago-btn' id='btnBanco' style='background:#fff;border:2px solid #ddd;color:#28a745;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;transition:all 0.3s;'>
+                            <svg width='48' height='48' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='color:#28a745;'>
+                                <path d='M12 1L21 6V8H3V6L12 1Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M21 16V8H3V16H21Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M5 16V20H19V16' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M9 12H15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                            </svg>
+                            <span style='font-weight:700;font-size:15px;'>Banco</span>
                         </button>
                     </div>
                     <div id='infoPago'></div>
                 </div>
             `;
                 modal.style.display = 'flex';
+
                 document.getElementById('btnYape').onclick = function () {
-                    mostrarInfoPago('yape');
+                    // Resetear estilos
                     document.getElementById('btnYape').style.border = '2px solid #7c4dff';
+                    document.getElementById('btnBanco').style.border = '2px solid #ddd';
+                    mostrarInfoPago('yape');
                 };
+
+                document.getElementById('btnBanco').onclick = function () {
+                    // Resetear estilos
+                    document.getElementById('btnBanco').style.border = '2px solid #28a745';
+                    document.getElementById('btnYape').style.border = '2px solid #ddd';
+                    mostrarInfoPago('banco');
+                };
+
                 // Asegurar que la X cierre el modal
                 document.querySelector('#modalPago .boton-volver').onclick = cerrarModalPago;
             }
@@ -3099,32 +3145,70 @@
                 input.type = 'file';
                 input.accept = 'image/*';
                 input.capture = 'environment';
-                
+
                 return 'capture' in input;
             }
 
             // 4. Mostrar información de pago según método
             function mostrarInfoPago(metodo) {
                 const info = document.getElementById('infoPago');
-                info.innerHTML = `
-                <div style='margin:30px 0 10px 0;'>
-                    <img src='codigo3.png' alt='QR Yape' style='width:160px;height:160px;border-radius:18px;border:3px solid #7c4dff;box-shadow:0 2px 12px #7c4dff22;'>
-                </div>
-                <div style='margin:10px 0 18px 0;font-size:16px;'>
-                    <span style='font-weight:600;color:#7c4dff;'>Número:</span> <b style='font-size:18px;'>935 517 141</b>
-                </div>
-                <div style='margin-bottom:10px;'>
-                    <label style='display:block;font-weight:600;margin-bottom:6px;'>Sube tu comprobante de pago</label>
-                    <input type='file' id='inputComprobante' accept='image/*' style='display:none;'>
-                    <input type='file' id='inputComprobanteCamera' accept='image/*' capture='environment' style='display:none;'>
-                    <div style='display:flex;gap:10px;flex-wrap:wrap;'>
-                        <label for='inputComprobante' id='labelComprobante' style='display:inline-block;padding:10px 18px;background:#7c4dff;color:#fff;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;'><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M12 16V4M8 8l4-4 4 4'/><rect x='4' y='16' width='16' height='4' rx='2'/></svg>Galería</label>
-                        <button type='button' id='btnCamara' style='display:inline-block;padding:10px 18px;background:#28a745;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;' onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'"><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M23 19C23 20.1046 22.1046 21 21 21H3C1.89543 21 1 20.1046 1 19V8C1 6.89543 1.89543 6 3 6H7L9 3H15L17 6H21C22.1046 6 23 6.89543 23 8V19Z'/><circle cx='12' cy='13' r='4'/></svg>Cámara</button>
+
+                if (metodo === 'yape') {
+                    info.innerHTML = `
+                    <div style='margin:30px 0 10px 0;'>
+                        <img src='codigo3.png' alt='QR Yape' style='width:160px;height:160px;border-radius:18px;border:3px solid #7c4dff;box-shadow:0 2px 12px #7c4dff22;'>
                     </div>
-                    <span id='nombreComprobante' style='display:block;margin-top:8px;font-size:13px;color:#333;'></span>
-                </div>
-                <button class='modal-btn btn-comprar' style='background:#7c4dff;margin-top:10px;' onclick='confirmarPago("yape")'>He pagado</button>
-            `;
+                    <div style='margin:10px 0 18px 0;font-size:16px;'>
+                        <span style='font-weight:600;color:#7c4dff;'>Número:</span> <b style='font-size:18px;'>935 517 141</b>
+                    </div>
+                    <div style='margin-bottom:10px;'>
+                        <label style='display:block;font-weight:600;margin-bottom:6px;'>Sube tu comprobante de pago</label>
+                        <input type='file' id='inputComprobante' accept='image/*' style='display:none;'>
+                        <input type='file' id='inputComprobanteCamera' accept='image/*' capture='environment' style='display:none;'>
+                        <div style='display:flex;gap:10px;flex-wrap:wrap;'>
+                            <label for='inputComprobante' id='labelComprobante' style='display:inline-block;padding:10px 18px;background:#7c4dff;color:#fff;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;'><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M12 16V4M8 8l4-4 4 4'/><rect x='4' y='16' width='16' height='4' rx='2'/></svg>Galería</label>
+                            <button type='button' id='btnCamara' style='display:inline-block;padding:10px 18px;background:#28a745;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;' onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'"><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M23 19C23 20.1046 22.1046 21 21 21H3C1.89543 21 1 20.1046 1 19V8C1 6.89543 1.89543 6 3 6H7L9 3H15L17 6H21C22.1046 6 23 6.89543 23 8V19Z'/><circle cx='12' cy='13' r='4'/></svg>Cámara</button>
+                        </div>
+                        <span id='nombreComprobante' style='display:block;margin-top:8px;font-size:13px;color:#333;'></span>
+                    </div>
+                    <button class='modal-btn btn-comprar' style='background:#7c4dff;margin-top:10px;' onclick='confirmarPago("yape")'>He pagado</button>
+                `;
+                } else if (metodo === 'banco') {
+                    info.innerHTML = `
+                    <div style='margin:30px 0 20px 0;padding:20px;background:#f8f9fa;border-radius:15px;border:2px solid #28a745;'>
+                        <div style='text-align:center;margin-bottom:15px;'>
+                            <svg width='60' height='60' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='color:#28a745;'>
+                                <path d='M12 1L21 6V8H3V6L12 1Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M21 16V8H3V16H21Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M5 16V20H19V16' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M9 12H15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                            </svg>
+                        </div>
+                        <div style='margin-bottom:15px;'>
+                            <div style='font-weight:600;color:#28a745;margin-bottom:8px;font-size:16px;'>NÚMERO DE CUENTA:</div>
+                            <div style='background:#fff;padding:12px;border-radius:8px;border:1px solid #28a745;font-family:monospace;font-size:18px;font-weight:bold;color:#333;text-align:center;letter-spacing:1px;'>25176904921069</div>
+                        </div>
+                        <div style='margin-bottom:15px;'>
+                            <div style='font-weight:600;color:#28a745;margin-bottom:8px;font-size:16px;'>CCI (CUENTA INTERBANCARIA):</div>
+                            <div style='background:#fff;padding:12px;border-radius:8px;border:1px solid #28a745;font-family:monospace;font-size:16px;font-weight:bold;color:#333;text-align:center;letter-spacing:1px;'>00225117690492106972</div>
+                        </div>
+                        <div style='text-align:center;font-size:14px;color:#666;margin-top:15px;'>
+                            💡 Realiza tu transferencia y sube el comprobante
+                        </div>
+                    </div>
+                    <div style='margin-bottom:10px;'>
+                        <label style='display:block;font-weight:600;margin-bottom:6px;'>Sube tu comprobante de pago</label>
+                        <input type='file' id='inputComprobante' accept='image/*' style='display:none;'>
+                        <input type='file' id='inputComprobanteCamera' accept='image/*' capture='environment' style='display:none;'>
+                        <div style='display:flex;gap:10px;flex-wrap:wrap;'>
+                            <label for='inputComprobante' id='labelComprobante' style='display:inline-block;padding:10px 18px;background:#28a745;color:#fff;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;'><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M12 16V4M8 8l4-4 4 4'/><rect x='4' y='16' width='16' height='4' rx='2'/></svg>Galería</label>
+                            <button type='button' id='btnCamara' style='display:inline-block;padding:10px 18px;background:#007bff;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;' onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'"><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M23 19C23 20.1046 22.1046 21 21 21H3C1.89543 21 1 20.1046 1 19V8C1 6.89543 1.89543 6 3 6H7L9 3H15L17 6H21C22.1046 6 23 6.89543 23 8V19Z'/><circle cx='12' cy='13' r='4'/></svg>Cámara</button>
+                        </div>
+                        <span id='nombreComprobante' style='display:block;margin-top:8px;font-size:13px;color:#333;'></span>
+                    </div>
+                    <button class='modal-btn btn-comprar' style='background:#28a745;margin-top:10px;' onclick='confirmarPago("banco")'>He pagado</button>
+                `;
+                }
                 // Mostrar nombre del archivo seleccionado y manejar cámara
                 setTimeout(() => {
                     const input = document.getElementById('inputComprobante');
@@ -3140,19 +3224,19 @@
 
                     // Función mejorada para manejar la cámara
                     if (btnCamara) {
-                        btnCamara.onclick = function() {
+                        btnCamara.onclick = function () {
                             // Verificar si el dispositivo soporta cámara
                             if (!verificarSoporteCamara()) {
                                 mostrarToast('Tu dispositivo no soporta cámara. Usa la galería.', 'info');
                                 return;
                             }
-                            
+
                             // Verificar si estamos en HTTPS (requerido para cámara)
                             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
                                 mostrarToast('La cámara requiere HTTPS. Usa la galería.', 'info');
                                 return;
                             }
-                            
+
                             // Intentar usar la cámara
                             if (inputCamera) {
                                 inputCamera.click();
@@ -3421,34 +3505,56 @@
                 body.innerHTML = `
                 <div style='text-align:center;'>
                     <h3 style='font-size:22px;margin-bottom:18px;'>Método de pago</h3>
-                    <div style='display:flex;justify-content:center;margin:20px 0;'>
-                        <button class='chip-talla metodo-pago-btn' id='btnYapeCarrito' style='background:#fff;border:2px solid #7c4dff;color:#7c4dff;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;'>
+                    <div style='display:flex;justify-content:center;gap:15px;margin:20px 0;flex-wrap:wrap;'>
+                        <button class='chip-talla metodo-pago-btn' id='btnYapeCarrito' style='background:#fff;border:2px solid #ddd;color:#7c4dff;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;transition:all 0.3s;'>
                             <img src='img2.png' alt='Cuenta Yape' style='width:48px;height:48px;border-radius:12px;box-shadow:0 2px 8px #7c4dff33;'>
                             <span style='font-weight:700;font-size:15px;'>Yape</span>
+                        </button>
+                        <button class='chip-talla metodo-pago-btn' id='btnBancoCarrito' style='background:#fff;border:2px solid #ddd;color:#28a745;display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 24px;transition:all 0.3s;'>
+                            <svg width='48' height='48' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='color:#28a745;'>
+                                <path d='M12 1L21 6V8H3V6L12 1Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M21 16V8H3V16H21Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M5 16V20H19V16' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M9 12H15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                            </svg>
+                            <span style='font-weight:700;font-size:15px;'>Banco</span>
                         </button>
                     </div>
                     <div id='infoPagoCarrito'></div>
                 </div>
             `;
                 modal.style.display = 'flex';
+
                 document.getElementById('btnYapeCarrito').onclick = function () {
-                    mostrarInfoPagoCarrito('yape');
+                    // Resetear estilos
                     document.getElementById('btnYapeCarrito').style.border = '2px solid #7c4dff';
+                    document.getElementById('btnBancoCarrito').style.border = '2px solid #ddd';
+                    mostrarInfoPagoCarrito('yape');
                 };
+
+                document.getElementById('btnBancoCarrito').onclick = function () {
+                    // Resetear estilos
+                    document.getElementById('btnBancoCarrito').style.border = '2px solid #28a745';
+                    document.getElementById('btnYapeCarrito').style.border = '2px solid #ddd';
+                    mostrarInfoPagoCarrito('banco');
+                };
+
                 // Asegurar que la X cierre el modal
                 document.querySelector('#modalPago .boton-volver').onclick = cerrarModalPago;
             }
 
             function mostrarInfoPagoCarrito(metodo) {
                 const info = document.getElementById('infoPagoCarrito');
-                info.innerHTML = `
-                <div style='margin:30px 0 10px 0;'>
-                    <img src='codigo3.png' alt='QR Yape' style='width:160px;height:160px;border-radius:18px;border:3px solid #7c4dff;box-shadow:0 2px 12px #7c4dff22;'>
-                </div>
-                <div style='margin:10px 0 18px 0;font-size:16px;'>
-                    <span style='font-weight:600;color:#7c4dff;'>Número:</span> <b style='font-size:18px;'>935 517 141</b>
-                </div>
-                                    <div style='margin-bottom:10px;'>
+
+                if (metodo === 'yape') {
+                    info.innerHTML = `
+                    <div style='margin:30px 0 10px 0;'>
+                        <img src='codigo3.png' alt='QR Yape' style='width:160px;height:160px;border-radius:18px;border:3px solid #7c4dff;box-shadow:0 2px 12px #7c4dff22;'>
+                    </div>
+                    <div style='margin:10px 0 18px 0;font-size:16px;'>
+                        <span style='font-weight:600;color:#7c4dff;'>Número:</span> <b style='font-size:18px;'>935 517 141</b>
+                    </div>
+                    <div style='margin-bottom:10px;'>
                         <label style='display:block;font-weight:600;margin-bottom:6px;'>Sube tu comprobante de pago</label>
                         <input type='file' id='inputComprobanteCarrito' accept='image/*' style='display:none;'>
                         <input type='file' id='inputComprobanteCameraCarrito' accept='image/*' capture='environment' style='display:none;'>
@@ -3458,8 +3564,44 @@
                         </div>
                         <span id='nombreComprobanteCarrito' style='display:block;margin-top:8px;font-size:13px;color:#333;'></span>
                     </div>
-                <button class='modal-btn btn-comprar' style='background:#7c4dff;margin-top:10px;' onclick='confirmarPagoCarrito("yape")'>He pagado</button>
-            `;
+                    <button class='modal-btn btn-comprar' style='background:#7c4dff;margin-top:10px;' onclick='confirmarPagoCarrito("yape")'>He pagado</button>
+                `;
+                } else if (metodo === 'banco') {
+                    info.innerHTML = `
+                    <div style='margin:30px 0 20px 0;padding:20px;background:#f8f9fa;border-radius:15px;border:2px solid #28a745;'>
+                        <div style='text-align:center;margin-bottom:15px;'>
+                            <svg width='60' height='60' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' style='color:#28a745;'>
+                                <path d='M12 1L21 6V8H3V6L12 1Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M21 16V8H3V16H21Z' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M5 16V20H19V16' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                                <path d='M9 12H15' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>
+                            </svg>
+                        </div>
+                        <div style='margin-bottom:15px;'>
+                            <div style='font-weight:600;color:#28a745;margin-bottom:8px;font-size:16px;'>NÚMERO DE CUENTA:</div>
+                            <div style='background:#fff;padding:12px;border-radius:8px;border:1px solid #28a745;font-family:monospace;font-size:18px;font-weight:bold;color:#333;text-align:center;letter-spacing:1px;'>25176904921069</div>
+                        </div>
+                        <div style='margin-bottom:15px;'>
+                            <div style='font-weight:600;color:#28a745;margin-bottom:8px;font-size:16px;'>CCI (CUENTA INTERBANCARIA):</div>
+                            <div style='background:#fff;padding:12px;border-radius:8px;border:1px solid #28a745;font-family:monospace;font-size:16px;font-weight:bold;color:#333;text-align:center;letter-spacing:1px;'>00225117690492106972</div>
+                        </div>
+                        <div style='text-align:center;font-size:14px;color:#666;margin-top:15px;'>
+                            💡 Realiza tu transferencia y sube el comprobante
+                        </div>
+                    </div>
+                    <div style='margin-bottom:10px;'>
+                        <label style='display:block;font-weight:600;margin-bottom:6px;'>Sube tu comprobante de pago</label>
+                        <input type='file' id='inputComprobanteCarrito' accept='image/*' style='display:none;'>
+                        <input type='file' id='inputComprobanteCameraCarrito' accept='image/*' capture='environment' style='display:none;'>
+                        <div style='display:flex;gap:10px;flex-wrap:wrap;'>
+                            <label for='inputComprobanteCarrito' id='labelComprobanteCarrito' style='display:inline-block;padding:10px 18px;background:#28a745;color:#fff;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;'><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M12 16V4M8 8l4-4 4 4'/><rect x='4' y='16' width='16' height='4' rx='2'/></svg>Galería</label>
+                            <button type='button' id='btnCamaraCarrito' style='display:inline-block;padding:10px 18px;background:#007bff;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:background .2s;font-size:14px;' onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'"><svg style='vertical-align:middle;margin-right:6px;' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24'><path d='M23 19C23 20.1046 22.1046 21 21 21H3C1.89543 21 1 20.1046 1 19V8C1 6.89543 1.89543 6 3 6H7L9 3H15L17 6H21C22.1046 6 23 6.89543 23 8V19Z'/><circle cx='12' cy='13' r='4'/></svg>Cámara</button>
+                        </div>
+                        <span id='nombreComprobanteCarrito' style='display:block;margin-top:8px;font-size:13px;color:#333;'></span>
+                    </div>
+                    <button class='modal-btn btn-comprar' style='background:#28a745;margin-top:10px;' onclick='confirmarPagoCarrito("banco")'>He pagado</button>
+                `;
+                }
                 setTimeout(() => {
                     const input = document.getElementById('inputComprobanteCarrito');
                     const inputCamera = document.getElementById('inputComprobanteCameraCarrito');
@@ -3474,19 +3616,19 @@
 
                     // Función mejorada para manejar la cámara del carrito
                     if (btnCamaraCarrito) {
-                        btnCamaraCarrito.onclick = function() {
+                        btnCamaraCarrito.onclick = function () {
                             // Verificar si el dispositivo soporta cámara
                             if (!verificarSoporteCamara()) {
                                 mostrarToast('Tu dispositivo no soporta cámara. Usa la galería.', 'info');
                                 return;
                             }
-                            
+
                             // Verificar si estamos en HTTPS (requerido para cámara)
                             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
                                 mostrarToast('La cámara requiere HTTPS. Usa la galería.', 'info');
                                 return;
                             }
-                            
+
                             // Intentar usar la cámara
                             if (inputCamera) {
                                 inputCamera.click();
