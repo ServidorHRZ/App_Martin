@@ -3122,6 +3122,13 @@
                 modal.style.display = 'flex';
 
                 document.getElementById('btnYape').onclick = function () {
+                    // Validar límite de Yape (500 soles)
+                    const precios = calcularPrecios();
+                    if (precios.total > 500) {
+                        mostrarToast('El pago con Yape tiene un límite máximo de S/ 500.00. Para montos superiores, utiliza transferencia bancaria.', 'error');
+                        return;
+                    }
+                    
                     // Resetear estilos
                     document.getElementById('btnYape').style.border = '2px solid #7c4dff';
                     document.getElementById('btnBanco').style.border = '2px solid #ddd';
@@ -3526,6 +3533,30 @@
                 modal.style.display = 'flex';
 
                 document.getElementById('btnYapeCarrito').onclick = function () {
+                    // Calcular total del carrito para validar límite de Yape
+                    let subtotalGeneral = 0;
+                    let envioTotal = 0;
+                    let igvTotal = 0;
+
+                    carrito.forEach(item => {
+                        const precioBase = parseFloat(item.precio);
+                        const costoEnvio = item.tipoEnvio === 'envio' ? 15.00 : 0;
+                        const baseImponible = (precioBase + costoEnvio) * item.cantidad;
+                        const igvItem = baseImponible * 0.18;
+
+                        subtotalGeneral += precioBase * item.cantidad;
+                        envioTotal += costoEnvio * item.cantidad;
+                        igvTotal += igvItem;
+                    });
+
+                    const totalCarrito = subtotalGeneral + envioTotal + igvTotal;
+
+                    // Validar límite de Yape (500 soles)
+                    if (totalCarrito > 500) {
+                        mostrarToast('El pago con Yape tiene un límite máximo de S/ 500.00. Para montos superiores, utiliza transferencia bancaria.', 'error');
+                        return;
+                    }
+                    
                     // Resetear estilos
                     document.getElementById('btnYapeCarrito').style.border = '2px solid #7c4dff';
                     document.getElementById('btnBancoCarrito').style.border = '2px solid #ddd';
