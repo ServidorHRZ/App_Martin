@@ -111,7 +111,10 @@
     <div class="container">
         <h1>Lista de Productos</h1>
 
-        <button class="refresh-btn" onclick="cargarProductos()">Actualizar Lista</button>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button class="refresh-btn" onclick="cargarProductos()">Actualizar Lista</button>
+            <button class="refresh-btn" onclick="cerrarVentana()" style="background-color: #6c757d;">Volver</button>
+        </div>
 
         <div id="loading" class="loading">Cargando productos...</div>
         <div id="error" class="error" style="display: none;"></div>
@@ -199,6 +202,17 @@
             const errorDiv = document.getElementById('error');
             errorDiv.innerHTML = mensaje;
             errorDiv.style.display = 'block';
+        }
+
+        // Función para cerrar la ventana emergente
+        function cerrarVentana() {
+            // Si es una ventana emergente, cerrarla
+            if (window.opener) {
+                window.close();
+            } else {
+                // Si no es una ventana emergente, redirigir al cliente
+                window.location.href = 'cliente.html';
+            }
         }
 
         // Cargar productos al iniciar la página
